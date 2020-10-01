@@ -1,0 +1,115 @@
+---
+title: "Getting Started"
+teaching: 5
+exercises: 5
+objectives:
+  - Getting started with R
+keypoints:
+  - Access RStudio
+  - Create a new project
+  - Install the relevant packages
+output: 
+  html_document:
+    df_print: paged
+---
+
+```{r global_options, include=FALSE}
+knitr::opts_chunk$set(warning=FALSE, message=FALSE)
+source("../bin/chunk-options.R")
+knitr_fig_path("01-")
+```
+
+<br>
+We recommend using [RStudio](https://rstudio.com/) for this workshop. [RStudio](https://www.rstudio.com/) is an Integrated Development Environment (IDE) for R. It can be accessed in several ways:
+
+* Sign in to Rstudio on the bifx servers
+  + [bifx-cli](bifx-cli.bio.ed.ac.uk:8787) (RStudio)
+  + [bifx-core2](bifx-core2.bio.ed.ac.uk:8787) (RStudio Pro - UoE Network only)
+* Download [RStudio](https://rstudio.com/) and install it on your own computer.
+
+## Using RStudio
+
+The are 4 main panes, each may have several tabs 
+
+* **Console** (bottom left)
+    + Here you can type commands into R 
+    + Additional tabs may include a terminal and script outputs
+* **Editor** (top left)
+    + Open and view files
+    + Can include raw scripts or markdown 
+* **Environment** (top right)
+    + Objects you have stored
+    + Commands you have typed
+    + May also have connection to databases 
+* **Files and output** (bottom right)
+    + System files 
+    + Output from plots 
+    + Packages available
+    + Help pages 
+
+###  Setting up a new project
+
+There is a drop-down **project** menu at the top right of RStudio. Click this, select "New Project..." and create one in a new directory. Make sure you have write permission for the directory you choose.
+
+Once you have done this, this will be your **working directory**. Files will be saved (or loaded from) here by default unless you specify a full path. You can change your working directory under the session menu at the top. 
+
+Using Rstudio has the advantage that everything you do will be remembered between RStudio sessions. If changing to another project using the top right menu, be sure to select yes in the pop up menu to save any changes.
+
+## Running commands
+
+You can work in 3 different ways in RStudio. 
+
+* Use the **console** to run commands. 
+* Create a new **R script** to save your commands as you go.
+* Create an **R markdown** file to generate web pages or pdf documents.
+
+Commands can be typed directly into the console, but in order to keep track it's best to write them into a script as you go (File/New File/R Script). From here you can use a shortcut to run the command on the line where your cursor is: 
+
+* <kbd>Ctrl</kbd> + <kbd>Enter</kbd> on PC
+* <kbd>Cmd</kbd> + <kbd>Enter</kbd> on Mac
+
+**Hint:** 
+When using the console, the Up/Down arrow keys can be use to cycle through previous commands. You can also use the <kbd>Tab</kbd> key to autocomplete names of functions and objects.
+
+In the console you should always see a '>' prompt, if you can't see this R may still be working. There is a red Stop light at the top right of the console when a command is running. If you see a `+` instead, R is waiting for more input. Sometimes this means you have forgotten to close a bracket or quotation.
+
+Using **R Markdown** is a great way to annotate your code and present it at the end. It's worth learning but will add a further level of complication for novice users.
+
+> ## How to follow this tutorial
+> * Create a new project in RStudio
+> * Open a new R script (or R markdown file for advanced users)
+> * It will be best to work with the tutorial and RStudio open together so you can easily switch between the two. Working on a wide split-screen should be the best setup.
+> * I recommend typing out commands rather than copy-and-pasting if you want to learn!
+{: .callout}
+
+## Library Install and Usage
+
+Libraries provide additional functions in R and can be downloaded from several sources:
+
+* [CRAN](https://cran.r-project.org/) is the Comprehensive R Archive Network and hosts the majority of generic R packages.
+* [Bioconductor](https://www.bioconductor.org/) is a repository of biology specific packages.
+* Third party tools are often hosted on [github](https://www.github.com).
+
+Here are all of the packages we require for these lesssons:
+
+```{r, eval=FALSE}
+
+#install from CRAN with install.packages()
+install.packages(c("ggplot2", "ggthemes", "plotly","ggpubr", "ggrepel","viridis","RColorBrewer","ggsci","tidyverse"))
+
+#install from bioconductor with BiocManager
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+BiocManager::install("DESeq2","genomation")
+
+#install from github with the devtools package
+install.packages("devtools")
+devtools::install_github("thomasp85/patchwork")
+
+```
+
+To load a specific package within an R session, use the "library" function:
+
+```{r}
+library(tidyverse)
+```

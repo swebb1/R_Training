@@ -1,15 +1,17 @@
-name: "R Markdown Websites Tutorial"
+name: "WCB R Training"
 navbar:
-  title: "HOME"
+  title: "Home"
   left:
-    - text: "First Observations"
-      href: first_observations.html
-    - text: "Basic Workflow"
-      href: basic_workflow.html
-    - text: "Getting Sophisticated"
-      href: getting_sophisticated.html
+    - text: "Getting Started"
+      href: 01-start.html
+    - text: "R and RStudio"
+      href: 02-IntroR.html
+    - text: "Tidyverse"
+      href: 03-tidyverse.html
+    - text: "Dplyr"
+      href: 04-dplyr.html
     - text: "GGPlot2"
-      href: ggplot2.html
+      href: 05-ggplot.html
 output_dir: "."
 output:
   html_document:

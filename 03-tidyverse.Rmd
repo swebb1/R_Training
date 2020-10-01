@@ -1,0 +1,70 @@
+---
+title: "The Tidyverse"
+teaching: 15
+exercises: 0
+objectives:
+  - Learn to use the tidyverse
+keypoints:
+  - The tidyverse is a suite of packages
+  - Stick to the principles of tidy data
+  - Use these packages to manipulate and plot data
+output: html_document
+---
+
+```{r global_options, include=FALSE}
+knitr::opts_chunk$set(warning=FALSE, message=FALSE)
+source("../bin/chunk-options.R")
+knitr_fig_path("03-")
+```
+
+<br>
+The **`tidyverse`** is actually a suite of packages that includes libraries such as **`dplyr`** and **`ggplot2`**. These packages are designed for data science and share underlying principles, grammar and data structures. There are many ways to do the same thing in R, but following the philosophy of *tidy data* and using the **`tidyverse`** packages will keep your datasets organised and make analysis easier in the long run. 
+
+There are [cheatsheets](https://rstudio.com/resources/cheatsheets/) available for many tidyverse and rstudio packages that will help you to choose the correct functions.
+
+![](../fig/tidyvere.png)
+
+For more information take a look at these [slides](https://drive.google.com/open?id=181oNGmKKxyx3XUDvYFgxtGj4aQjCguW0LRb3r0UIviM) or the [www.tidyverse.org](www.tidyverse.org)
+
+## Tidy data
+
+Data can be represented in many different ways across multiple tables but the tidyverse packages are specifically designed to work with **tidy** datasets. Tidy data conforms to the following:
+
+* Each variable has it's own column
+* Each row is a single observation
+* Each value has it's own cell
+
+![](../fig/tidy.png)
+
+This is the optimal structure when working in R and provides consistency amongst your datasets. Getting your data into R and wrangling it into the correct format is always the first step in your analysis. Fortunately, the **`tidyr`** package contains many functions to *tidy* up your dataset.
+
+We will start by reading in a dataset. The **`readr`** package has functions for importing data as tibbles. Tibbles are the tidyverse compatible version of an R data.frame.
+
+```{r, results='hide'}
+library(tidyverse)
+
+#If you already have the data installed on your computer you can read from a file:
+surveys <- read_csv("data/surveys_complete.csv")
+```
+
+```{r, results = 'hide'}
+#Otherwise you can read from a URL
+surveys <- read_csv("http://bifx-core.bio.ed.ac.uk/training/R_dplyr_and_ggplot2/data/surveys_complete.csv")
+```
+
+This dataset contains observations from a field survey of different organisms at different sites (plots). Let's inspect the data.
+
+```{r}
+#Type an R objects name to print the contents
+surveys
+```
+
+```{r, eval=F}
+#Use the View function
+View(surveys)
+```
+
+```{r}
+#We can look at the structure of the dataset
+str(surveys)
+```

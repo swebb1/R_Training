@@ -1,0 +1,643 @@
+---
+title: "R and RStudio"
+teaching: 20
+exercises: 60
+objectives:
+  - Learn to use base R
+  - Familiarise yourself with RStudio
+keypoints:
+  - R is a functional programming language
+  - RStudio is an interactive environment for programming in R
+  - Base R functions can be used to import, manipulate and plot data
+  - There are many functions for statistical analysis in R
+output:
+  html_document:
+    df_print: paged
+---
+
+```{r global_options, include=FALSE}
+knitr::opts_chunk$set(warning=FALSE, message=FALSE)
+source("../bin/chunk-options.R")
+knitr_fig_path("02-")
+```
+
+<br>
+[R](http://www.r-project.org/) is an extremely powerful programming language for working with datasets, applying statistics and creating publication ready graphics. In this lesson you will learn how to program in R and use the RStudio server environment. We will cover the basics of the R syntax using built in packages (base R), as well as importing data, creating simple graphics and running statistical tests. We will also introduce some of the extended libraries that make R the first choice for analysing genomic data.
+
+> ## Learning Objectives
+> By the end of this lesson, you will be able to:
+>
+> * Understand how to use functions in *base R*
+> * Import datasets into R
+> * Inspect and format a dataset
+> * Create basic graphics
+> * Run statistical tests
+{: .checklist}
+
+## Advantages of R
+
+* **Free!**
+* **Powerful**, many libraries have been created to perform application specific tasks. e.g. Next-Gen sequencing (bioconductor).
+* Packages available for storing, manipulating and visualising data in a sensible fashion (Tidyverse)
+* Presentation quality graphics
+    + Save as a png, pdf or svg
+* History
+    + Your R commands and analysis can be saved for reproducible and persistent analysis.
+    + Create automated scripts to perform again and again on different data.
+* [RStudio](https://www.rstudio.com/) provides an interactive environment for workin in R.
+* [R markdown](https://rmarkdown.rstudio.com/) can generate documents to present your code, annotation and results in useful reports.
+* [Shiny](https://shiny.rstudio.com/) can produce interactive applications for exploratory data analysis.
+
+## R terms used in this workshop
+
+* **Working directory**
+    + This is the directory used to store your data and results. 
+    + It is useful if it is also the directory where your input data is stored.
+* **Vector**  
+    + a list of values, (equivalent to a column in a table)
+* **Data Frame**
+    + a group of Vectors, a table where the rows are not necessarily related
+* **Matrix**
+    + a table where columns and rows are related
+
+## Preparation
+
+Download and save the tutorial data sets [data](http://bifx-core.bio.ed.ac.uk/data.tsv) and  [weight](http://bifx-core.bio.ed.ac.uk/weight.tsv) into your working directory. 
+
+## R  Syntax
+
+R is a **functional** based language:
+
+* Every command is the name of a function followed by parentheses.
+* The inputs to a function, including different options, are placed in the brackets.
+
+Typical command:
+```{r, eval=F}
+Function(data, options, moreOptions)
+```
+
+Example of plotting speed against stopping distance with the inbuilt `cars` dataset:
+```{r}
+plot(cars, xlab="Car Speed (mph)", ylab="Stopping Distance (ft)")
+```
+
+We can store the output of a function.
+```{r, eval=F}
+result = Function(data, options, moreOptions)
+```
+
+Example storing output of summary function ('sum_cars' could be named whatever you like)
+```{r}
+sum_cars = summary(cars)
+```
+
+To see result we need to type:
+```{r}
+sum_cars
+```
+
+Not all functions need arguments, e.g. get working directory function
+```{r, eval=F}
+getwd()
+```
+
+If you want to change the working directory: Use `setwd("/path/to/new_directory")` or use the *session* menu in RStudio.
+
+Even quit is a function (although, you can quit using the RStudio interface). Note I have commented this out using '#' so I do not accidently run this command!
+ 
+```{r, eval=FALSE}
+#q()
+```
+
+So is help:
+```{r, eval=FALSE}
+help(read.table)
+```
+This provides the help page for the *function* **read.table()**
+
+```{r, eval=FALSE}
+help.search("t test")
+```
+Searches for help pages that might relate to the phrase 't test'.
+
+**NOTE** quotes are needed for search strings, they are not needed when referring to data objects name or a function.
+
+There is a short cut for help, `?`, which shows the help page for a function: same as help(function) 
+
+```{r, eval=FALSE}
+?read.table
+```
+
+`??` searches for help pages on functions, same as help.search('phrase')
+```{r, eval=FALSE}
+??'t test'
+```
+
+Information is usually returned from a function, by default this is printed to screen
+```{r, eval=FALSE}
+read.table('http://bifx-core.bio.ed.ac.uk/data.tsv')
+```
+
+This can always be stored, we call what it is stored in an 'object'
+```{r, eval=FALSE}
+mydata  <- read.table('http://bifx-core.bio.ed.ac.uk/data.tsv')
+```
+Here, **mydata** is an object of type *dataframe* and the syntax **<-** assigns to the left.
+
+You could also use the equals sign `=`.
+```{r, eval=FALSE}
+mydata = read.table('http://bifx-core.bio.ed.ac.uk/data.tsv')
+```
+
+### Reminder:
+
+* **Vector**: a list of numbers. Equivalent to a column in a table
+* **Data Frame**: a collection of vectors. Equivalent to a table.
+
+## Getting data into R
+
+For a beginner, this can be the hardest part, it is also the most important to get right. 
+
+It is possible to create a vector by typing data directly into R using the combine function `c` 
+```{r}
+x   <-  c(1,2,3,4,5)
+```
+
+This creates the vector x with the numbers between 1 and 5. 
+
+You can see what is in an object at any time by typing its name;
+```{r}
+x
+```
+
+Note that text needs to be quoted, otherwise R will look for a data object of that name. 
+```{r}
+daysofweek <- c('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday')
+```
+
+Usually however you want to input from a file. We have touched on the 'read.table' function already.
+```{r}
+mydata <- read.table('http://bifx-core.bio.ed.ac.uk/data.tsv')
+```
+
+Now `mydata` is a data frame with multiple vectors. 
+
+We can look at our table by typing it's name, but this prints a lot of rows, using `head()` only prints a few lines;
+```{r}
+head(mydata, n=5)
+```
+
+You can also use the `View()` command to open data frames in the files pane.
+
+Hmmm, something isn't right with our rows here...
+
+By default the function assumes certain things from the file 
+
+* The file is a plain text file (there are separate functions to read excel files)
+* columns are separated by any number of tabs or spaces
+* there are the same number of data points in each column
+* there is **no** header row (labels for the columns)
+* there is no column with names for the rows
+
+If any of these are false, we need to tell that to the function. If it has a header column use 'header=TRUE':
+
+```{r}
+mydata <- read.table('http://bifx-core.bio.ed.ac.uk/data.tsv', header=TRUE)  # header=T also works
+```
+**Note** the comma between different parts of the functions arguments.
+
+This overwrites our previous table and now we should have headers:
+```{r}
+head(mydata, n=5)
+```
+
+If there is one less column in the header row, then R assumes that the 1st column of data after the header are the row names.
+
+Each column can be identified by the using the `$` sign (`mydata$A` `mydata$B` etc.)
+
+If any of these are typed it will print to screen:
+
+```{r}
+mydata$A
+```
+
+### Other options for read.table
+
+Use `sep=` to define how your columns are separated in the file:
+```{r}
+mydata  <- read.table('http://bifx-core.bio.ed.ac.uk/data.tsv', header=T, sep='\t')
+```
+Really useful if you have spaces in the contents of some columns, so R does not mess up reading the columns. However if the columns are of an uneven length it will tell you. 
+
+Use `fill=TRUE` if there is missing data
+```{r}
+mydata  <- read.table('http://bifx-core.bio.ed.ac.uk/data.tsv', header=T, sep='\t', fill=TRUE)
+```
+This causes R to fill empty spaces in columns with 'NA'.  
+
+The last two examples will still work with our file and give the same result.
+
+As this is such a common task there are functions identical to read.table but with different default settings. e.g. **read.delim** and **read.csv**. Check out the help pages for each.
+
+### Import Dataset 
+
+In the *Envirnoment* pane in RStudio there is a button called "Import Dataset". This can make importing data much easier and calls the `read.*` set of functions for you. The command used will be displayed on the console. Note that you need to have the file on the computer to use this button.
+
+## Inspecting and subsetting a dataset
+
+```{r}
+summary(mydata) # Summary of the whole data frame 
+```
+
+```{r}
+summary(mydata$A) # Summary information of column A 
+```
+
+We can shortcut having to type the data frame each time by attaching it
+```{r}
+attach(mydata)
+```
+
+```{r}
+summary(A) #  same as above as 'mydata' is attached
+```
+
+```{r}
+mean(A) #  There are many functions for summarising data in R including mean, median, min, max. Play around with these.
+```
+
+```{r}
+order(A) #  The order function sorts a vector.
+```
+
+We can access specific rows, columns and cells within a table using square brackets: TABLE[ROW,COLUMN]. Try out the following commands.
+```{r eval=FALSE}
+##Print the value in the first column of the first row
+mydata[1,1]
+##Use blanks to print an entire row or column
+mydata[2,]
+mydata[,3]
+##You can select multiple rows and columns
+mydata[1:5,c(3,5)]
+##You can also use row or column names
+mydata[,"B"]
+##You can select rows or columns based on criteria (subsetting)
+mydata[mydata$B>7,]
+```
+
+> ## Challenge 1
+>
+> See if you can do the following:
+> 
+> 1. Select the 11th value in the third column
+> 2. Select all rows where D equals 4 (hint; use '==')
+> 3. Select rows where B has it's maximum value (hint: use the max function)
+> 4. Select even numbered rows only (hint: take a look at the seq function '?seq()') 
+> 5. Select columns A, C and E
+> 6. Sort table by decreasing order of column B (hint: look at the parameters of the order function)
+> 
+> > ## Solution
+> >
+> > 1 Select row 11, column 3
+> > ```{r}
+> > mydata[11,3]
+> > ```
+> > 2 Select rows where D 3 equals 4
+> > ```{r}
+> > mydata[D==4,] # Or mydata[mydata$D==4,]
+> > ```
+> > 3 Select rows where B has it's maximum value
+> > ```{r}
+> > mydata[B==max(B), ]
+> > ```
+> > 4 Select even numbered rows only
+> > ```{r}
+> > mydata[seq(2,26, by = 2), ]
+> > ```
+> > 5 Select columns A, C and E
+> > ```{r}
+> > mydata[, c(1,3,5)] 
+> > # Or mydata[,c('A','C','E')] 
+> > ```
+> > 6 Sort table by decreasing order of column B
+> > ```{r}
+> > mydata[order(mydata$B, decreasing = TRUE), ]
+> > ```
+> {: .solution}
+{: .challenge}
+
+There is a `subset()` function in R specifically for subsetting tables. This generally works better than using square brackets as it copes with NA and NULL values:
+
+```{r}
+subset(mydata,mydata$C==3)
+```
+
+However, we will see later on that the **`tidyverse`** packages have their own set of functions for filtering datasets.
+
+## Plotting with R
+
+We recommend learning **`ggplot2`** for graphics but it is useful to know the options available in "base" R.
+
+Remember, to get more information about the options available to a function, type '?function'
+
+### Histogram of A 
+
+```{r}
+hist(mydata$A)
+```
+
+If there was more data, like in this large collection of Chick weights, we can increase the number of vertical columns with the option, `breaks=50` (or another relevant number). 
+
+```{r}
+hist(ChickWeight$weight, breaks=5)
+```
+
+```{r}
+hist(ChickWeight$weight, breaks=50)
+```
+
+### Boxplots 
+
+```{r}
+boxplot(mydata)
+```
+
+```{r}
+boxplot(mydata$A, mydata$B, names=c("Value A", "Value B") , ylab="Count of Something")
+```
+
+We can get rid of the need to type the data frame each time by using the attach function
+
+```{r, eval=FALSE}
+attach(mydata) # if not already done so
+boxplot(A, B, names=c("Value A", "Value B") , ylab="Count of Something")
+```
+
+Note that the opposite function of attach is detach
+```{r, eval=FALSE}
+detach(mydata)
+```
+
+### Scatter plot
+
+```{r, eval=FALSE}
+attach(mydata) # Re-attach if needed
+```
+
+```{r}
+plot(A,B)  # i.e. plot(mydata$A, mydata$B)
+```
+
+## Saving images
+
+There are a few ways to save images:
+
+* Use the **export** button in the Plots pane in Rstudio.
+* Use a plotting *device* function.
+
+You need to create a new device of the type of file you need, then send the data to that device.
+
+To save as a png file (easy to load into the likes of powerpoint, also great for web applications).
+
+```{r, eval=FALSE}
+png('filename.png') 
+boxplot(A, B, name=c("Value A", "Value B") , ylab="Count of Something")
+dev.off()
+```
+
+**OR** to save as a pdf 
+
+```{r, eval=FALSE}
+pdf('filename.pdf') 
+boxplot(A, B, name=c("Value A", "Value B") , ylab="Count of Something")
+dev.off()
+```
+
+Note that nothing will appear on screen, the output is going to the file, 'dev.off()' here stops device and saves the file.
+
+## Statistical testing
+
+R has many functions for statistical testing. Please see our [introduction to stats](https://drive.google.com/open?id=1qG_4Dzxc9x3yDnkhjInFKSUGdEHmn2shW2Sj6KwSc_A) slides for more information on distributions, hypothesis testing and statistical significance. 
+
+Let's say we want to determine whether the means of two groups of data differ statistically. First, we need to know if we are dealing with parametric or non-parametric data, i.e. are they normally distributed?
+
+> ## Challenge 2
+>
+> Plot a histogram for each vector in mydata to visualise the distributions of each dataset.
+>
+> > ## Solution
+> >
+> > ```{r}
+> > hist(A, breaks=5)
+> > hist(B, breaks=5)
+> > hist(C, breaks=5)
+> > hist(D, breaks=5)
+> > hist(E, breaks=5)
+> > ```
+> {: .solution}
+{: .challenge}
+
+How does the data look? Do any datasets appear to be normally distributed? We can test for normality with the Shapiro Wilk test. Let's do this for column A:
+
+```{r}
+shapiro.test(A)
+```
+
+The Shapiro Wilk test is a non-parametric test. So, a significant p-value (p < 0.05) means that the data is NON-parametric. As p here = 0.3088 (> 0.05), A is parametric.
+
+> ## Challenge 3
+> 
+> Which other columns are normally distributed?
+> 
+> > ## Solution
+> >
+> > ```{r}
+> > shapiro.test(A)
+> > shapiro.test(B)
+> > shapiro.test(C)
+> > shapiro.test(D)
+> > shapiro.test(E)
+> > ```
+> >
+> > A, B & E are parametric datasets 
+> {: .solution}
+{: .challenge}
+
+> ## Key Points
+>
+> **IMPORTANT:** You should only use parametric tests for parametric data!
+{: .keypoints}
+
+### T-Test
+
+The assumption for a t-test is that both groups are sampled from normal distributions with equal variances, i.e. we can only use a parametric test if the data is normally distributed. As columns A and E are both normally distributed we can use the Welch Two Sample t-test a *t-test* to test if the mean values are statistically different. Our null hypothesis is that the two means are equal, and the alternative is that they are not.
+
+If our p-value is less than the significance level 0.05, we can reject the null hypothesis and accept the alternative hypothesis. In other words, we can conclude that the mean values of group A and E are significantly different.
+
+> ## Challenge 4
+>
+> Use a t-test to decide if the mean values of A and E differ more than is expected by random chance.
+> **Hint**: Use the help search to find the t-test function.
+>
+> > ## Solution
+> >
+> > ```{r}
+> > t.test(A,E)
+> > ```
+> >
+> > The p-value of the test is 0.8032, which is greater than the significance level 0.05. We can conclude that A and E are NOT significantly different.
+> >
+> > You can also save the result as an object and print the p-value:
+> >
+> > ```{r}
+> > a_e_result <- t.test(A,E)
+> > a_e_result$p.value
+> > ```
+> {: .solution}
+{: .challenge}
+
+> ## Discussion
+> 
+> Are any other (parametric) columns significantly different from each other?
+{: .discussion}
+
+### Non-Parametric Testing
+
+What if we want to test non-parametric data? As D is NOT normally distributed we need to use a non-parametric test. Here we use the Mann-Whitney U test aka wilcox.test:
+
+```{r}
+wilcox.test(A,D) 
+```
+
+Non parametric tests look at the ranks of values. If the same value appears multiple times the ranks will be tied and R will output a warning. We can ignore it in this case but should be wary if there are many ties in our data.
+
+The p-value of the test is `0.01496`, which is less than the significance level alpha = 0.05. We can conclude that A is significantly different from D.
+
+### Paired samples
+
+Paired data are sets of data in the same row that came from the same sample (e.g. time series data). 
+
+Load the paired dataset, 'weight.tsv', which contains weights of mice before and after treatment X.
+
+> ## Challenge 5
+>
+> See if you can load the mice weight data. The file is here: **http://bifx-core.bio.ed.ac.uk/weight.tsv** .
+> Save this as an object called `weight`, check you have read it correctly and try plotting it.
+>
+> > ## Solution
+> >
+> >```{r}
+> > weight <- read.table('http://bifx-core.bio.ed.ac.uk/weight.tsv', header=TRUE)
+> > weight
+> > boxplot(weight)
+> > ```
+> {: .solution}
+{: .challenge}
+
+Again, before testing we first check for normality. Here we are comparing the *differences* between groups (Weight after MINUS Weight before).
+
+```{r}
+weight$after - weight$before
+```
+
+We can add this as a new column called 'diff' to our table
+```{r}
+weight$diff <- weight$after - weight$before
+weight
+```
+
+```{r}
+shapiro.test(weight$diff) # Or shapiro.test(weight$diff)
+```
+
+Looks good, the p-value is greater than 0.05 implying that the distribution of the differences (d) are not significantly different from normal distribution. In other words, we can assume normality.
+
+
+We want to know if the weights before treatment are significantly different to the weights after. Let's run the t-test. If the data is paired we use the option `paired=true`.
+
+```{r}
+t.test(weight$before, weight$after, paired = TRUE)
+```
+
+The p-value is `6.2e-09` (< = 0.05) so we can then reject null hypothesis and conclude that the average weight of the mice after treatment is significantly different from the average weight before treatment.
+
+In the case of a non parametric paired data set, use a paired Mann-Whitney Wilcoxon test aka Wilcoxon Signed Rank Test e.g `wilcox.test(x, y, paired = TRUE)`.
+
+### Multiple Testing
+
+If you run multiple tests on the same data you need to adjust the p-values for **multiple testing correction**. The easiest method is to use the function `p.adjust(x)`, where x is a list of p-values. 
+e.g.
+
+```{r}
+x = c(0.0001, 0.05, 0.001, 0.1, 0.1, 0.1, 0.1,0.5,0.5,0.5)
+p.adjust(x)
+```
+
+## Matrix Data and Tests
+
+A matrix is a data frame where the values in rows are related across columns. You can turn a data frame into a matrix using the `as.matrix()` function.
+
+```{r}
+mymatrix <- as.matrix(mydata)
+```
+
+Or create one from a vector using the `matrix()` function (See  `?matrix`). 
+
+```{r}
+lst <- c(54,66,80,20)
+twoBytwo <- matrix(lst, nrow=2)
+```
+
+Which gives:
+
+```{r}
+twoBytwo
+```
+
+Now the matrix is saved and is called twoBytwo.
+
+**Note:** `nrow` specifies the number of rows (alternatively you can specify the number of columns by `ncol`). The default parameters assume numbers in the list fill the first column, then fill the second column and so on. This can be changed by the `byrow` argument. 
+
+### Chi-squared and Fisher's Exact Tests (Count based data)
+
+We can place count based data in a matrix to perform statistical tests. For instance, when observing the presence of a fluorescent marker in wild-type and mutant cells we want to know if there is a significant difference between the 2 cell types?
+ 
+```
+Wild type cells with marker present: 54
+Wild type cells with marker absent: 66
+Mutant cells with marker present: 80
+Mutant cells with marker absent: 20
+```
+Fortunately we have this already in the `twoBytwo` matrix, and the values in `lst`. 
+
+You can change the default column and row names with the `colnames` and `rownames` function:
+
+```{r}
+colnames(twoBytwo) <- c('WT', 'Mut')
+```
+
+```{r}
+rownames(twoBytwo) <- c('pres', 'abs')
+```
+
+```{r}
+twoBytwo
+```
+
+The Chi-squared test, R function `chisq.test()`, works on matrices. It is a type of likelihood ratio test:
+
+```{r}
+chisq.test(twoBytwo)
+```
+
+As the p-value `0.0000002486` is less than 0.05, we can reject the null hypothesis and conclude that these cell types are significantly different.
+
+Note if values in any box were small (e.g. <=5) then Fisher's exact test should be used:
+
+```{r}
+fisher.test(twoBytwo)
+```
+
+This is recommended over the Chi-square in general as the test is more robust, although Fishers exact test only works on two-by-two matrices. If we have more groups we have to use a Chi-square.
+
+
