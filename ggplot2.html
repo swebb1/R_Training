@@ -1,0 +1,1151 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Introduction to dplyr and ggplot2</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/yeti.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+<script src="site_libs/htmlwidgets-1.5.1/htmlwidgets.js"></script>
+<script src="site_libs/plotly-binding-4.9.2.1/plotly.js"></script>
+<script src="site_libs/typedarray-0.1/typedarray.min.js"></script>
+<link href="site_libs/crosstalk-1.1.0.1/css/crosstalk.css" rel="stylesheet" />
+<script src="site_libs/crosstalk-1.1.0.1/js/crosstalk.min.js"></script>
+<link href="site_libs/plotly-htmlwidgets-css-1.52.2/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="site_libs/plotly-main-1.52.2/plotly-latest.min.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 45px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h2 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h3 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h4 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h5 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h6 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">HOME</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="first_observations.html">First Observations</a>
+</li>
+<li>
+  <a href="basic_workflow.html">Basic Workflow</a>
+</li>
+<li>
+  <a href="getting_sophisticated.html">Getting Sophisticated</a>
+</li>
+<li>
+  <a href="your_turn.html">Your Turn</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Introduction to dplyr and ggplot2</h1>
+
+</div>
+
+
+<script>
+  $(document).ready(function() {
+    $('#TOC').parent().prepend('<div id=\"nav_logo\"><img src=\"http://bifx-core.bio.ed.ac.uk/Shaun/Shaun/CELL_BIOLOGY_RGB.png\"></div>');
+  });
+</script>
+<style>
+#nav_logo {
+  width: 100%;
+  margin-top: 20px;
+}
+</style>
+<div id="outline" class="section level1">
+<h1>Outline</h1>
+<p>The ggplot2 (grammar for graphics) package provides a flexible and powerful set of functions to create useful and visually appealing graphics. However for a beginner, the wealth of options can be overwhelming. The goal of this tutorial is to help you learn the basic syntax of each element you need to add and to create professional looking graphics. Useful libraries that provide additional functionality are also introduced.</p>
+<div id="learning-objectives" class="section level2">
+<h2>Learning Objectives</h2>
+<p>By the end of the tutorial, you will be able to:</p>
+<ul>
+<li>Format, filter and manipulate your datasets in preparation for plotting</li>
+<li>Understand the reason and methods for long and wide data formats</li>
+<li>Understand how to create different types of graphics by applying geometries</li>
+<li>Apply additional layers to a graphic</li>
+<li>Visually subset the graphic by applying fills and gradients</li>
+<li>Change the appearance of the graphic by using themes</li>
+<li>Create sub-graphics by applying facets</li>
+<li>Create and save basic graphics</li>
+<li>Use additional libraries such as plotly to enhance the utility of the graphic.</li>
+</ul>
+</div>
+</div>
+<div id="getting-started" class="section level1">
+<h1>Getting started</h1>
+<ul>
+<li>Create a new project in RStudio</li>
+<li>It will be best to work with the tutorial and RStudio open together so you can easily switch between the two. Working on a wide split screen should be the best setup.</li>
+<li>I recommend typing out the commands rather than copy and paste if you want to learn!</li>
+</ul>
+<p>You can work in 3 different ways in RStudio. Use the <strong>console</strong> to run commands, create a new <strong>R script</strong> to save your commands as you go, or create an <strong>R markdown</strong> file to generate a final report.</p>
+</div>
+<div id="library-install-and-usage" class="section level1">
+<h1>Library Install and Usage</h1>
+<p>Libraries provide additional functions in R and can be downloaded from a network of servers called the Comprehensive R Archive Network [CRAN].</p>
+<p>Installing packages:</p>
+<pre class="r"><code>#install.packages(&quot;PACKAGENAME&quot;)
+#Today we will use the following packages
+#Please ensure that are installed before attending the session
+install.packages(c(&quot;ggplot2&quot;, &quot;ggthemes&quot;, &quot;plotly&quot;,&quot;ggpubr&quot;, &quot;ggrepel&quot;,&quot;viridis&quot;,&quot;RColorBrewer&quot;,&quot;ggsci&quot;,&quot;tidyverse&quot;))</code></pre>
+<p>To use libraries from the various packages, use the &quot;library&quot; function. These are the packages that we will use today.</p>
+<pre class="r"><code>library(tidyverse)
+library(ggthemes)
+library(plotly)
+library(ggrepel)
+library(ggpubr)
+library(viridis)
+library(RColorBrewer)
+library(ggsci)</code></pre>
+</div>
+<div id="tidyverse" class="section level1">
+<h1>Tidyverse</h1>
+<p>The <strong>tidyverse</strong> is actually a suite of packages that includes <strong>ggplot2</strong>. These packages are designed for data science and share underlying principles, grammar and data structures. There are many ways to do the same thing in R, but following the philosophy of <em>tidy data</em> and using the <em>tidyverse</em> packages will keep your datasets organised and make analysis easier in the long run. There are <a href="https://rstudio.com/resources/cheatsheets/">cheatsheets</a> available for many tidyverse and rstudio packages that will help you to choose the correct functions.</p>
+<div id="tidy-data" class="section level2">
+<h2>Tidy data</h2>
+<p>Data can be represented in many different ways across multiple tables but the tidyverse packages are specifically designed to work with <strong>tidy</strong> datasets. Tidy data conforms to the following:</p>
+<ul>
+<li>Each variable has it's own column</li>
+<li>Each row is a single observation</li>
+<li>Each value has it's own cell</li>
+</ul>
+<div class="figure">
+<img src="Pictures/tidy.png" />
+
+</div>
+<p>This is the optimal structure when working in R and provides consistency amongst your datasets. Getting your data into R and wrangling it into the correct format is always the first step in your analysis. Fortunately, the <strong>tidyr</strong> package contains many functions to <em>tidy</em> up your dataset.</p>
+<p>We will start by reading in a dataset. The <em>readr</em> package has functions for importing data as tibbles. Tibbles are the tidyverse compatible version of an R data.frame.</p>
+<pre class="r"><code>#If you already have the data installed you can read from the file
+#surveys &lt;- read_csv(&quot;data/surveys_complete.csv&quot;)
+
+#Otherwise read from the URL
+surveys &lt;- read_csv(&quot;http://bifx-core.bio.ed.ac.uk/training/R_dplyr_and_ggplot2/data/surveys_complete.csv&quot;)</code></pre>
+<p>This dataset contains observations from a field survey of different organisms at different sites (plots). Let's inspect the data.</p>
+<pre class="r"><code>#Type an R objects name to print the contents
+surveys</code></pre>
+<pre class="r"><code>#Use the View function
+View(surveys)</code></pre>
+<pre class="r"><code>#We can look at the structure of the dataset
+str(surveys)</code></pre>
+</div>
+</div>
+<div id="data-manipulation-dplyr" class="section level1">
+<h1>Data manipulation (dplyr)</h1>
+<p>The <strong>dplyr</strong> package is specifically designed for data formatting and manipulation and allows you to merge datasets, create new columns, filter and summarise your data. We are going to learn some of the most common functions.</p>
+<div id="selecting-columns-and-filtering-rows" class="section level2">
+<h2>Selecting columns and filtering rows</h2>
+<p>To select columns of a data frame, use <code>select()</code>. The first argument to this function is the data frame (<code>surveys</code>), and the subsequent arguments are the columns to keep.</p>
+<pre class="r"><code>select(surveys, plot_id, species_id, weight)</code></pre>
+<p>To select all columns <em>except</em> certain ones, put a &quot;-&quot; in front of the variable to exclude it.</p>
+<pre class="r"><code>select(surveys, -record_id, -species_id)</code></pre>
+<p>This will select all the variables in <code>surveys</code> except <code>record_id</code> and <code>species_id</code>.</p>
+<p>To choose rows based on a specific criteria, use <code>filter()</code>:</p>
+<pre class="r"><code>filter(surveys, year == 1995)</code></pre>
+</div>
+<div id="pipes" class="section level2">
+<h2>Pipes</h2>
+<p>What if you want to select and filter at the same time? There are three ways to do this: use intermediate steps, nested functions, or pipes.</p>
+<p>With intermediate steps, you create a temporary data frame and use that as input to the next function, like this:</p>
+<pre class="r"><code>surveys2 &lt;- filter(surveys, weight &lt; 5)
+surveys_sml &lt;- select(surveys2, species_id, sex, weight)</code></pre>
+<p>This is readable, but can clutter up your workspace with lots of objects that you have to name individually. With multiple steps, that can be hard to keep track of.</p>
+<p>You can also nest functions (i.e. one function inside of another), like this:</p>
+<pre class="r"><code>surveys_sml &lt;- select(filter(surveys, weight &lt; 5), species_id, sex, weight)</code></pre>
+<p>This is handy, but can be difficult to read if too many functions are nested, as R evaluates the expression from the inside out (in this case, filtering, then selecting).</p>
+<p>The last option, <em>pipes</em>, are a recent addition to R. Pipes let you take the output of one function and send it directly to the next, which is useful when you need to do many things to the same dataset. Pipes in R look like <code>%&gt;%</code> and are made available via the <strong><code>magrittr</code></strong> package, installed automatically with <strong><code>dplyr</code></strong>. If you use RStudio, you can type the pipe with <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>M</kbd> if you have a PC or <kbd>Cmd</kbd> + <kbd>Shift</kbd> + <kbd>M</kbd> if you have a Mac.</p>
+<pre class="r"><code>surveys %&gt;%
+  filter(weight &lt; 5) %&gt;%
+  select(species_id, sex, weight)</code></pre>
+<p>In the above code, we use the pipe to send the <code>surveys</code> dataset first through <code>filter()</code> to keep rows where <code>weight</code> is less than 5, then through <code>select()</code> to keep only the <code>species_id</code>, <code>sex</code>, and <code>weight</code> columns. Since <code>%&gt;%</code> takes the object on its left and passes it as the first argument to the function on its right, we don't need to explicitly include the data frame as an argument to the <code>filter()</code> and <code>select()</code> functions any more.</p>
+<p>Some may find it helpful to read the pipe like the word &quot;then&quot;. For instance, in the above example, we took the data frame <code>surveys</code>, <em>then</em> we <code>filter</code>ed for rows with <code>weight &lt; 5</code>, <em>then</em> we <code>select</code>ed columns <code>species_id</code>, <code>sex</code>, and <code>weight</code>. The <strong><code>dplyr</code></strong> functions by themselves are somewhat simple, but by combining them into linear workflows with the pipe, we can accomplish more complex manipulations of data frames.</p>
+<p>If we want to create a new object with this smaller version of the data, we can assign it a new name:</p>
+<pre class="r"><code>surveys_sml &lt;- surveys %&gt;%
+  filter(weight &lt; 5) %&gt;%
+  select(species_id, sex, weight)
+surveys_sml</code></pre>
+<p>Note that the final data frame is the leftmost part of this expression.</p>
+<blockquote>
+<h3 id="challenge">Challenge</h3>
+<p>Using pipes, subset the <code>surveys</code> data to include animals collected before 1995 and retain only the columns <code>year</code>, <code>sex</code>, and <code>weight</code>.</p>
+<p><details> <summary><strong>Answer</strong></summary></p>
+<pre class="r"><code>surveys %&gt;%
+    filter(year &lt; 1995) %&gt;%
+    select(year, sex, weight)</code></pre>
+<p></details></p>
+</blockquote>
+</div>
+<div id="exporting-data" class="section level2">
+<h2>Exporting data</h2>
+<p>Similar to the <code>read_csv()</code> function there is also a <code>write_csv()</code> function. If you want to export any of your newly created datasets you can do this as follows:</p>
+<pre class="r"><code>write_csv(surveys_sml, path = &quot;data/surveys_small.csv&quot;)</code></pre>
+</div>
+<div id="mutate" class="section level2">
+<h2>Mutate</h2>
+<p>Frequently you'll want to create new columns based on the values in existing columns, for example to do unit conversions, or to find the ratio of values in two columns. For this we use <code>mutate()</code>.</p>
+<p>To create a new column of weight in kg:</p>
+<pre class="r"><code>surveys %&gt;%
+  mutate(weight_kg = weight / 1000)</code></pre>
+<p>You can also create a second new column based on the first new column within the same call of <code>mutate()</code>:</p>
+<pre class="r"><code>surveys %&gt;%
+  mutate(weight_kg = weight / 1000,
+         weight_lb = weight_kg * 2.2)</code></pre>
+<p>If you just want to see the first few rows, you can use a pipe to view the <code>head()</code> of the data.</p>
+<pre class="r"><code>surveys %&gt;%
+  mutate(weight_kg = weight / 1000) %&gt;%
+  head()</code></pre>
+<blockquote>
+<h3 id="challenge-1">Challenge</h3>
+<p>Create a new data frame from the <code>surveys</code> data that meets the following criteria: contains only the <code>species_id</code> column and a new column called <code>hindfoot_cm</code> containing the <code>hindfoot_length</code> values converted to centimeters. In this <code>hindfoot_cm</code> column all values are less than 3.</p>
+<p><strong>Hint</strong>: think about how the commands should be ordered to produce this data frame!</p>
+<p><details> <summary><strong>Answer</strong></summary></p>
+<pre class="r"><code>surveys_hindfoot_cm &lt;- surveys %&gt;%
+    mutate(hindfoot_cm = hindfoot_length / 10) %&gt;%
+    filter(hindfoot_cm &lt; 3) %&gt;%
+    select(species_id, hindfoot_cm)</code></pre>
+<p></details></p>
+</blockquote>
+</div>
+<div id="split-apply-combine" class="section level2">
+<h2>Split-apply-combine</h2>
+<p>Many data analysis tasks can be approached using the <em>split-apply-combine</em> paradigm: split the data into groups, apply some analysis to each group, and then combine the results. <strong><code>dplyr</code></strong> makes this very easy through the use of the <code>group_by()</code> function.</p>
+<div id="summarise-and-group_by" class="section level3">
+<h3>Summarise and group_by</h3>
+<p><code>group_by()</code> is often used together with <code>summarize()</code>, which collapses each group into a single-row summary of that group. <code>group_by()</code> takes as arguments the column names that contain the <strong>categorical</strong> variables for which you want to calculate the summary statistics. So to compute the mean <code>weight</code> by sex:</p>
+<pre class="r"><code>surveys %&gt;%
+  group_by(sex) %&gt;%
+  summarize(mean_weight = mean(weight))</code></pre>
+<p>You can also group by multiple columns:</p>
+<pre class="r"><code>surveys %&gt;%
+  group_by(sex, species_id) %&gt;%
+  summarize(mean_weight = mean(weight))</code></pre>
+<p>Once the data are grouped, you can also summarize multiple variables at the same time (and not necessarily on the same variable). For instance, we could add a column indicating the minimum weight for each species for each sex:</p>
+<pre class="r"><code>surveys %&gt;%
+  group_by(sex, species_id) %&gt;%
+  summarize(mean_weight = mean(weight),
+            min_weight = min(weight))</code></pre>
+<p>It is sometimes useful to rearrange the result of a query to inspect the values. For instance, we can sort on <code>min_weight</code> to put the lighter species first:</p>
+<pre class="r"><code>surveys %&gt;%
+  group_by(sex, species_id) %&gt;%
+  summarize(mean_weight = mean(weight),
+            min_weight = min(weight)) %&gt;%
+  arrange(min_weight)</code></pre>
+<p>To sort in descending order, we need to add the <code>desc()</code> function. If we want to sort the results by decreasing order of mean weight:</p>
+<pre class="r"><code>surveys %&gt;%
+  group_by(sex, species_id) %&gt;%
+  summarize(mean_weight = mean(weight),
+            min_weight = min(weight)) %&gt;%
+  arrange(desc(mean_weight))</code></pre>
+</div>
+<div id="count" class="section level3">
+<h3>Count</h3>
+<p>When working with data, we often want to know the number of observations found for each factor or combination of factors. For this task, <strong><code>dplyr</code></strong> provides <code>count()</code>. For example, if we wanted to count the number of rows of data for each sex, we would do:</p>
+<pre class="r"><code>surveys %&gt;%
+    count(sex) </code></pre>
+<p>The <code>count()</code> function is shorthand for something we've already seen: grouping by a variable, and summarizing it by counting the number of observations in that group. In other words, <code>surveys %&gt;% count(sex)</code> is equivalent to:</p>
+<pre class="r"><code>surveys %&gt;%
+    group_by(sex) %&gt;%
+    summarise(count = n())</code></pre>
+<p>For convenience, <code>count()</code> provides the <code>sort</code> argument:</p>
+<pre class="r"><code>surveys %&gt;%
+    count(sex, sort = TRUE) </code></pre>
+<p>Previous example shows the use of <code>count()</code> to count the number of rows/observations for <em>one</em> factor (i.e., <code>sex</code>). If we wanted to count <em>combination of factors</em>, such as <code>sex</code> and <code>species</code>, we would specify the first and the second factor as the arguments of <code>count()</code>:</p>
+<pre class="r"><code>surveys %&gt;%
+  count(sex, species) </code></pre>
+<p>With the above code, we can proceed with <code>arrange()</code> to sort the table according to a number of criteria so that we have a better comparison. For instance, we might want to arrange the table above in (i) an alphabetical order of the levels of the species and (ii) in descending order of the count:</p>
+<pre class="r"><code>surveys %&gt;%
+  count(sex, species) %&gt;%
+  arrange(species, desc(n))</code></pre>
+<p>From the table above, we may learn that, for instance, there are 75 observations of the <em>albigula</em> species that are not specified for its sex (i.e. <code>NA</code>).</p>
+<blockquote>
+<h3 id="challenge-2">Challenge</h3>
+<ol style="list-style-type: decimal">
+<li>How many animals were caught in each <code>plot_type</code> surveyed?</li>
+</ol>
+<p><details> <summary><strong>Answer</strong></summary></p>
+<pre class="r"><code>surveys %&gt;%
+    count(plot_type) </code></pre>
+<p></details></p>
+<ol start="2" style="list-style-type: decimal">
+<li>Use <code>group_by()</code> and <code>summarize()</code> to find the mean, min, and max hindfoot length for each species (using <code>species_id</code>). Also add the number of observations (hint: see <code>?n</code>).</li>
+</ol>
+<p><details> <summary><strong>Answer</strong></summary></p>
+<pre class="r"><code>surveys %&gt;%
+    group_by(species_id) %&gt;%
+    summarize(
+        mean_hindfoot_length = mean(hindfoot_length),
+        min_hindfoot_length = min(hindfoot_length),
+        max_hindfoot_length = max(hindfoot_length),
+        n = n()
+    )</code></pre>
+<p></details></p>
+<ol start="3" style="list-style-type: decimal">
+<li>What was the heaviest animal measured in each year? Return the columns <code>year</code>, <code>genus</code>, <code>species_id</code>, and <code>weight</code>.</li>
+</ol>
+<p><details> <summary><strong>Answer</strong></summary></p>
+<pre class="r"><code>surveys %&gt;%
+    group_by(year) %&gt;%
+    filter(weight == max(weight)) %&gt;%
+    select(year, genus, species, weight) %&gt;%
+    arrange(year)</code></pre>
+<p></details></p>
+</blockquote>
+</div>
+</div>
+<div id="spreading-and-gathering" class="section level2">
+<h2>Spreading and gathering</h2>
+<p>The <strong>tidyr</strong> package contains the functions <code>spread()</code> and <code>gather()</code> which allow you to transform a dataset between <em>long</em> and <em>wide</em> formats. For instance, what if we wanted to compare the mean weights of each species at each plot (using plot_id).</p>
+<p>We'd need to create a new table where each row is comprised of values of variables associated with each plot. In practical terms this means the values in <code>genus</code> would become the names of column variables and the cells would contain the values of the mean weight observed on each plot.</p>
+<div class="figure">
+<img src="Pictures/spread_data_R.png" />
+
+</div>
+<p>Having created a new table, it is then straightforward to explore the relationship between the weight of different genera within, and between, the plots. The key point here is that we are still following a tidy data structure,but we have <strong>reshaped</strong> the data according to the observation of interest. Mean genus weight per plot, instead of recordings per date.</p>
+<p>First, lets create <code>surveys_gw</code> where observations for each plot (genus and mean_weight) are spread across multiple rows:</p>
+<pre class="r"><code>surveys_gw &lt;- surveys %&gt;%
+  group_by(plot_id, genus) %&gt;%
+  summarize(mean_weight = mean(weight))</code></pre>
+<p>Using <code>spread()</code> with <code>genus</code> as key and <code>mean_weight</code> as value we can create a table that allows us to compare mean weights of different genera at each plot.</p>
+<pre class="r"><code>surveys_spread &lt;- surveys_gw %&gt;%
+  spread(key = genus, value = mean_weight)</code></pre>
+<p>The opposing situation could occur if we had been provided with data in the form of <code>surveys_spread</code>, where the genus names are column names, but we wish to treat them as values of a variable instead. To do this we can use the <code>gather()</code> function.</p>
+</div>
+</div>
+<div id="data-visualisation-ggplot2" class="section level1">
+<h1>Data visualisation (ggplot2)</h1>
+<p><code>ggplot2</code> is a plotting package that makes it simple to create complex plots from data in a data frame. It provides a grammar for specifying which variables to plot, how they are displayed, and general visual properties. Therefore, we only need minimal changes to our code if the underlying data change or if we decide to switch from a bar plot to a scatterplot. This helps to create publication quality plots with minimal adjustments and tweaking.</p>
+<p>ggplot graphics are built step by step by adding new elements. Adding <em>layers</em> in this fashion allows for extensive flexibility and customization of plots.</p>
+<p>To build a ggplot, we use the following basic template:</p>
+<pre class="r"><code>#ggplot(data = &lt;DATA&gt;, mapping = aes(&lt;MAPPINGS&gt;)) +  &lt;GEOM_FUNCTION&gt;()</code></pre>
+<div id="fishers-iris-dataset-pre-installed-in-r" class="section level3">
+<h3>Fisher's Iris dataset (pre-installed in R)</h3>
+<div class="figure">
+<img src="Pictures/iris.png" alt="iris" />
+<p class="caption">iris</p>
+</div>
+<p>Fisher examined the length and width of the petals and sepals in irises to determine a classification algorithm. Here we will explore the relationship between species and the dimension of the flowers via the ggplot2 plotting package. Fisher's data is stored as a built in data set in R. To see the data type:</p>
+<pre class="r"><code>head(iris)</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["Sepal.Length"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["Sepal.Width"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["Petal.Length"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["Petal.Width"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["Species"],"name":[5],"type":["fctr"],"align":["left"]}],"data":[{"1":"5.1","2":"3.5","3":"1.4","4":"0.2","5":"setosa","_rn_":"1"},{"1":"4.9","2":"3.0","3":"1.4","4":"0.2","5":"setosa","_rn_":"2"},{"1":"4.7","2":"3.2","3":"1.3","4":"0.2","5":"setosa","_rn_":"3"},{"1":"4.6","2":"3.1","3":"1.5","4":"0.2","5":"setosa","_rn_":"4"},{"1":"5.0","2":"3.6","3":"1.4","4":"0.2","5":"setosa","_rn_":"5"},{"1":"5.4","2":"3.9","3":"1.7","4":"0.4","5":"setosa","_rn_":"6"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p>This data frame has two types of data, continuous and discrete.</p>
+<pre class="r"><code>str(iris)</code></pre>
+<pre><code>## &#39;data.frame&#39;:    150 obs. of  5 variables:
+##  $ Sepal.Length: num  5.1 4.9 4.7 4.6 5 5.4 4.6 5 4.4 4.9 ...
+##  $ Sepal.Width : num  3.5 3 3.2 3.1 3.6 3.9 3.4 3.4 2.9 3.1 ...
+##  $ Petal.Length: num  1.4 1.4 1.3 1.5 1.4 1.7 1.4 1.5 1.4 1.5 ...
+##  $ Petal.Width : num  0.2 0.2 0.2 0.2 0.2 0.4 0.3 0.2 0.2 0.1 ...
+##  $ Species     : Factor w/ 3 levels &quot;setosa&quot;,&quot;versicolor&quot;,..: 1 1 1 1 1 1 1 1 1 1 ...</code></pre>
+<p>The continuous data is of type number and the distrete data is of type factor, which can be one of the 3 species:</p>
+<pre class="r"><code>levels(iris$Species)</code></pre>
+<pre><code>## [1] &quot;setosa&quot;     &quot;versicolor&quot; &quot;virginica&quot;</code></pre>
+</div>
+<div id="creating-a-ggplot" class="section level2">
+<h2>Creating a ggplot</h2>
+<p>Let's explore this dataset with ggplot.</p>
+<ol style="list-style-type: decimal">
+<li>use the ggplot() function and bind the plot to a specific data frame using the data argument.</li>
+</ol>
+<pre class="r"><code>ggplot(data = iris)</code></pre>
+<p><img src="ggplot2_files/figure-html/unnamed-chunk-39-1.png" width="672" /></p>
+<ol start="2" style="list-style-type: decimal">
+<li>define a mapping (using the aesthetic (aes) function), by selecting the variables to be plotted and specifying how to present them in the graph, e.g. as x/y positions or characteristics such as size, shape, color, etc.</li>
+</ol>
+<pre class="r"><code>ggplot(data = iris, mapping = aes(x = Sepal.Length, y = Sepal.Width))</code></pre>
+<p><img src="ggplot2_files/figure-html/unnamed-chunk-40-1.png" width="672" /></p>
+<ol start="3" style="list-style-type: decimal">
+<li>add ‘geoms’ – graphical representations of the data in the plot (points, lines, bars). ggplot2 offers many different geoms, here are a few commonly used examples:</li>
+</ol>
+<ul>
+<li><code>geom_point()</code> for scatter plots, dot plots, etc.</li>
+<li><code>geom_histogram()</code> for histograms</li>
+<li><code>geom_bar()</code> for bar plots</li>
+<li><code>geom_boxplot()</code> for, well, boxplots!</li>
+<li><code>geom_line()</code> for trend lines, time series, etc.</li>
+</ul>
+</div>
+<div id="scatterplots" class="section level2">
+<h2>Scatterplots</h2>
+<p>To add a geom to the plot use the + operator. Let’s use geom_point() to plot two continuous variables first. The <em>data</em> and <em>mapping</em> are always the first two arguments to ggplot so we can leave these out if arguments are provided in this order:</p>
+<pre class="r"><code>ggplot(iris,aes(x = Sepal.Length, y = Sepal.Width)) +
+  geom_point()</code></pre>
+<p><img src="ggplot2_files/figure-html/unnamed-chunk-41-1.png" width="672" /></p>
+<p>The <code>+</code> in the ggplot2 package is particularly useful because it allows us to modify existing ggplot objects. This means we can easily set up plot templates and conveniently explore different types of plots, so the above plot can also be generated with code like this:</p>
+<pre class="r"><code># Assign plot to a variable
+p &lt;- ggplot(data = iris, mapping = aes(x = Sepal.Length, y = Sepal.Width))
+
+# Draw a scatter plot
+p + geom_point()</code></pre>
+<p><img src="ggplot2_files/figure-html/unnamed-chunk-42-1.png" width="672" /></p>
+<p>Anything you put in the <code>ggplot()</code> function is inherited by the subsequent geom layers that you add. This includes the x- and y-axis mapping you set up in <code>aes()</code>. If you want to specify mappings for a given geom independently you can add these within a geom.</p>
+<p>We can colour the points in the geometry.</p>
+<pre class="r"><code>p + geom_point(colour=&quot;red&quot;)</code></pre>
+<p><img src="ggplot2_files/figure-html/unnamed-chunk-43-1.png" width="672" /></p>
+<p>Not very informative though, let's start again and colour the points by species. Note as well that the x and y labels are also not neccessary if the data is in the correct order.</p>
+<pre class="r"><code>p&lt;-ggplot(iris, aes(Sepal.Length, Sepal.Width, colour=Species) ) +  geom_point()
+p</code></pre>
+<p><img src="ggplot2_files/figure-html/unnamed-chunk-44-1.png" width="672" /></p>
+<p>In the <code>aes()</code> function, <code>colour</code> is used for lines and points. If you want to colour shapes such as bars in barplots and histograms you need to use <code>fill</code>.</p>
+<p>Each function within the ggplot package has its own help file associated with it.</p>
+<pre class="r"><code>?geom_point()</code></pre>
+<p>Note that all the geometries also define a statistical transformation. In the help file of geom_point you'll see that <code>stat = &quot;identity&quot;</code> which is just the value that is presented. Other geometries have different defaults, for instance <code>geom_histogram</code> bins values together.</p>
+</div>
+<div id="histograms" class="section level2">
+<h2>Histograms</h2>
+<p>Here is an example of the histogram geometry:</p>
+<pre class="r"><code>#Create a new version of the iris dataset with a new column
+iris2&lt;- iris %&gt;% mutate(Sepal.Ratio=Sepal.Length/Sepal.Width)
+#Visualise the distribution of Sepal.Ratio with a histogram
+h&lt;- ggplot(iris2, aes(Sepal.Ratio, fill=Species )) +
+  geom_histogram(binwidth=0.1)
+h</code></pre>
+<p><img src="ggplot2_files/figure-html/unnamed-chunk-46-1.png" width="672" /></p>
+<p>Try altering the <code>binwidth</code> parameter to see how this affects the plot.</p>
+<blockquote>
+<h3 id="challenge-3">Challenge</h3>
+<p>Use what you have learned to create a scatterplot of Sepal.Width over Species.</p>
+<p><details> <summary><strong>Answer</strong></summary></p>
+<pre class="r"><code>ggplot(iris, aes(x=Species, y=Sepal.Width )) +  geom_point() </code></pre>
+<p><img src="ggplot2_files/figure-html/unnamed-chunk-47-1.png" width="672" /> </details> Is this the best way to visualise this data?</p>
+</blockquote>
+</div>
+<div id="boxplots" class="section level2">
+<h2>Boxplots</h2>
+<p>Boxplots are an effective way to visualise distributions of data within groups. The boxplot geometry needs the x value to be a categorical variable.</p>
+<pre class="r"><code>b &lt;- ggplot(iris, aes(x=Species, y=Sepal.Width )) +  geom_boxplot() 
+b</code></pre>
+<p><img src="ggplot2_files/figure-html/unnamed-chunk-48-1.png" width="672" /></p>
+<p>To change the axes we can use another function called coord_flip()</p>
+<pre class="r"><code>b + coord_flip()</code></pre>
+<p><img src="ggplot2_files/figure-html/unnamed-chunk-49-1.png" width="672" /></p>
+<p>We can reorder the <code>Species</code> by the median <code>Sepal.Width</code> for display purposes. The <strong>forcats</strong> package in the <strong>tidyverse</strong> has lots of functions for ordering, labelling and manipulating factors (discrete / categorical variables).</p>
+<pre class="r"><code>b &lt;- ggplot(iris, aes(x=fct_reorder(Species,Sepal.Width), y=Sepal.Width )) + 
+  geom_boxplot()
+b</code></pre>
+<p><img src="ggplot2_files/figure-html/unnamed-chunk-50-1.png" width="672" /></p>
+<p>We probably want to relabel the x-axis now:</p>
+<pre class="r"><code>b &lt;- b + xlab(&quot;Species&quot;)
+b</code></pre>
+<p><img src="ggplot2_files/figure-html/unnamed-chunk-51-1.png" width="672" /></p>
+<p>What if we want to plot all of the values per species as a boxplot? We can add multiple boxplot geoms to a plot but it doesn't really work as in informative graphic:</p>
+<pre class="r"><code>ggplot(iris) + 
+  geom_boxplot(aes(x=Species, y=Sepal.Length)) +
+  geom_boxplot(aes(x=Species, y=Sepal.Width)) +
+  geom_boxplot(aes(x=Species, y=Petal.Width)) +
+  geom_boxplot(aes(x=Species, y=Petal.Length))</code></pre>
+<p><img src="ggplot2_files/figure-html/unnamed-chunk-52-1.png" width="672" /></p>
+<p>The problem is that our different variables (Sepal.Length, Sepal.Width etc.) exist in different columns. There is no way to separate these along the x-axis or to colour them differently.</p>
+<p>Our data is currently in &quot;wide&quot; format and each row represents an observation for one flower. We need to transform the data into &quot;long&quot; format so that each column header becomes a value. We can use the <code>gather()</code> function in <strong>tidyr</strong> to do this.</p>
+<pre class="r"><code>#Key is the name of the column that defines a variable
+#Value is the name of the value for that variable
+#We use &quot;-Species&quot; as we want to gather all of the columns except Species.
+iris.long &lt;- gather(iris,key = Flower.Part , value = Value,-Species)
+head(iris.long)</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["Species"],"name":[1],"type":["fctr"],"align":["left"]},{"label":["Flower.Part"],"name":[2],"type":["chr"],"align":["left"]},{"label":["Value"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"setosa","2":"Sepal.Length","3":"5.1","_rn_":"1"},{"1":"setosa","2":"Sepal.Length","3":"4.9","_rn_":"2"},{"1":"setosa","2":"Sepal.Length","3":"4.7","_rn_":"3"},{"1":"setosa","2":"Sepal.Length","3":"4.6","_rn_":"4"},{"1":"setosa","2":"Sepal.Length","3":"5.0","_rn_":"5"},{"1":"setosa","2":"Sepal.Length","3":"5.4","_rn_":"6"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p>Now it is easy to create the boxplot we wanted.</p>
+<pre class="r"><code>ggplot(iris.long, aes(Species, Value, fill=Flower.Part)) + geom_boxplot()</code></pre>
+<p><img src="ggplot2_files/figure-html/unnamed-chunk-54-1.png" width="672" /></p>
+</div>
+<div id="adding-layers" class="section level2">
+<h2>Adding layers</h2>
+<p>By adding points to a boxplot, we can have a better idea of the number of measurements and of their distribution.</p>
+<pre class="r"><code>b + geom_point(colour=&quot;forest green&quot;)</code></pre>
+<p><img src="ggplot2_files/figure-html/unnamed-chunk-55-1.png" width="672" /></p>
+<p>This is okay, but there are some blurry dots where values overlap and it's difficult to see how many data points we really have. We can use the <code>alpha</code> option within our geometry to increase transparency.</p>
+<pre class="r"><code>b + geom_point(colour=&quot;forest green&quot;,alpha=0.3)</code></pre>
+<p><img src="ggplot2_files/figure-html/unnamed-chunk-56-1.png" width="672" /></p>
+<p>This is slightly better, we can see that darker points have more overlap, but it isn't great. <code>geom_jitter</code> is a good alternative to <code>geom_point</code> in this example as it shifts data points so that they don't overlap. We will colour by Species so there is no confusion.</p>
+<pre class="r"><code>b + geom_jitter(aes(colour=Species))</code></pre>
+<p><img src="ggplot2_files/figure-html/unnamed-chunk-57-1.png" width="672" /></p>
+</div>
+<div id="violin-plots" class="section level2">
+<h2>Violin plots</h2>
+<blockquote>
+<h3 id="challenge-4">Challenge</h3>
+<p>Boxplots are useful summaries, but hide the shape of the distribution. For example, if the distribution is bimodal, we would not see it in a boxplot. An alternative to the boxplot is the violin plot, where the shape (of the density of points) is drawn.</p>
+<p>Replace the box plot with a violin plot; see <code>geom_violin()</code>. <details> <summary><strong>Answer</strong></summary></p>
+<pre class="r"><code>ggplot(iris, aes(x=fct_reorder(Species,Sepal.Width), y=Sepal.Width, fill=Species )) + geom_violin() +xlab(&quot;Species&quot;) </code></pre>
+<p><img src="ggplot2_files/figure-html/unnamed-chunk-58-1.png" width="672" /> </details></p>
+</blockquote>
+</div>
+<div id="themes" class="section level2">
+<h2>Themes</h2>
+<p>Recap:</p>
+<pre class="r"><code>p&lt;-ggplot(iris, aes(x=Sepal.Length, y=Sepal.Width, colour=Species)) +  geom_point()</code></pre>
+<p>We can continue to modify this plot. Let's make the axis a bit prettier with the xlab() and ylab() functions:</p>
+<pre class="r"><code>p &lt;- p + xlab(&#39;Sepal length&#39;) + ylab(&#39;Sepal width&#39;) 
+p</code></pre>
+<p><img src="ggplot2_files/figure-html/unnamed-chunk-60-1.png" width="672" /></p>
+<p>All the characteristics of the plot, such as text size and the background are managed by the function called theme(). To see what a theme can change:</p>
+<pre class="r"><code>?theme</code></pre>
+<p>You can use a theme with predefined defaults e.g:</p>
+<pre class="r"><code>p + theme_dark()</code></pre>
+<p><img src="ggplot2_files/figure-html/unnamed-chunk-62-1.png" width="672" /></p>
+<pre class="r"><code>p + theme_bw()</code></pre>
+<p><img src="ggplot2_files/figure-html/unnamed-chunk-62-2.png" width="672" /></p>
+<p>You can also try <code>theme_light</code>, <code>theme_minimal</code>, <code>theme_void</code>, or create you own from scratch:</p>
+<pre class="r"><code>p + theme(
+            panel.background = element_blank(), 
+            panel.grid.major = element_line(colour = &quot;darkgrey&quot;), 
+            text = element_text(size=20), 
+            axis.title.x=element_blank(), 
+            axis.title.y=element_blank()
+            )</code></pre>
+<p><img src="ggplot2_files/figure-html/unnamed-chunk-63-1.png" width="672" /></p>
+<pre class="r"><code># Note you can save your theme and reuse it 
+theme_for_nature &lt;- theme(
+            panel.background = element_blank(), 
+            panel.grid.major = element_line(colour = &quot;darkgrey&quot;), 
+            text = element_text(size=20), 
+            axis.title.x=element_blank(), 
+            axis.title.y=element_blank() 
+            )</code></pre>
+<p>We can then reuse a theme, for example on the histogram we made earlier.</p>
+<pre class="r"><code>h + theme_for_nature</code></pre>
+<p><img src="ggplot2_files/figure-html/unnamed-chunk-64-1.png" width="672" /></p>
+<p>R-studio will offer help finding themes after typing &quot;theme_&quot;. Give some of them a try. The <strong>ggthemes</strong> and <strong>ggpubr</strong> packages also contain a selection of prebuilt themes e.g:</p>
+<pre class="r"><code>library(ggthemes)
+p + theme_fivethirtyeight()</code></pre>
+<p><img src="ggplot2_files/figure-html/unnamed-chunk-65-1.png" width="672" /></p>
+<p>We can set a default theme to use in all ggplots:</p>
+<pre class="r"><code>theme_set(theme_bw())</code></pre>
+</div>
+<div id="adding-colours-to-plots" class="section level2">
+<h2>Adding colours to plots</h2>
+<p>As we have seen, points, lines and shapes can be coloured by a value in your dataframe using the <code>aes()</code> function. Earlier we coloured by a factor but we can also colour by a continuous value which will create a gradient of colour.</p>
+<p>Lets look at the Petals this time and colour by the ratio of Sepal.Length to Sepal.Width:</p>
+<pre class="r"><code>q &lt;- ggplot(iris2, aes(x=Petal.Length, y=Petal.Width, colour=Sepal.Ratio)) +
+  geom_point(alpha=0.5)
+q</code></pre>
+<p><img src="ggplot2_files/figure-html/unnamed-chunk-67-1.png" width="672" /></p>
+<p>To change the colours we need to use the <code>scale_color_*</code> functions of which there are many. Some are built into <strong>ggplot2</strong> and others exist in external packages such as <strong>viridis</strong> or <strong>ggthemes</strong>.</p>
+<p>The <a href="https://cran.r-project.org/web/packages/viridis/vignettes/intro-to-viridis.html">viridis</a> and <a href="https://www.datanovia.com/en/blog/the-a-z-of-rcolorbrewer-palette/">ColorBrewer</a> palettes are particularly useful and worth investigating. The <a href="https://cran.r-project.org/web/packages/ggsci/vignettes/ggsci.html">ggsci</a> package contains palletes based on key scientific journals.</p>
+<div id="continuous-scales" class="section level3">
+<h3>Continuous scales</h3>
+<pre class="r"><code>#default
+q + scale_colour_continuous()</code></pre>
+<p><img src="ggplot2_files/figure-html/unnamed-chunk-68-1.png" width="672" /></p>
+<pre class="r"><code>#ColorBrewer palletes (many to choose from)
+q + scale_colour_distiller(palette = &quot;Spectral&quot;)</code></pre>
+<p><img src="ggplot2_files/figure-html/unnamed-chunk-68-2.png" width="672" /></p>
+<pre class="r"><code>#Viridis colour scales (many to choose from)
+q + scale_colour_viridis()</code></pre>
+<p><img src="ggplot2_files/figure-html/unnamed-chunk-68-3.png" width="672" /></p>
+<p>An alternative method is to use the <code>scale_colour_gradient*</code> functions to define your own gradient e.g:</p>
+<pre class="r"><code>q + scale_color_gradient2(high=&quot;darkred&quot;, low=&quot;white&quot;,  mid=&quot;red&quot;, midpoint=2, space=&quot;Lab&quot;)</code></pre>
+<p><img src="ggplot2_files/figure-html/unnamed-chunk-69-1.png" width="672" /></p>
+</div>
+<div id="discrete-scales" class="section level3">
+<h3>Discrete scales</h3>
+<p>There are also colour scales for discrete variables. Note that we must use <code>fill</code> for colouring boxes.</p>
+<pre class="r"><code>bp&lt;- ggplot(iris2,aes(Species,Sepal.Length,fill=Species)) +
+  geom_boxplot()
+#Default
+bp + scale_fill_discrete()</code></pre>
+<p><img src="ggplot2_files/figure-html/unnamed-chunk-70-1.png" width="672" /></p>
+<pre class="r"><code>#Viridis
+bp + scale_fill_viridis(discrete = TRUE)</code></pre>
+<p><img src="ggplot2_files/figure-html/unnamed-chunk-70-2.png" width="672" /></p>
+<pre class="r"><code>#ColorBrewer Palettes
+bp + scale_fill_brewer(palette = &quot;Dark2&quot;)</code></pre>
+<p><img src="ggplot2_files/figure-html/unnamed-chunk-70-3.png" width="672" /></p>
+<pre class="r"><code>#GGSci - Nature publishing group
+bp + scale_fill_npg()</code></pre>
+<p><img src="ggplot2_files/figure-html/unnamed-chunk-70-4.png" width="672" /></p>
+<p>Alternatively you can manually choose your own colours:</p>
+<pre class="r"><code>h + scale_fill_manual(values = c(&quot;forest green&quot;,&quot;dodger blue&quot;, &quot;firebrick&quot;))</code></pre>
+<p><img src="ggplot2_files/figure-html/unnamed-chunk-71-1.png" width="672" /></p>
+<p>The options for colouring graphs are huge. The help pages for many of the functions will refer to the general help page for that package. <a href="http://colorbrewer2.org">Color brewer 2</a> is a great site for getting the hex values of colours to suit needs such as printer or colour blind friendliness.</p>
+</div>
+</div>
+<div id="adding-more-variables" class="section level2">
+<h2>Adding more variables</h2>
+<pre class="r"><code>ggplot(iris2, aes(x=Petal.Length, y=Petal.Width, colour=Sepal.Ratio)) +
+  geom_line()</code></pre>
+<blockquote>
+<h3 id="challenge-5">Challenge</h3>
+<p>See if you can represent some of the other variables in this plot as well. <strong>Hint:</strong> There are several other aesthetic mappings such as <code>size</code> and <code>shape</code>.</p>
+<p><details> <summary><strong>Answer</strong></summary></p>
+<pre class="r"><code>ggplot(iris2, aes(x=Petal.Length, y=Petal.Width, colour=Sepal.Ratio, shape=Species,size=Sepal.Length)) +
+  geom_point(alpha=0.5)</code></pre>
+<p><img src="ggplot2_files/figure-html/unnamed-chunk-73-1.png" width="672" /> </details></p>
+</blockquote>
+</div>
+<div id="faceting" class="section level2">
+<h2>Faceting</h2>
+<p>When we have defined groups within a dataset of many values, we can split our data into separate plots by using <code>facets</code>.</p>
+<p>Let's look at plot q again</p>
+<pre class="r"><code>q</code></pre>
+<p><img src="ggplot2_files/figure-html/unnamed-chunk-74-1.png" width="672" /></p>
+<p>Let's split this plot by species. This is achieved using either the <code>facet_grid()</code> or <code>facet_wrap()</code> functions. Try playing around with the nrow and scales parameters in <code>facet_wrap()</code>.</p>
+<pre class="r"><code>q + facet_wrap(~Species,nrow = 1,scales = &quot;fixed&quot;)</code></pre>
+<p><img src="ggplot2_files/figure-html/unnamed-chunk-75-1.png" width="672" /></p>
+<p>The <code>facet_grid()</code> function is useful when you are splitting by multiple factors. For instance, let's add a country column to <code>iris2</code> by randomly assigning one of four nations of origin to each observation:</p>
+<pre class="r"><code>countries &lt;- c(&quot;Italy&quot;, &quot;Spain&quot;, &quot;France&quot;, &quot;UK&quot;)
+#Sample will randomly select a value for each row
+iris2 &lt;- iris2 %&gt;% mutate(Country=sample(countries,nrow(iris2),replace=TRUE))
+
+q2 &lt;- ggplot(iris2, aes(x = Petal.Length, y = Petal.Width, colour = Sepal.Ratio)) +
+  geom_point()
+q2 + facet_grid(Country ~ Species)</code></pre>
+<p><img src="ggplot2_files/figure-html/unnamed-chunk-76-1.png" width="672" /></p>
+<blockquote>
+<h3 id="challenge-6">Challenge</h3>
+<p>Use dplyr and ggplot to display the mean petal length for each species found in every country except France. Use colouring and facetting to enhance the plot.</p>
+<p><details> <summary><strong>Answer</strong></summary></p>
+<pre class="r"><code>iris2 %&gt;% 
+ filter(Country != &quot;France&quot;) %&gt;% 
+ group_by(Species,Country) %&gt;% 
+ summarise(Mean=mean(Petal.Length)) %&gt;% 
+ ggplot(aes(x=Country, y=Mean, colour=Species)) + geom_point(size=4) + facet_wrap(~Species) + labs(title=&quot;Mean Petal Length&quot;)</code></pre>
+<p><img src="ggplot2_files/figure-html/unnamed-chunk-77-1.png" width="672" /> </details></p>
+</blockquote>
+</div>
+<div id="saving-plots" class="section level2">
+<h2>Saving plots</h2>
+<p>In RStudio there are many options to save the image. However, if you are are wanting to use ggplot2 in a script, or via web interfaces, you can export a graph using the function <code>ggsave()</code>.</p>
+<pre class="r"><code>#save a png file 
+ggsave(&quot;IrisScatterplot.png&quot;, p)
+##save a pdf file
+ggsave(&quot;CombinePlot.pdf&quot;,p2)</code></pre>
+<p>The image format is automatically assigned from the file extension you use in the filename. Within <code>ggsave()</code> you can also set the resolution for the image as well as the length and width for the image. See the help page for ggsave for more options.</p>
+</div>
+<div id="arranging-multiple-plots" class="section level2">
+<h2>Arranging multiple plots</h2>
+<p>Placing ggplots side by side can be performed with packages like <strong>gridExtra</strong> and <strong>patchwork</strong>. <a href="https://github.com/thomasp85/patchwork">Patchwork</a> uses simple formulas to arrange ggplots:</p>
+<pre class="r"><code>library(patchwork)
+#On top
+q/bp</code></pre>
+<p><img src="ggplot2_files/figure-html/unnamed-chunk-79-1.png" width="672" /></p>
+<pre class="r"><code>#Side by side
+q+bp</code></pre>
+<p><img src="ggplot2_files/figure-html/unnamed-chunk-79-2.png" width="672" /></p>
+<pre class="r"><code>#2 plots on top, 1 on bottom
+(q+h)/bp</code></pre>
+<p><img src="ggplot2_files/figure-html/unnamed-chunk-79-3.png" width="672" /></p>
+<p>To save:</p>
+<pre class="r"><code>library(patchwork)
+#On top
+ggsave(&quot;DoublePlot.png&quot;,q/bp)</code></pre>
+</div>
+<div id="other-useful-functions" class="section level2">
+<h2>Other useful functions</h2>
+<div id="cut-functions" class="section level3">
+<h3>Cut functions</h3>
+<p>The <code>cut_*</code> functions in ggplot2 can turn continous data into discrete levels. In this example we create a new column that puts the data into 5 groups of equal size based on <code>Sepal.Length</code>:</p>
+<pre class="r"><code>iris2 &lt;- iris2 %&gt;% mutate(Sepal.Length.Group=cut_number(Sepal.Length,5))
+
+ggplot(iris2,aes(Sepal.Length,Sepal.Width,fill = Sepal.Length.Group)) +  
+  geom_violin() +
+  labs(fill=&quot;Sepal length intervals&quot;, x=&quot;Sepal length&quot;,y=&quot;Sepal width&quot;)</code></pre>
+<p><img src="ggplot2_files/figure-html/unnamed-chunk-81-1.png" width="672" /></p>
+<p>Note the use of the <code>labs()</code> function to change multiple labels at once.</p>
+</div>
+<div id="scaling-data" class="section level3">
+<h3>Scaling data</h3>
+<p>Let's look at a larger dataset like the <code>surveys_complete</code> data we used earlier:</p>
+<pre class="r"><code>ggplot(surveys,aes(weight,hindfoot_length))+geom_point()</code></pre>
+<p><img src="ggplot2_files/figure-html/unnamed-chunk-82-1.png" width="672" /></p>
+<p>For axes with large values or very dispersed values it can be useful to rescale using a log axis. This can be done in two ways:</p>
+<pre class="r"><code>##We can transform the values in our ggplot call:
+ggplot(surveys,aes(log10(weight),hindfoot_length))+geom_point()</code></pre>
+<p><img src="ggplot2_files/figure-html/unnamed-chunk-83-1.png" width="672" /></p>
+<pre class="r"><code>##OR we can change the axis to a log scale
+ggplot(surveys,aes(weight,hindfoot_length))+geom_point() +
+  scale_x_log10()</code></pre>
+<p><img src="ggplot2_files/figure-html/unnamed-chunk-84-1.png" width="672" /></p>
+<p>Can you see the difference in these plots?</p>
+</div>
+<div id="adding-labels" class="section level3">
+<h3>Adding labels</h3>
+<p>You can add labels to points in your graphs. One of the best ways to do this is to use the package <strong>ggrepel</strong>.</p>
+<pre class="r"><code>library(ggrepel)
+# you can use geom_text_repel() or geom_label_repel() to label whatever you want with non-overlapping labels. In the brackets use conditional subsetting to only label the interesting elements of your data.
+
+ggplot(iris2,aes(Petal.Width,Petal.Length,colour=Sepal.Ratio)) +
+  geom_point() +
+  geom_label_repel(aes(label=ifelse(Petal.Length &gt; 6.4 ,as.character(Species),&#39;&#39;)))</code></pre>
+<p><img src="ggplot2_files/figure-html/unnamed-chunk-85-1.png" width="672" /></p>
+</div>
+<div id="interactive-graphs-with-plotly" class="section level3">
+<h3>Interactive graphs with Plotly</h3>
+<p><a href="https://plot.ly/ggplot2">Plotly</a> for ggplot2 is a browser-based charting library that converts ggplots into interactive visualisations:</p>
+<pre class="r"><code>library(plotly)
+p2&lt;-ggplot(iris2,aes(Sepal.Length,Sepal.Width,colour=Species))+geom_point()
+ggplotly(p)</code></pre>
+<div id="htmlwidget-b9f5370901dd006ed917" style="width:672px;height:480px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-b9f5370901dd006ed917">{"x":{"data":[{"x":[5.1,4.9,4.7,4.6,5,5.4,4.6,5,4.4,4.9,5.4,4.8,4.8,4.3,5.8,5.7,5.4,5.1,5.7,5.1,5.4,5.1,4.6,5.1,4.8,5,5,5.2,5.2,4.7,4.8,5.4,5.2,5.5,4.9,5,5.5,4.9,4.4,5.1,5,4.5,4.4,5,5.1,4.8,5.1,4.6,5.3,5],"y":[3.5,3,3.2,3.1,3.6,3.9,3.4,3.4,2.9,3.1,3.7,3.4,3,3,4,4.4,3.9,3.5,3.8,3.8,3.4,3.7,3.6,3.3,3.4,3,3.4,3.5,3.4,3.2,3.1,3.4,4.1,4.2,3.1,3.2,3.5,3.6,3,3.4,3.5,2.3,3.2,3.5,3.8,3,3.8,3.2,3.7,3.3],"text":["Sepal.Length: 5.1<br />Sepal.Width: 3.5<br />Species: setosa","Sepal.Length: 4.9<br />Sepal.Width: 3.0<br />Species: setosa","Sepal.Length: 4.7<br />Sepal.Width: 3.2<br />Species: setosa","Sepal.Length: 4.6<br />Sepal.Width: 3.1<br />Species: setosa","Sepal.Length: 5.0<br />Sepal.Width: 3.6<br />Species: setosa","Sepal.Length: 5.4<br />Sepal.Width: 3.9<br />Species: setosa","Sepal.Length: 4.6<br />Sepal.Width: 3.4<br />Species: setosa","Sepal.Length: 5.0<br />Sepal.Width: 3.4<br />Species: setosa","Sepal.Length: 4.4<br />Sepal.Width: 2.9<br />Species: setosa","Sepal.Length: 4.9<br />Sepal.Width: 3.1<br />Species: setosa","Sepal.Length: 5.4<br />Sepal.Width: 3.7<br />Species: setosa","Sepal.Length: 4.8<br />Sepal.Width: 3.4<br />Species: setosa","Sepal.Length: 4.8<br />Sepal.Width: 3.0<br />Species: setosa","Sepal.Length: 4.3<br />Sepal.Width: 3.0<br />Species: setosa","Sepal.Length: 5.8<br />Sepal.Width: 4.0<br />Species: setosa","Sepal.Length: 5.7<br />Sepal.Width: 4.4<br />Species: setosa","Sepal.Length: 5.4<br />Sepal.Width: 3.9<br />Species: setosa","Sepal.Length: 5.1<br />Sepal.Width: 3.5<br />Species: setosa","Sepal.Length: 5.7<br />Sepal.Width: 3.8<br />Species: setosa","Sepal.Length: 5.1<br />Sepal.Width: 3.8<br />Species: setosa","Sepal.Length: 5.4<br />Sepal.Width: 3.4<br />Species: setosa","Sepal.Length: 5.1<br />Sepal.Width: 3.7<br />Species: setosa","Sepal.Length: 4.6<br />Sepal.Width: 3.6<br />Species: setosa","Sepal.Length: 5.1<br />Sepal.Width: 3.3<br />Species: setosa","Sepal.Length: 4.8<br />Sepal.Width: 3.4<br />Species: setosa","Sepal.Length: 5.0<br />Sepal.Width: 3.0<br />Species: setosa","Sepal.Length: 5.0<br />Sepal.Width: 3.4<br />Species: setosa","Sepal.Length: 5.2<br />Sepal.Width: 3.5<br />Species: setosa","Sepal.Length: 5.2<br />Sepal.Width: 3.4<br />Species: setosa","Sepal.Length: 4.7<br />Sepal.Width: 3.2<br />Species: setosa","Sepal.Length: 4.8<br />Sepal.Width: 3.1<br />Species: setosa","Sepal.Length: 5.4<br />Sepal.Width: 3.4<br />Species: setosa","Sepal.Length: 5.2<br />Sepal.Width: 4.1<br />Species: setosa","Sepal.Length: 5.5<br />Sepal.Width: 4.2<br />Species: setosa","Sepal.Length: 4.9<br />Sepal.Width: 3.1<br />Species: setosa","Sepal.Length: 5.0<br />Sepal.Width: 3.2<br />Species: setosa","Sepal.Length: 5.5<br />Sepal.Width: 3.5<br />Species: setosa","Sepal.Length: 4.9<br />Sepal.Width: 3.6<br />Species: setosa","Sepal.Length: 4.4<br />Sepal.Width: 3.0<br />Species: setosa","Sepal.Length: 5.1<br />Sepal.Width: 3.4<br />Species: setosa","Sepal.Length: 5.0<br />Sepal.Width: 3.5<br />Species: setosa","Sepal.Length: 4.5<br />Sepal.Width: 2.3<br />Species: setosa","Sepal.Length: 4.4<br />Sepal.Width: 3.2<br />Species: setosa","Sepal.Length: 5.0<br />Sepal.Width: 3.5<br />Species: setosa","Sepal.Length: 5.1<br />Sepal.Width: 3.8<br />Species: setosa","Sepal.Length: 4.8<br />Sepal.Width: 3.0<br />Species: setosa","Sepal.Length: 5.1<br />Sepal.Width: 3.8<br />Species: setosa","Sepal.Length: 4.6<br />Sepal.Width: 3.2<br />Species: setosa","Sepal.Length: 5.3<br />Sepal.Width: 3.7<br />Species: setosa","Sepal.Length: 5.0<br />Sepal.Width: 3.3<br />Species: setosa"],"type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(248,118,109,1)","opacity":1,"size":5.66929133858268,"symbol":"circle","line":{"width":1.88976377952756,"color":"rgba(248,118,109,1)"}},"hoveron":"points","name":"setosa","legendgroup":"setosa","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[7,6.4,6.9,5.5,6.5,5.7,6.3,4.9,6.6,5.2,5,5.9,6,6.1,5.6,6.7,5.6,5.8,6.2,5.6,5.9,6.1,6.3,6.1,6.4,6.6,6.8,6.7,6,5.7,5.5,5.5,5.8,6,5.4,6,6.7,6.3,5.6,5.5,5.5,6.1,5.8,5,5.6,5.7,5.7,6.2,5.1,5.7],"y":[3.2,3.2,3.1,2.3,2.8,2.8,3.3,2.4,2.9,2.7,2,3,2.2,2.9,2.9,3.1,3,2.7,2.2,2.5,3.2,2.8,2.5,2.8,2.9,3,2.8,3,2.9,2.6,2.4,2.4,2.7,2.7,3,3.4,3.1,2.3,3,2.5,2.6,3,2.6,2.3,2.7,3,2.9,2.9,2.5,2.8],"text":["Sepal.Length: 7.0<br />Sepal.Width: 3.2<br />Species: versicolor","Sepal.Length: 6.4<br />Sepal.Width: 3.2<br />Species: versicolor","Sepal.Length: 6.9<br />Sepal.Width: 3.1<br />Species: versicolor","Sepal.Length: 5.5<br />Sepal.Width: 2.3<br />Species: versicolor","Sepal.Length: 6.5<br />Sepal.Width: 2.8<br />Species: versicolor","Sepal.Length: 5.7<br />Sepal.Width: 2.8<br />Species: versicolor","Sepal.Length: 6.3<br />Sepal.Width: 3.3<br />Species: versicolor","Sepal.Length: 4.9<br />Sepal.Width: 2.4<br />Species: versicolor","Sepal.Length: 6.6<br />Sepal.Width: 2.9<br />Species: versicolor","Sepal.Length: 5.2<br />Sepal.Width: 2.7<br />Species: versicolor","Sepal.Length: 5.0<br />Sepal.Width: 2.0<br />Species: versicolor","Sepal.Length: 5.9<br />Sepal.Width: 3.0<br />Species: versicolor","Sepal.Length: 6.0<br />Sepal.Width: 2.2<br />Species: versicolor","Sepal.Length: 6.1<br />Sepal.Width: 2.9<br />Species: versicolor","Sepal.Length: 5.6<br />Sepal.Width: 2.9<br />Species: versicolor","Sepal.Length: 6.7<br />Sepal.Width: 3.1<br />Species: versicolor","Sepal.Length: 5.6<br />Sepal.Width: 3.0<br />Species: versicolor","Sepal.Length: 5.8<br />Sepal.Width: 2.7<br />Species: versicolor","Sepal.Length: 6.2<br />Sepal.Width: 2.2<br />Species: versicolor","Sepal.Length: 5.6<br />Sepal.Width: 2.5<br />Species: versicolor","Sepal.Length: 5.9<br />Sepal.Width: 3.2<br />Species: versicolor","Sepal.Length: 6.1<br />Sepal.Width: 2.8<br />Species: versicolor","Sepal.Length: 6.3<br />Sepal.Width: 2.5<br />Species: versicolor","Sepal.Length: 6.1<br />Sepal.Width: 2.8<br />Species: versicolor","Sepal.Length: 6.4<br />Sepal.Width: 2.9<br />Species: versicolor","Sepal.Length: 6.6<br />Sepal.Width: 3.0<br />Species: versicolor","Sepal.Length: 6.8<br />Sepal.Width: 2.8<br />Species: versicolor","Sepal.Length: 6.7<br />Sepal.Width: 3.0<br />Species: versicolor","Sepal.Length: 6.0<br />Sepal.Width: 2.9<br />Species: versicolor","Sepal.Length: 5.7<br />Sepal.Width: 2.6<br />Species: versicolor","Sepal.Length: 5.5<br />Sepal.Width: 2.4<br />Species: versicolor","Sepal.Length: 5.5<br />Sepal.Width: 2.4<br />Species: versicolor","Sepal.Length: 5.8<br />Sepal.Width: 2.7<br />Species: versicolor","Sepal.Length: 6.0<br />Sepal.Width: 2.7<br />Species: versicolor","Sepal.Length: 5.4<br />Sepal.Width: 3.0<br />Species: versicolor","Sepal.Length: 6.0<br />Sepal.Width: 3.4<br />Species: versicolor","Sepal.Length: 6.7<br />Sepal.Width: 3.1<br />Species: versicolor","Sepal.Length: 6.3<br />Sepal.Width: 2.3<br />Species: versicolor","Sepal.Length: 5.6<br />Sepal.Width: 3.0<br />Species: versicolor","Sepal.Length: 5.5<br />Sepal.Width: 2.5<br />Species: versicolor","Sepal.Length: 5.5<br />Sepal.Width: 2.6<br />Species: versicolor","Sepal.Length: 6.1<br />Sepal.Width: 3.0<br />Species: versicolor","Sepal.Length: 5.8<br />Sepal.Width: 2.6<br />Species: versicolor","Sepal.Length: 5.0<br />Sepal.Width: 2.3<br />Species: versicolor","Sepal.Length: 5.6<br />Sepal.Width: 2.7<br />Species: versicolor","Sepal.Length: 5.7<br />Sepal.Width: 3.0<br />Species: versicolor","Sepal.Length: 5.7<br />Sepal.Width: 2.9<br />Species: versicolor","Sepal.Length: 6.2<br />Sepal.Width: 2.9<br />Species: versicolor","Sepal.Length: 5.1<br />Sepal.Width: 2.5<br />Species: versicolor","Sepal.Length: 5.7<br />Sepal.Width: 2.8<br />Species: versicolor"],"type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(0,186,56,1)","opacity":1,"size":5.66929133858268,"symbol":"circle","line":{"width":1.88976377952756,"color":"rgba(0,186,56,1)"}},"hoveron":"points","name":"versicolor","legendgroup":"versicolor","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[6.3,5.8,7.1,6.3,6.5,7.6,4.9,7.3,6.7,7.2,6.5,6.4,6.8,5.7,5.8,6.4,6.5,7.7,7.7,6,6.9,5.6,7.7,6.3,6.7,7.2,6.2,6.1,6.4,7.2,7.4,7.9,6.4,6.3,6.1,7.7,6.3,6.4,6,6.9,6.7,6.9,5.8,6.8,6.7,6.7,6.3,6.5,6.2,5.9],"y":[3.3,2.7,3,2.9,3,3,2.5,2.9,2.5,3.6,3.2,2.7,3,2.5,2.8,3.2,3,3.8,2.6,2.2,3.2,2.8,2.8,2.7,3.3,3.2,2.8,3,2.8,3,2.8,3.8,2.8,2.8,2.6,3,3.4,3.1,3,3.1,3.1,3.1,2.7,3.2,3.3,3,2.5,3,3.4,3],"text":["Sepal.Length: 6.3<br />Sepal.Width: 3.3<br />Species: virginica","Sepal.Length: 5.8<br />Sepal.Width: 2.7<br />Species: virginica","Sepal.Length: 7.1<br />Sepal.Width: 3.0<br />Species: virginica","Sepal.Length: 6.3<br />Sepal.Width: 2.9<br />Species: virginica","Sepal.Length: 6.5<br />Sepal.Width: 3.0<br />Species: virginica","Sepal.Length: 7.6<br />Sepal.Width: 3.0<br />Species: virginica","Sepal.Length: 4.9<br />Sepal.Width: 2.5<br />Species: virginica","Sepal.Length: 7.3<br />Sepal.Width: 2.9<br />Species: virginica","Sepal.Length: 6.7<br />Sepal.Width: 2.5<br />Species: virginica","Sepal.Length: 7.2<br />Sepal.Width: 3.6<br />Species: virginica","Sepal.Length: 6.5<br />Sepal.Width: 3.2<br />Species: virginica","Sepal.Length: 6.4<br />Sepal.Width: 2.7<br />Species: virginica","Sepal.Length: 6.8<br />Sepal.Width: 3.0<br />Species: virginica","Sepal.Length: 5.7<br />Sepal.Width: 2.5<br />Species: virginica","Sepal.Length: 5.8<br />Sepal.Width: 2.8<br />Species: virginica","Sepal.Length: 6.4<br />Sepal.Width: 3.2<br />Species: virginica","Sepal.Length: 6.5<br />Sepal.Width: 3.0<br />Species: virginica","Sepal.Length: 7.7<br />Sepal.Width: 3.8<br />Species: virginica","Sepal.Length: 7.7<br />Sepal.Width: 2.6<br />Species: virginica","Sepal.Length: 6.0<br />Sepal.Width: 2.2<br />Species: virginica","Sepal.Length: 6.9<br />Sepal.Width: 3.2<br />Species: virginica","Sepal.Length: 5.6<br />Sepal.Width: 2.8<br />Species: virginica","Sepal.Length: 7.7<br />Sepal.Width: 2.8<br />Species: virginica","Sepal.Length: 6.3<br />Sepal.Width: 2.7<br />Species: virginica","Sepal.Length: 6.7<br />Sepal.Width: 3.3<br />Species: virginica","Sepal.Length: 7.2<br />Sepal.Width: 3.2<br />Species: virginica","Sepal.Length: 6.2<br />Sepal.Width: 2.8<br />Species: virginica","Sepal.Length: 6.1<br />Sepal.Width: 3.0<br />Species: virginica","Sepal.Length: 6.4<br />Sepal.Width: 2.8<br />Species: virginica","Sepal.Length: 7.2<br />Sepal.Width: 3.0<br />Species: virginica","Sepal.Length: 7.4<br />Sepal.Width: 2.8<br />Species: virginica","Sepal.Length: 7.9<br />Sepal.Width: 3.8<br />Species: virginica","Sepal.Length: 6.4<br />Sepal.Width: 2.8<br />Species: virginica","Sepal.Length: 6.3<br />Sepal.Width: 2.8<br />Species: virginica","Sepal.Length: 6.1<br />Sepal.Width: 2.6<br />Species: virginica","Sepal.Length: 7.7<br />Sepal.Width: 3.0<br />Species: virginica","Sepal.Length: 6.3<br />Sepal.Width: 3.4<br />Species: virginica","Sepal.Length: 6.4<br />Sepal.Width: 3.1<br />Species: virginica","Sepal.Length: 6.0<br />Sepal.Width: 3.0<br />Species: virginica","Sepal.Length: 6.9<br />Sepal.Width: 3.1<br />Species: virginica","Sepal.Length: 6.7<br />Sepal.Width: 3.1<br />Species: virginica","Sepal.Length: 6.9<br />Sepal.Width: 3.1<br />Species: virginica","Sepal.Length: 5.8<br />Sepal.Width: 2.7<br />Species: virginica","Sepal.Length: 6.8<br />Sepal.Width: 3.2<br />Species: virginica","Sepal.Length: 6.7<br />Sepal.Width: 3.3<br />Species: virginica","Sepal.Length: 6.7<br />Sepal.Width: 3.0<br />Species: virginica","Sepal.Length: 6.3<br />Sepal.Width: 2.5<br />Species: virginica","Sepal.Length: 6.5<br />Sepal.Width: 3.0<br />Species: virginica","Sepal.Length: 6.2<br />Sepal.Width: 3.4<br />Species: virginica","Sepal.Length: 5.9<br />Sepal.Width: 3.0<br />Species: virginica"],"type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(97,156,255,1)","opacity":1,"size":5.66929133858268,"symbol":"circle","line":{"width":1.88976377952756,"color":"rgba(97,156,255,1)"}},"hoveron":"points","name":"virginica","legendgroup":"virginica","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":26.2283105022831,"r":7.30593607305936,"b":40.1826484018265,"l":43.1050228310502},"plot_bgcolor":"rgba(255,255,255,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[4.12,8.08],"tickmode":"array","ticktext":["5","6","7","8"],"tickvals":[5,6,7,8],"categoryorder":"array","categoryarray":["5","6","7","8"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"y","title":{"text":"Sepal length","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[1.88,4.52],"tickmode":"array","ticktext":["2.0","2.5","3.0","3.5","4.0","4.5"],"tickvals":[2,2.5,3,3.5,4,4.5],"categoryorder":"array","categoryarray":["2.0","2.5","3.0","3.5","4.0","4.5"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"x","title":{"text":"Sepal width","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":"transparent","line":{"color":"rgba(51,51,51,1)","width":0.66417600664176,"linetype":"solid"},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":true,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.88976377952756,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.689497716895},"y":0.96751968503937},"annotations":[{"text":"Species","x":1.02,"y":1,"showarrow":false,"ax":0,"ay":0,"font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"xref":"paper","yref":"paper","textangle":-0,"xanchor":"left","yanchor":"bottom","legendTitle":true}],"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","showSendToCloud":false},"source":"A","attrs":{"60574ee4b7db":{"x":{},"y":{},"colour":{},"type":"scatter"}},"cur_data":"60574ee4b7db","visdat":{"60574ee4b7db":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<p>By default the mouse over text is what is mapped in the aesthetics. You can add a <code>text</code> aesthetic to add this to the tooltip text.</p>
+<pre class="r"><code>p2&lt;- p2+ geom_point(aes(text=Country))
+ggplotly(p2)</code></pre>
+<div id="htmlwidget-abe9fe3486d0270ff40c" style="width:672px;height:480px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-abe9fe3486d0270ff40c">{"x":{"data":[{"x":[5.1,4.9,4.7,4.6,5,5.4,4.6,5,4.4,4.9,5.4,4.8,4.8,4.3,5.8,5.7,5.4,5.1,5.7,5.1,5.4,5.1,4.6,5.1,4.8,5,5,5.2,5.2,4.7,4.8,5.4,5.2,5.5,4.9,5,5.5,4.9,4.4,5.1,5,4.5,4.4,5,5.1,4.8,5.1,4.6,5.3,5],"y":[3.5,3,3.2,3.1,3.6,3.9,3.4,3.4,2.9,3.1,3.7,3.4,3,3,4,4.4,3.9,3.5,3.8,3.8,3.4,3.7,3.6,3.3,3.4,3,3.4,3.5,3.4,3.2,3.1,3.4,4.1,4.2,3.1,3.2,3.5,3.6,3,3.4,3.5,2.3,3.2,3.5,3.8,3,3.8,3.2,3.7,3.3],"text":["Sepal.Length: 5.1<br />Sepal.Width: 3.5<br />Species: setosa","Sepal.Length: 4.9<br />Sepal.Width: 3.0<br />Species: setosa","Sepal.Length: 4.7<br />Sepal.Width: 3.2<br />Species: setosa","Sepal.Length: 4.6<br />Sepal.Width: 3.1<br />Species: setosa","Sepal.Length: 5.0<br />Sepal.Width: 3.6<br />Species: setosa","Sepal.Length: 5.4<br />Sepal.Width: 3.9<br />Species: setosa","Sepal.Length: 4.6<br />Sepal.Width: 3.4<br />Species: setosa","Sepal.Length: 5.0<br />Sepal.Width: 3.4<br />Species: setosa","Sepal.Length: 4.4<br />Sepal.Width: 2.9<br />Species: setosa","Sepal.Length: 4.9<br />Sepal.Width: 3.1<br />Species: setosa","Sepal.Length: 5.4<br />Sepal.Width: 3.7<br />Species: setosa","Sepal.Length: 4.8<br />Sepal.Width: 3.4<br />Species: setosa","Sepal.Length: 4.8<br />Sepal.Width: 3.0<br />Species: setosa","Sepal.Length: 4.3<br />Sepal.Width: 3.0<br />Species: setosa","Sepal.Length: 5.8<br />Sepal.Width: 4.0<br />Species: setosa","Sepal.Length: 5.7<br />Sepal.Width: 4.4<br />Species: setosa","Sepal.Length: 5.4<br />Sepal.Width: 3.9<br />Species: setosa","Sepal.Length: 5.1<br />Sepal.Width: 3.5<br />Species: setosa","Sepal.Length: 5.7<br />Sepal.Width: 3.8<br />Species: setosa","Sepal.Length: 5.1<br />Sepal.Width: 3.8<br />Species: setosa","Sepal.Length: 5.4<br />Sepal.Width: 3.4<br />Species: setosa","Sepal.Length: 5.1<br />Sepal.Width: 3.7<br />Species: setosa","Sepal.Length: 4.6<br />Sepal.Width: 3.6<br />Species: setosa","Sepal.Length: 5.1<br />Sepal.Width: 3.3<br />Species: setosa","Sepal.Length: 4.8<br />Sepal.Width: 3.4<br />Species: setosa","Sepal.Length: 5.0<br />Sepal.Width: 3.0<br />Species: setosa","Sepal.Length: 5.0<br />Sepal.Width: 3.4<br />Species: setosa","Sepal.Length: 5.2<br />Sepal.Width: 3.5<br />Species: setosa","Sepal.Length: 5.2<br />Sepal.Width: 3.4<br />Species: setosa","Sepal.Length: 4.7<br />Sepal.Width: 3.2<br />Species: setosa","Sepal.Length: 4.8<br />Sepal.Width: 3.1<br />Species: setosa","Sepal.Length: 5.4<br />Sepal.Width: 3.4<br />Species: setosa","Sepal.Length: 5.2<br />Sepal.Width: 4.1<br />Species: setosa","Sepal.Length: 5.5<br />Sepal.Width: 4.2<br />Species: setosa","Sepal.Length: 4.9<br />Sepal.Width: 3.1<br />Species: setosa","Sepal.Length: 5.0<br />Sepal.Width: 3.2<br />Species: setosa","Sepal.Length: 5.5<br />Sepal.Width: 3.5<br />Species: setosa","Sepal.Length: 4.9<br />Sepal.Width: 3.6<br />Species: setosa","Sepal.Length: 4.4<br />Sepal.Width: 3.0<br />Species: setosa","Sepal.Length: 5.1<br />Sepal.Width: 3.4<br />Species: setosa","Sepal.Length: 5.0<br />Sepal.Width: 3.5<br />Species: setosa","Sepal.Length: 4.5<br />Sepal.Width: 2.3<br />Species: setosa","Sepal.Length: 4.4<br />Sepal.Width: 3.2<br />Species: setosa","Sepal.Length: 5.0<br />Sepal.Width: 3.5<br />Species: setosa","Sepal.Length: 5.1<br />Sepal.Width: 3.8<br />Species: setosa","Sepal.Length: 4.8<br />Sepal.Width: 3.0<br />Species: setosa","Sepal.Length: 5.1<br />Sepal.Width: 3.8<br />Species: setosa","Sepal.Length: 4.6<br />Sepal.Width: 3.2<br />Species: setosa","Sepal.Length: 5.3<br />Sepal.Width: 3.7<br />Species: setosa","Sepal.Length: 5.0<br />Sepal.Width: 3.3<br />Species: setosa"],"type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(248,118,109,1)","opacity":1,"size":5.66929133858268,"symbol":"circle","line":{"width":1.88976377952756,"color":"rgba(248,118,109,1)"}},"hoveron":"points","name":"setosa","legendgroup":"setosa","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[7,6.4,6.9,5.5,6.5,5.7,6.3,4.9,6.6,5.2,5,5.9,6,6.1,5.6,6.7,5.6,5.8,6.2,5.6,5.9,6.1,6.3,6.1,6.4,6.6,6.8,6.7,6,5.7,5.5,5.5,5.8,6,5.4,6,6.7,6.3,5.6,5.5,5.5,6.1,5.8,5,5.6,5.7,5.7,6.2,5.1,5.7],"y":[3.2,3.2,3.1,2.3,2.8,2.8,3.3,2.4,2.9,2.7,2,3,2.2,2.9,2.9,3.1,3,2.7,2.2,2.5,3.2,2.8,2.5,2.8,2.9,3,2.8,3,2.9,2.6,2.4,2.4,2.7,2.7,3,3.4,3.1,2.3,3,2.5,2.6,3,2.6,2.3,2.7,3,2.9,2.9,2.5,2.8],"text":["Sepal.Length: 7.0<br />Sepal.Width: 3.2<br />Species: versicolor","Sepal.Length: 6.4<br />Sepal.Width: 3.2<br />Species: versicolor","Sepal.Length: 6.9<br />Sepal.Width: 3.1<br />Species: versicolor","Sepal.Length: 5.5<br />Sepal.Width: 2.3<br />Species: versicolor","Sepal.Length: 6.5<br />Sepal.Width: 2.8<br />Species: versicolor","Sepal.Length: 5.7<br />Sepal.Width: 2.8<br />Species: versicolor","Sepal.Length: 6.3<br />Sepal.Width: 3.3<br />Species: versicolor","Sepal.Length: 4.9<br />Sepal.Width: 2.4<br />Species: versicolor","Sepal.Length: 6.6<br />Sepal.Width: 2.9<br />Species: versicolor","Sepal.Length: 5.2<br />Sepal.Width: 2.7<br />Species: versicolor","Sepal.Length: 5.0<br />Sepal.Width: 2.0<br />Species: versicolor","Sepal.Length: 5.9<br />Sepal.Width: 3.0<br />Species: versicolor","Sepal.Length: 6.0<br />Sepal.Width: 2.2<br />Species: versicolor","Sepal.Length: 6.1<br />Sepal.Width: 2.9<br />Species: versicolor","Sepal.Length: 5.6<br />Sepal.Width: 2.9<br />Species: versicolor","Sepal.Length: 6.7<br />Sepal.Width: 3.1<br />Species: versicolor","Sepal.Length: 5.6<br />Sepal.Width: 3.0<br />Species: versicolor","Sepal.Length: 5.8<br />Sepal.Width: 2.7<br />Species: versicolor","Sepal.Length: 6.2<br />Sepal.Width: 2.2<br />Species: versicolor","Sepal.Length: 5.6<br />Sepal.Width: 2.5<br />Species: versicolor","Sepal.Length: 5.9<br />Sepal.Width: 3.2<br />Species: versicolor","Sepal.Length: 6.1<br />Sepal.Width: 2.8<br />Species: versicolor","Sepal.Length: 6.3<br />Sepal.Width: 2.5<br />Species: versicolor","Sepal.Length: 6.1<br />Sepal.Width: 2.8<br />Species: versicolor","Sepal.Length: 6.4<br />Sepal.Width: 2.9<br />Species: versicolor","Sepal.Length: 6.6<br />Sepal.Width: 3.0<br />Species: versicolor","Sepal.Length: 6.8<br />Sepal.Width: 2.8<br />Species: versicolor","Sepal.Length: 6.7<br />Sepal.Width: 3.0<br />Species: versicolor","Sepal.Length: 6.0<br />Sepal.Width: 2.9<br />Species: versicolor","Sepal.Length: 5.7<br />Sepal.Width: 2.6<br />Species: versicolor","Sepal.Length: 5.5<br />Sepal.Width: 2.4<br />Species: versicolor","Sepal.Length: 5.5<br />Sepal.Width: 2.4<br />Species: versicolor","Sepal.Length: 5.8<br />Sepal.Width: 2.7<br />Species: versicolor","Sepal.Length: 6.0<br />Sepal.Width: 2.7<br />Species: versicolor","Sepal.Length: 5.4<br />Sepal.Width: 3.0<br />Species: versicolor","Sepal.Length: 6.0<br />Sepal.Width: 3.4<br />Species: versicolor","Sepal.Length: 6.7<br />Sepal.Width: 3.1<br />Species: versicolor","Sepal.Length: 6.3<br />Sepal.Width: 2.3<br />Species: versicolor","Sepal.Length: 5.6<br />Sepal.Width: 3.0<br />Species: versicolor","Sepal.Length: 5.5<br />Sepal.Width: 2.5<br />Species: versicolor","Sepal.Length: 5.5<br />Sepal.Width: 2.6<br />Species: versicolor","Sepal.Length: 6.1<br />Sepal.Width: 3.0<br />Species: versicolor","Sepal.Length: 5.8<br />Sepal.Width: 2.6<br />Species: versicolor","Sepal.Length: 5.0<br />Sepal.Width: 2.3<br />Species: versicolor","Sepal.Length: 5.6<br />Sepal.Width: 2.7<br />Species: versicolor","Sepal.Length: 5.7<br />Sepal.Width: 3.0<br />Species: versicolor","Sepal.Length: 5.7<br />Sepal.Width: 2.9<br />Species: versicolor","Sepal.Length: 6.2<br />Sepal.Width: 2.9<br />Species: versicolor","Sepal.Length: 5.1<br />Sepal.Width: 2.5<br />Species: versicolor","Sepal.Length: 5.7<br />Sepal.Width: 2.8<br />Species: versicolor"],"type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(0,186,56,1)","opacity":1,"size":5.66929133858268,"symbol":"circle","line":{"width":1.88976377952756,"color":"rgba(0,186,56,1)"}},"hoveron":"points","name":"versicolor","legendgroup":"versicolor","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[6.3,5.8,7.1,6.3,6.5,7.6,4.9,7.3,6.7,7.2,6.5,6.4,6.8,5.7,5.8,6.4,6.5,7.7,7.7,6,6.9,5.6,7.7,6.3,6.7,7.2,6.2,6.1,6.4,7.2,7.4,7.9,6.4,6.3,6.1,7.7,6.3,6.4,6,6.9,6.7,6.9,5.8,6.8,6.7,6.7,6.3,6.5,6.2,5.9],"y":[3.3,2.7,3,2.9,3,3,2.5,2.9,2.5,3.6,3.2,2.7,3,2.5,2.8,3.2,3,3.8,2.6,2.2,3.2,2.8,2.8,2.7,3.3,3.2,2.8,3,2.8,3,2.8,3.8,2.8,2.8,2.6,3,3.4,3.1,3,3.1,3.1,3.1,2.7,3.2,3.3,3,2.5,3,3.4,3],"text":["Sepal.Length: 6.3<br />Sepal.Width: 3.3<br />Species: virginica","Sepal.Length: 5.8<br />Sepal.Width: 2.7<br />Species: virginica","Sepal.Length: 7.1<br />Sepal.Width: 3.0<br />Species: virginica","Sepal.Length: 6.3<br />Sepal.Width: 2.9<br />Species: virginica","Sepal.Length: 6.5<br />Sepal.Width: 3.0<br />Species: virginica","Sepal.Length: 7.6<br />Sepal.Width: 3.0<br />Species: virginica","Sepal.Length: 4.9<br />Sepal.Width: 2.5<br />Species: virginica","Sepal.Length: 7.3<br />Sepal.Width: 2.9<br />Species: virginica","Sepal.Length: 6.7<br />Sepal.Width: 2.5<br />Species: virginica","Sepal.Length: 7.2<br />Sepal.Width: 3.6<br />Species: virginica","Sepal.Length: 6.5<br />Sepal.Width: 3.2<br />Species: virginica","Sepal.Length: 6.4<br />Sepal.Width: 2.7<br />Species: virginica","Sepal.Length: 6.8<br />Sepal.Width: 3.0<br />Species: virginica","Sepal.Length: 5.7<br />Sepal.Width: 2.5<br />Species: virginica","Sepal.Length: 5.8<br />Sepal.Width: 2.8<br />Species: virginica","Sepal.Length: 6.4<br />Sepal.Width: 3.2<br />Species: virginica","Sepal.Length: 6.5<br />Sepal.Width: 3.0<br />Species: virginica","Sepal.Length: 7.7<br />Sepal.Width: 3.8<br />Species: virginica","Sepal.Length: 7.7<br />Sepal.Width: 2.6<br />Species: virginica","Sepal.Length: 6.0<br />Sepal.Width: 2.2<br />Species: virginica","Sepal.Length: 6.9<br />Sepal.Width: 3.2<br />Species: virginica","Sepal.Length: 5.6<br />Sepal.Width: 2.8<br />Species: virginica","Sepal.Length: 7.7<br />Sepal.Width: 2.8<br />Species: virginica","Sepal.Length: 6.3<br />Sepal.Width: 2.7<br />Species: virginica","Sepal.Length: 6.7<br />Sepal.Width: 3.3<br />Species: virginica","Sepal.Length: 7.2<br />Sepal.Width: 3.2<br />Species: virginica","Sepal.Length: 6.2<br />Sepal.Width: 2.8<br />Species: virginica","Sepal.Length: 6.1<br />Sepal.Width: 3.0<br />Species: virginica","Sepal.Length: 6.4<br />Sepal.Width: 2.8<br />Species: virginica","Sepal.Length: 7.2<br />Sepal.Width: 3.0<br />Species: virginica","Sepal.Length: 7.4<br />Sepal.Width: 2.8<br />Species: virginica","Sepal.Length: 7.9<br />Sepal.Width: 3.8<br />Species: virginica","Sepal.Length: 6.4<br />Sepal.Width: 2.8<br />Species: virginica","Sepal.Length: 6.3<br />Sepal.Width: 2.8<br />Species: virginica","Sepal.Length: 6.1<br />Sepal.Width: 2.6<br />Species: virginica","Sepal.Length: 7.7<br />Sepal.Width: 3.0<br />Species: virginica","Sepal.Length: 6.3<br />Sepal.Width: 3.4<br />Species: virginica","Sepal.Length: 6.4<br />Sepal.Width: 3.1<br />Species: virginica","Sepal.Length: 6.0<br />Sepal.Width: 3.0<br />Species: virginica","Sepal.Length: 6.9<br />Sepal.Width: 3.1<br />Species: virginica","Sepal.Length: 6.7<br />Sepal.Width: 3.1<br />Species: virginica","Sepal.Length: 6.9<br />Sepal.Width: 3.1<br />Species: virginica","Sepal.Length: 5.8<br />Sepal.Width: 2.7<br />Species: virginica","Sepal.Length: 6.8<br />Sepal.Width: 3.2<br />Species: virginica","Sepal.Length: 6.7<br />Sepal.Width: 3.3<br />Species: virginica","Sepal.Length: 6.7<br />Sepal.Width: 3.0<br />Species: virginica","Sepal.Length: 6.3<br />Sepal.Width: 2.5<br />Species: virginica","Sepal.Length: 6.5<br />Sepal.Width: 3.0<br />Species: virginica","Sepal.Length: 6.2<br />Sepal.Width: 3.4<br />Species: virginica","Sepal.Length: 5.9<br />Sepal.Width: 3.0<br />Species: virginica"],"type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(97,156,255,1)","opacity":1,"size":5.66929133858268,"symbol":"circle","line":{"width":1.88976377952756,"color":"rgba(97,156,255,1)"}},"hoveron":"points","name":"virginica","legendgroup":"virginica","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[5.1,4.9,4.7,4.6,5,5.4,4.6,5,4.4,4.9,5.4,4.8,4.8,4.3,5.8,5.7,5.4,5.1,5.7,5.1,5.4,5.1,4.6,5.1,4.8,5,5,5.2,5.2,4.7,4.8,5.4,5.2,5.5,4.9,5,5.5,4.9,4.4,5.1,5,4.5,4.4,5,5.1,4.8,5.1,4.6,5.3,5],"y":[3.5,3,3.2,3.1,3.6,3.9,3.4,3.4,2.9,3.1,3.7,3.4,3,3,4,4.4,3.9,3.5,3.8,3.8,3.4,3.7,3.6,3.3,3.4,3,3.4,3.5,3.4,3.2,3.1,3.4,4.1,4.2,3.1,3.2,3.5,3.6,3,3.4,3.5,2.3,3.2,3.5,3.8,3,3.8,3.2,3.7,3.3],"text":["Italy<br />Sepal.Length: 5.1<br />Sepal.Width: 3.5<br />Species: setosa","Italy<br />Sepal.Length: 4.9<br />Sepal.Width: 3.0<br />Species: setosa","UK<br />Sepal.Length: 4.7<br />Sepal.Width: 3.2<br />Species: setosa","UK<br />Sepal.Length: 4.6<br />Sepal.Width: 3.1<br />Species: setosa","UK<br />Sepal.Length: 5.0<br />Sepal.Width: 3.6<br />Species: setosa","France<br />Sepal.Length: 5.4<br />Sepal.Width: 3.9<br />Species: setosa","France<br />Sepal.Length: 4.6<br />Sepal.Width: 3.4<br />Species: setosa","France<br />Sepal.Length: 5.0<br />Sepal.Width: 3.4<br />Species: setosa","France<br />Sepal.Length: 4.4<br />Sepal.Width: 2.9<br />Species: setosa","Italy<br />Sepal.Length: 4.9<br />Sepal.Width: 3.1<br />Species: setosa","Spain<br />Sepal.Length: 5.4<br />Sepal.Width: 3.7<br />Species: setosa","UK<br />Sepal.Length: 4.8<br />Sepal.Width: 3.4<br />Species: setosa","France<br />Sepal.Length: 4.8<br />Sepal.Width: 3.0<br />Species: setosa","Spain<br />Sepal.Length: 4.3<br />Sepal.Width: 3.0<br />Species: setosa","Italy<br />Sepal.Length: 5.8<br />Sepal.Width: 4.0<br />Species: setosa","UK<br />Sepal.Length: 5.7<br />Sepal.Width: 4.4<br />Species: setosa","Spain<br />Sepal.Length: 5.4<br />Sepal.Width: 3.9<br />Species: setosa","France<br />Sepal.Length: 5.1<br />Sepal.Width: 3.5<br />Species: setosa","UK<br />Sepal.Length: 5.7<br />Sepal.Width: 3.8<br />Species: setosa","Italy<br />Sepal.Length: 5.1<br />Sepal.Width: 3.8<br />Species: setosa","Spain<br />Sepal.Length: 5.4<br />Sepal.Width: 3.4<br />Species: setosa","Italy<br />Sepal.Length: 5.1<br />Sepal.Width: 3.7<br />Species: setosa","UK<br />Sepal.Length: 4.6<br />Sepal.Width: 3.6<br />Species: setosa","France<br />Sepal.Length: 5.1<br />Sepal.Width: 3.3<br />Species: setosa","Spain<br />Sepal.Length: 4.8<br />Sepal.Width: 3.4<br />Species: setosa","Italy<br />Sepal.Length: 5.0<br />Sepal.Width: 3.0<br />Species: setosa","Italy<br />Sepal.Length: 5.0<br />Sepal.Width: 3.4<br />Species: setosa","Italy<br />Sepal.Length: 5.2<br />Sepal.Width: 3.5<br />Species: setosa","Italy<br />Sepal.Length: 5.2<br />Sepal.Width: 3.4<br />Species: setosa","Italy<br />Sepal.Length: 4.7<br />Sepal.Width: 3.2<br />Species: setosa","Italy<br />Sepal.Length: 4.8<br />Sepal.Width: 3.1<br />Species: setosa","Spain<br />Sepal.Length: 5.4<br />Sepal.Width: 3.4<br />Species: setosa","France<br />Sepal.Length: 5.2<br />Sepal.Width: 4.1<br />Species: setosa","Italy<br />Sepal.Length: 5.5<br />Sepal.Width: 4.2<br />Species: setosa","France<br />Sepal.Length: 4.9<br />Sepal.Width: 3.1<br />Species: setosa","UK<br />Sepal.Length: 5.0<br />Sepal.Width: 3.2<br />Species: setosa","Spain<br />Sepal.Length: 5.5<br />Sepal.Width: 3.5<br />Species: setosa","Spain<br />Sepal.Length: 4.9<br />Sepal.Width: 3.6<br />Species: setosa","Spain<br />Sepal.Length: 4.4<br />Sepal.Width: 3.0<br />Species: setosa","France<br />Sepal.Length: 5.1<br />Sepal.Width: 3.4<br />Species: setosa","France<br />Sepal.Length: 5.0<br />Sepal.Width: 3.5<br />Species: setosa","France<br />Sepal.Length: 4.5<br />Sepal.Width: 2.3<br />Species: setosa","France<br />Sepal.Length: 4.4<br />Sepal.Width: 3.2<br />Species: setosa","UK<br />Sepal.Length: 5.0<br />Sepal.Width: 3.5<br />Species: setosa","Italy<br />Sepal.Length: 5.1<br />Sepal.Width: 3.8<br />Species: setosa","Spain<br />Sepal.Length: 4.8<br />Sepal.Width: 3.0<br />Species: setosa","UK<br />Sepal.Length: 5.1<br />Sepal.Width: 3.8<br />Species: setosa","Spain<br />Sepal.Length: 4.6<br />Sepal.Width: 3.2<br />Species: setosa","UK<br />Sepal.Length: 5.3<br />Sepal.Width: 3.7<br />Species: setosa","France<br />Sepal.Length: 5.0<br />Sepal.Width: 3.3<br />Species: setosa"],"type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(248,118,109,1)","opacity":1,"size":5.66929133858268,"symbol":"circle","line":{"width":1.88976377952756,"color":"rgba(248,118,109,1)"}},"hoveron":"points","name":"setosa","legendgroup":"setosa","showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[7,6.4,6.9,5.5,6.5,5.7,6.3,4.9,6.6,5.2,5,5.9,6,6.1,5.6,6.7,5.6,5.8,6.2,5.6,5.9,6.1,6.3,6.1,6.4,6.6,6.8,6.7,6,5.7,5.5,5.5,5.8,6,5.4,6,6.7,6.3,5.6,5.5,5.5,6.1,5.8,5,5.6,5.7,5.7,6.2,5.1,5.7],"y":[3.2,3.2,3.1,2.3,2.8,2.8,3.3,2.4,2.9,2.7,2,3,2.2,2.9,2.9,3.1,3,2.7,2.2,2.5,3.2,2.8,2.5,2.8,2.9,3,2.8,3,2.9,2.6,2.4,2.4,2.7,2.7,3,3.4,3.1,2.3,3,2.5,2.6,3,2.6,2.3,2.7,3,2.9,2.9,2.5,2.8],"text":["UK<br />Sepal.Length: 7.0<br />Sepal.Width: 3.2<br />Species: versicolor","Italy<br />Sepal.Length: 6.4<br />Sepal.Width: 3.2<br />Species: versicolor","UK<br />Sepal.Length: 6.9<br />Sepal.Width: 3.1<br />Species: versicolor","France<br />Sepal.Length: 5.5<br />Sepal.Width: 2.3<br />Species: versicolor","France<br />Sepal.Length: 6.5<br />Sepal.Width: 2.8<br />Species: versicolor","Italy<br />Sepal.Length: 5.7<br />Sepal.Width: 2.8<br />Species: versicolor","Italy<br />Sepal.Length: 6.3<br />Sepal.Width: 3.3<br />Species: versicolor","UK<br />Sepal.Length: 4.9<br />Sepal.Width: 2.4<br />Species: versicolor","UK<br />Sepal.Length: 6.6<br />Sepal.Width: 2.9<br />Species: versicolor","UK<br />Sepal.Length: 5.2<br />Sepal.Width: 2.7<br />Species: versicolor","UK<br />Sepal.Length: 5.0<br />Sepal.Width: 2.0<br />Species: versicolor","France<br />Sepal.Length: 5.9<br />Sepal.Width: 3.0<br />Species: versicolor","France<br />Sepal.Length: 6.0<br />Sepal.Width: 2.2<br />Species: versicolor","UK<br />Sepal.Length: 6.1<br />Sepal.Width: 2.9<br />Species: versicolor","Spain<br />Sepal.Length: 5.6<br />Sepal.Width: 2.9<br />Species: versicolor","Italy<br />Sepal.Length: 6.7<br />Sepal.Width: 3.1<br />Species: versicolor","Spain<br />Sepal.Length: 5.6<br />Sepal.Width: 3.0<br />Species: versicolor","Spain<br />Sepal.Length: 5.8<br />Sepal.Width: 2.7<br />Species: versicolor","UK<br />Sepal.Length: 6.2<br />Sepal.Width: 2.2<br />Species: versicolor","UK<br />Sepal.Length: 5.6<br />Sepal.Width: 2.5<br />Species: versicolor","UK<br />Sepal.Length: 5.9<br />Sepal.Width: 3.2<br />Species: versicolor","UK<br />Sepal.Length: 6.1<br />Sepal.Width: 2.8<br />Species: versicolor","France<br />Sepal.Length: 6.3<br />Sepal.Width: 2.5<br />Species: versicolor","Spain<br />Sepal.Length: 6.1<br />Sepal.Width: 2.8<br />Species: versicolor","Spain<br />Sepal.Length: 6.4<br />Sepal.Width: 2.9<br />Species: versicolor","France<br />Sepal.Length: 6.6<br />Sepal.Width: 3.0<br />Species: versicolor","Italy<br />Sepal.Length: 6.8<br />Sepal.Width: 2.8<br />Species: versicolor","UK<br />Sepal.Length: 6.7<br />Sepal.Width: 3.0<br />Species: versicolor","UK<br />Sepal.Length: 6.0<br />Sepal.Width: 2.9<br />Species: versicolor","Spain<br />Sepal.Length: 5.7<br />Sepal.Width: 2.6<br />Species: versicolor","France<br />Sepal.Length: 5.5<br />Sepal.Width: 2.4<br />Species: versicolor","France<br />Sepal.Length: 5.5<br />Sepal.Width: 2.4<br />Species: versicolor","Italy<br />Sepal.Length: 5.8<br />Sepal.Width: 2.7<br />Species: versicolor","Spain<br />Sepal.Length: 6.0<br />Sepal.Width: 2.7<br />Species: versicolor","Italy<br />Sepal.Length: 5.4<br />Sepal.Width: 3.0<br />Species: versicolor","France<br />Sepal.Length: 6.0<br />Sepal.Width: 3.4<br />Species: versicolor","France<br />Sepal.Length: 6.7<br />Sepal.Width: 3.1<br />Species: versicolor","Spain<br />Sepal.Length: 6.3<br />Sepal.Width: 2.3<br />Species: versicolor","Spain<br />Sepal.Length: 5.6<br />Sepal.Width: 3.0<br />Species: versicolor","UK<br />Sepal.Length: 5.5<br />Sepal.Width: 2.5<br />Species: versicolor","France<br />Sepal.Length: 5.5<br />Sepal.Width: 2.6<br />Species: versicolor","Italy<br />Sepal.Length: 6.1<br />Sepal.Width: 3.0<br />Species: versicolor","Italy<br />Sepal.Length: 5.8<br />Sepal.Width: 2.6<br />Species: versicolor","UK<br />Sepal.Length: 5.0<br />Sepal.Width: 2.3<br />Species: versicolor","Italy<br />Sepal.Length: 5.6<br />Sepal.Width: 2.7<br />Species: versicolor","Italy<br />Sepal.Length: 5.7<br />Sepal.Width: 3.0<br />Species: versicolor","UK<br />Sepal.Length: 5.7<br />Sepal.Width: 2.9<br />Species: versicolor","Spain<br />Sepal.Length: 6.2<br />Sepal.Width: 2.9<br />Species: versicolor","France<br />Sepal.Length: 5.1<br />Sepal.Width: 2.5<br />Species: versicolor","France<br />Sepal.Length: 5.7<br />Sepal.Width: 2.8<br />Species: versicolor"],"type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(0,186,56,1)","opacity":1,"size":5.66929133858268,"symbol":"circle","line":{"width":1.88976377952756,"color":"rgba(0,186,56,1)"}},"hoveron":"points","name":"versicolor","legendgroup":"versicolor","showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[6.3,5.8,7.1,6.3,6.5,7.6,4.9,7.3,6.7,7.2,6.5,6.4,6.8,5.7,5.8,6.4,6.5,7.7,7.7,6,6.9,5.6,7.7,6.3,6.7,7.2,6.2,6.1,6.4,7.2,7.4,7.9,6.4,6.3,6.1,7.7,6.3,6.4,6,6.9,6.7,6.9,5.8,6.8,6.7,6.7,6.3,6.5,6.2,5.9],"y":[3.3,2.7,3,2.9,3,3,2.5,2.9,2.5,3.6,3.2,2.7,3,2.5,2.8,3.2,3,3.8,2.6,2.2,3.2,2.8,2.8,2.7,3.3,3.2,2.8,3,2.8,3,2.8,3.8,2.8,2.8,2.6,3,3.4,3.1,3,3.1,3.1,3.1,2.7,3.2,3.3,3,2.5,3,3.4,3],"text":["UK<br />Sepal.Length: 6.3<br />Sepal.Width: 3.3<br />Species: virginica","Italy<br />Sepal.Length: 5.8<br />Sepal.Width: 2.7<br />Species: virginica","UK<br />Sepal.Length: 7.1<br />Sepal.Width: 3.0<br />Species: virginica","Italy<br />Sepal.Length: 6.3<br />Sepal.Width: 2.9<br />Species: virginica","UK<br />Sepal.Length: 6.5<br />Sepal.Width: 3.0<br />Species: virginica","Spain<br />Sepal.Length: 7.6<br />Sepal.Width: 3.0<br />Species: virginica","France<br />Sepal.Length: 4.9<br />Sepal.Width: 2.5<br />Species: virginica","Spain<br />Sepal.Length: 7.3<br />Sepal.Width: 2.9<br />Species: virginica","Spain<br />Sepal.Length: 6.7<br />Sepal.Width: 2.5<br />Species: virginica","Italy<br />Sepal.Length: 7.2<br />Sepal.Width: 3.6<br />Species: virginica","UK<br />Sepal.Length: 6.5<br />Sepal.Width: 3.2<br />Species: virginica","UK<br />Sepal.Length: 6.4<br />Sepal.Width: 2.7<br />Species: virginica","UK<br />Sepal.Length: 6.8<br />Sepal.Width: 3.0<br />Species: virginica","UK<br />Sepal.Length: 5.7<br />Sepal.Width: 2.5<br />Species: virginica","UK<br />Sepal.Length: 5.8<br />Sepal.Width: 2.8<br />Species: virginica","Spain<br />Sepal.Length: 6.4<br />Sepal.Width: 3.2<br />Species: virginica","Spain<br />Sepal.Length: 6.5<br />Sepal.Width: 3.0<br />Species: virginica","Spain<br />Sepal.Length: 7.7<br />Sepal.Width: 3.8<br />Species: virginica","Spain<br />Sepal.Length: 7.7<br />Sepal.Width: 2.6<br />Species: virginica","France<br />Sepal.Length: 6.0<br />Sepal.Width: 2.2<br />Species: virginica","Spain<br />Sepal.Length: 6.9<br />Sepal.Width: 3.2<br />Species: virginica","France<br />Sepal.Length: 5.6<br />Sepal.Width: 2.8<br />Species: virginica","Spain<br />Sepal.Length: 7.7<br />Sepal.Width: 2.8<br />Species: virginica","France<br />Sepal.Length: 6.3<br />Sepal.Width: 2.7<br />Species: virginica","Italy<br />Sepal.Length: 6.7<br />Sepal.Width: 3.3<br />Species: virginica","Italy<br />Sepal.Length: 7.2<br />Sepal.Width: 3.2<br />Species: virginica","Spain<br />Sepal.Length: 6.2<br />Sepal.Width: 2.8<br />Species: virginica","Spain<br />Sepal.Length: 6.1<br />Sepal.Width: 3.0<br />Species: virginica","Italy<br />Sepal.Length: 6.4<br />Sepal.Width: 2.8<br />Species: virginica","Spain<br />Sepal.Length: 7.2<br />Sepal.Width: 3.0<br />Species: virginica","Italy<br />Sepal.Length: 7.4<br />Sepal.Width: 2.8<br />Species: virginica","UK<br />Sepal.Length: 7.9<br />Sepal.Width: 3.8<br />Species: virginica","Spain<br />Sepal.Length: 6.4<br />Sepal.Width: 2.8<br />Species: virginica","France<br />Sepal.Length: 6.3<br />Sepal.Width: 2.8<br />Species: virginica","Italy<br />Sepal.Length: 6.1<br />Sepal.Width: 2.6<br />Species: virginica","Spain<br />Sepal.Length: 7.7<br />Sepal.Width: 3.0<br />Species: virginica","Italy<br />Sepal.Length: 6.3<br />Sepal.Width: 3.4<br />Species: virginica","France<br />Sepal.Length: 6.4<br />Sepal.Width: 3.1<br />Species: virginica","UK<br />Sepal.Length: 6.0<br />Sepal.Width: 3.0<br />Species: virginica","UK<br />Sepal.Length: 6.9<br />Sepal.Width: 3.1<br />Species: virginica","UK<br />Sepal.Length: 6.7<br />Sepal.Width: 3.1<br />Species: virginica","Spain<br />Sepal.Length: 6.9<br />Sepal.Width: 3.1<br />Species: virginica","UK<br />Sepal.Length: 5.8<br />Sepal.Width: 2.7<br />Species: virginica","Italy<br />Sepal.Length: 6.8<br />Sepal.Width: 3.2<br />Species: virginica","Italy<br />Sepal.Length: 6.7<br />Sepal.Width: 3.3<br />Species: virginica","Italy<br />Sepal.Length: 6.7<br />Sepal.Width: 3.0<br />Species: virginica","Spain<br />Sepal.Length: 6.3<br />Sepal.Width: 2.5<br />Species: virginica","UK<br />Sepal.Length: 6.5<br />Sepal.Width: 3.0<br />Species: virginica","France<br />Sepal.Length: 6.2<br />Sepal.Width: 3.4<br />Species: virginica","Spain<br />Sepal.Length: 5.9<br />Sepal.Width: 3.0<br />Species: virginica"],"type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(97,156,255,1)","opacity":1,"size":5.66929133858268,"symbol":"circle","line":{"width":1.88976377952756,"color":"rgba(97,156,255,1)"}},"hoveron":"points","name":"virginica","legendgroup":"virginica","showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":26.2283105022831,"r":7.30593607305936,"b":40.1826484018265,"l":43.1050228310502},"plot_bgcolor":"rgba(255,255,255,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[4.12,8.08],"tickmode":"array","ticktext":["5","6","7","8"],"tickvals":[5,6,7,8],"categoryorder":"array","categoryarray":["5","6","7","8"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"y","title":{"text":"Sepal.Length","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[1.88,4.52],"tickmode":"array","ticktext":["2.0","2.5","3.0","3.5","4.0","4.5"],"tickvals":[2,2.5,3,3.5,4,4.5],"categoryorder":"array","categoryarray":["2.0","2.5","3.0","3.5","4.0","4.5"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"x","title":{"text":"Sepal.Width","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":"transparent","line":{"color":"rgba(51,51,51,1)","width":0.66417600664176,"linetype":"solid"},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":true,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.88976377952756,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.689497716895},"y":0.96751968503937},"annotations":[{"text":"Species","x":1.02,"y":1,"showarrow":false,"ax":0,"ay":0,"font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"xref":"paper","yref":"paper","textangle":-0,"xanchor":"left","yanchor":"bottom","legendTitle":true}],"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","showSendToCloud":false},"source":"A","attrs":{"6057283a5da":{"x":{},"y":{},"colour":{},"type":"scatter"},"60575af4ef51":{"text":{},"x":{},"y":{},"colour":{}}},"cur_data":"6057283a5da","visdat":{"6057283a5da":["function (y) ","x"],"60575af4ef51":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<div id="creating-detailed-graphics-with-ggpubr" class="section level2">
+<h2>Creating detailed graphics with ggpubr</h2>
+<p>The <strong>ggpubr</strong> package provides wrapper functions for ggplot that make it easier to generate complex, publication ready graphics. It includes functions for running statistical tests and displaying the results in the plot. After using ggpubr, you will need to reset your theme with <code>theme_set()</code>.</p>
+<pre class="r"><code># Violin plots with box plots inside
+data(&quot;ToothGrowth&quot;)
+df &lt;- ToothGrowth
+
+my_comparisons &lt;- list( c(&quot;0.5&quot;, &quot;1&quot;), c(&quot;1&quot;, &quot;2&quot;), c(&quot;0.5&quot;, &quot;2&quot;) )
+
+ggviolin(df, x = &quot;dose&quot;, y = &quot;len&quot;, fill = &quot;dose&quot;,
+         palette = c(&quot;#00AFBB&quot;, &quot;#E7B800&quot;, &quot;#FC4E07&quot;),
+         add = &quot;boxplot&quot;, add.params = list(fill = &quot;white&quot;))+
+  stat_compare_means(comparisons = my_comparisons, label = &quot;p.signif&quot;)+ # Add significance levels
+  stat_compare_means(label.y = 50)                                      # Add global the p-value </code></pre>
+<p><img src="ggplot2_files/figure-html/unnamed-chunk-88-1.png" width="672" /></p>
+<pre class="r"><code>library(cowplot) 
+# Main plot
+pmain &lt;- ggplot(iris, aes(x = Sepal.Length, y = Sepal.Width, color = Species))+
+  geom_point()+
+  ggpubr::color_palette(&quot;jco&quot;)
+# Marginal densities along x axis
+xdens &lt;- axis_canvas(pmain, axis = &quot;x&quot;)+
+  geom_density(data = iris, aes(x = Sepal.Length, fill = Species),
+              alpha = 0.7, size = 0.2)+
+  ggpubr::fill_palette(&quot;jco&quot;)
+# Marginal densities along y axis
+# Need to set coord_flip = TRUE, if you plan to use coord_flip()
+ydens &lt;- axis_canvas(pmain, axis = &quot;y&quot;, coord_flip = TRUE)+
+  geom_density(data = iris, aes(x = Sepal.Width, fill = Species),
+                alpha = 0.7, size = 0.2)+
+  coord_flip()+
+  ggpubr::fill_palette(&quot;jco&quot;)
+p1 &lt;- insert_xaxis_grob(pmain, xdens, grid::unit(.2, &quot;null&quot;), position = &quot;top&quot;)
+p2&lt;- insert_yaxis_grob(p1, ydens, grid::unit(.2, &quot;null&quot;), position = &quot;right&quot;)
+ggdraw(p2)</code></pre>
+<p><img src="ggplot2_files/figure-html/unnamed-chunk-89-1.png" width="672" /></p>
+<blockquote>
+<h3 id="challenge-7">Challenge</h3>
+<p>Spend the remaining time playing around with the different ggplot options and see if you can create an interesting and appealing visualisation with a dataset of your choice. Use the ggplot cheatsheet or the <a href="https://www.r-graph-gallery.com/index.html">R graph gallery</a> for inspiration!</p>
+</blockquote>
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
