@@ -8,8 +8,8 @@ navbar:
       href: basic_workflow.html
     - text: "Getting Sophisticated"
       href: getting_sophisticated.html
-    - text: "Your Turn"
-      href: your_turn.html
+    - text: "GGPlot2"
+      href: ggplot2.html
 output_dir: "."
 output:
   html_document:
