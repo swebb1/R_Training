@@ -22,7 +22,7 @@ The **`tidyverse`** is actually a suite of packages that includes libraries such
 
 There are [cheatsheets](https://rstudio.com/resources/cheatsheets/) available for many tidyverse and rstudio packages that will help you to choose the correct functions.
 
-![](../fig/tidyvere.png)
+![](Pictures/tidy.png)
 
 For more information take a look at these [slides](https://drive.google.com/open?id=181oNGmKKxyx3XUDvYFgxtGj4aQjCguW0LRb3r0UIviM) or the [www.tidyverse.org](www.tidyverse.org)
 

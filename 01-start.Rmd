@@ -11,32 +11,33 @@ keypoints:
 output: 
   html_document:
     df_print: paged
+    css: "style.css"
 ---
+
+<head>
+<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+</head>
+
 
 ```{r global_options, include=FALSE}
 knitr::opts_chunk$set(warning=FALSE, message=FALSE)
-source("../bin/chunk-options.R")
-knitr_fig_path("01-")
 ```
 
 <br>
-We recommend using [RStudio](https://rstudio.com/) for this workshop. [RStudio](https://www.rstudio.com/) is an Integrated Development Environment (IDE) for R. It can be accessed in several ways:
-
-* Sign in to Rstudio on the bifx servers
-  + [bifx-cli](bifx-cli.bio.ed.ac.uk:8787) (RStudio)
-  + [bifx-core2](bifx-core2.bio.ed.ac.uk:8787) (RStudio Pro - UoE Network only)
-* Download [RStudio](https://rstudio.com/) and install it on your own computer.
+We recommend using [RStudio](https://rstudio.com/) for this workshop. [RStudio](https://www.rstudio.com/) is an Integrated Development Environment (IDE) for R. It can be accessed in several ways. Download [RStudio](https://rstudio.com/) and install it on your own computer.
 
 ## Using RStudio
 
-The are 4 main panes, each may have several tabs 
+<div class = "row">
+<div class = "col-md-6">
+The are 4 main panes, each with several tabs: 
 
 * **Console** (bottom left)
     + Here you can type commands into R 
     + Additional tabs may include a terminal and script outputs
 * **Editor** (top left)
     + Open and view files
-    + Can include raw scripts or markdown 
+    + These can be raw txt, scripts or markdown 
 * **Environment** (top right)
     + Objects you have stored
     + Commands you have typed
@@ -46,6 +47,11 @@ The are 4 main panes, each may have several tabs
     + Output from plots 
     + Packages available
     + Help pages 
+</div>
+<div class = "col-md-6">
+![](Pictures/tidy.png)
+</div>
+</div>
 
 ###  Setting up a new project
 
@@ -75,12 +81,15 @@ In the console you should always see a '>' prompt, if you can't see this R may s
 
 Using **R Markdown** is a great way to annotate your code and present it at the end. It's worth learning but will add a further level of complication for novice users.
 
-> ## How to follow this tutorial
-> * Create a new project in RStudio
-> * Open a new R script (or R markdown file for advanced users)
-> * It will be best to work with the tutorial and RStudio open together so you can easily switch between the two. Working on a wide split-screen should be the best setup.
-> * I recommend typing out commands rather than copy-and-pasting if you want to learn!
-{: .callout}
+<div class="key-points">
+<h2><i class="icon-camera-retro icon-2x"></i> How to follow this tutorial</h2>
+##
+ * Create a new project in RStudio
+ * Open a new R script (or R markdown file for advanced users)
+ * It will be best to work with the tutorial and RStudio open together so you can easily switch between the two. Working on a wide split-screen should be the best setup.
+ * I recommend typing out commands rather than copy-and-pasting if you want to learn!
+</div>
+<br>
 
 ## Library Install and Usage
 
