@@ -91,6 +91,21 @@ Using **R Markdown** is a great way to annotate your code and present it at the 
 </div>
 <br>
 
+<div class="challenge">
+<h2><i class="icon-camera-retro icon-2x"></i> Challenge 1:</h2>
+What is a fish?
+<div class="solution">
+<details>
+<summary>**Solutions**</summary>
+```{r, answer=TRUE, eval=TRUE, purl=FALSE}
+mtcars$mpg[1]
+```
+</details>
+</div>
+</div>
+<br>
+
+
 ## Library Install and Usage
 
 Libraries provide additional functions in R and can be downloaded from several sources:
