@@ -13,6 +13,7 @@ keypoints:
 output:
   html_document:
     df_print: paged
+    css: "style.css"
 ---
 
 ```{r global_options, include=FALSE}

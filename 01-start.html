@@ -371,6 +371,29 @@ $(document).ready(function () {
 <p><strong>Hint:</strong> When using the console, the Up/Down arrow keys can be use to cycle through previous commands. You can also use the <kbd>Tab</kbd> key to autocomplete names of functions and objects.</p>
 <p>In the console you should always see a '&gt;' prompt, if you can't see this R may still be working. There is a red Stop light at the top right of the console when a command is running. If you see a <code>+</code> instead, R is waiting for more input. Sometimes this means you have forgotten to close a bracket or quotation.</p>
 <p>Using <strong>R Markdown</strong> is a great way to annotate your code and present it at the end. It's worth learning but will add a further level of complication for novice users.</p>
+</div>
+<div id="installing-libraries" class="section level2">
+<h2>Installing libraries</h2>
+<p>Libraries provide additional functions in R and can be downloaded from several sources:</p>
+<ul>
+<li><a href="https://cran.r-project.org/">CRAN</a> is the Comprehensive R Archive Network and hosts the majority of generic R packages.</li>
+<li><a href="https://www.bioconductor.org/">Bioconductor</a> is a repository of biology specific packages.</li>
+<li>Third party tools are often hosted on <a href="https://www.github.com">github</a>.</li>
+</ul>
+<p>Install the packages we need for these lesssons by running the code below in the R console:</p>
+<pre class="r"><code>#install from CRAN with install.packages()
+install.packages(c(&quot;ggplot2&quot;, &quot;ggthemes&quot;, &quot;plotly&quot;,&quot;ggpubr&quot;, &quot;ggrepel&quot;,&quot;viridis&quot;,&quot;RColorBrewer&quot;,&quot;ggsci&quot;,&quot;tidyverse&quot;))
+
+#install from bioconductor with BiocManager
+if (!requireNamespace(&quot;BiocManager&quot;, quietly = TRUE))
+    install.packages(&quot;BiocManager&quot;)
+BiocManager::install(&quot;DESeq2&quot;,&quot;genomation&quot;)
+
+#install from github with the devtools package
+install.packages(&quot;devtools&quot;)
+devtools::install_github(&quot;thomasp85/patchwork&quot;)</code></pre>
+<p>To load a specific package within an R session, use the &quot;library&quot; function:</p>
+<pre class="r"><code>library(tidyverse)</code></pre>
 <div class="key-points">
 <h2>
 <i class="icon-camera-retro icon-2x"></i> How to follow this tutorial
@@ -386,40 +409,20 @@ $(document).ready(function () {
 <p><br></p>
 <div class="challenge">
 <h2>
-<i class="icon-camera-retro icon-2x"></i> Challenge 1:
+<i class="icon-pencil icon-2x"></i> Challenge:
 </h2>
 What is a fish?
 <div class="solution">
-<p><details> <summary><strong>Answer</strong></summary></p>
+<h2>
+<i class="fa-eye icon-2x"></i> Solution:
+</h2>
+<p><details> <summary></summary></p>
 <pre class="r"><code>mtcars$mpg[1]</code></pre>
 <pre><code>## [1] 21</code></pre>
 <p></details></p>
 </div>
 </div>
 <p><br></p>
-</div>
-<div id="library-install-and-usage" class="section level2">
-<h2>Library Install and Usage</h2>
-<p>Libraries provide additional functions in R and can be downloaded from several sources:</p>
-<ul>
-<li><a href="https://cran.r-project.org/">CRAN</a> is the Comprehensive R Archive Network and hosts the majority of generic R packages.</li>
-<li><a href="https://www.bioconductor.org/">Bioconductor</a> is a repository of biology specific packages.</li>
-<li>Third party tools are often hosted on <a href="https://www.github.com">github</a>.</li>
-</ul>
-<p>Here are all of the packages we require for these lesssons:</p>
-<pre class="r"><code>#install from CRAN with install.packages()
-install.packages(c(&quot;ggplot2&quot;, &quot;ggthemes&quot;, &quot;plotly&quot;,&quot;ggpubr&quot;, &quot;ggrepel&quot;,&quot;viridis&quot;,&quot;RColorBrewer&quot;,&quot;ggsci&quot;,&quot;tidyverse&quot;))
-
-#install from bioconductor with BiocManager
-if (!requireNamespace(&quot;BiocManager&quot;, quietly = TRUE))
-    install.packages(&quot;BiocManager&quot;)
-BiocManager::install(&quot;DESeq2&quot;,&quot;genomation&quot;)
-
-#install from github with the devtools package
-install.packages(&quot;devtools&quot;)
-devtools::install_github(&quot;thomasp85/patchwork&quot;)</code></pre>
-<p>To load a specific package within an R session, use the &quot;library&quot; function:</p>
-<pre class="r"><code>library(tidyverse)</code></pre>
 </div>
 
 
