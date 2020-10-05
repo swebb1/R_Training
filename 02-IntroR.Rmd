@@ -17,9 +17,9 @@ output:
 knitr::opts_chunk$set(warning=FALSE, message=FALSE)
 ```
 
-<br>
-[R](http://www.r-project.org/) is an extremely powerful programming language for working with datasets, applying statistics and creating publication ready graphics. In this lesson you will learn how to program in R and use the RStudio environment. We will cover the basics of the R syntax using built in packages (base R), as well as importing data, creating simple graphics and running statistical tests. We will also introduce some of the extended libraries that make R the first choice for analysing genomic data.
+----
 
+##
 <div class="objectives">
 <h2><i class="far fa-check-square"></i> Learning Objectives</h2>
  * Understand how to use functions in *base R*
@@ -30,14 +30,18 @@ knitr::opts_chunk$set(warning=FALSE, message=FALSE)
 </div>
 <br>
 
-## Advantages of R
+## What is R?
+
+[R](http://www.r-project.org/) is an extremely powerful programming language for working with datasets, applying statistics and creating publication ready graphics. In this lesson you will learn how to program in R and use the RStudio environment. We will cover the basics of the R syntax using built in packages (base R), as well as importing data, creating simple graphics and running statistical tests.
+
+## Why should you use R?
 
 * **Free!**
 * **Powerful**, many libraries have been created to perform application specific tasks. e.g. Next-Gen sequencing (bioconductor).
 * Packages available for storing, manipulating and visualising data in a sensible fashion (Tidyverse)
 * Presentation quality graphics
     + Save as a png, pdf or svg
-* History
+* Persistent data analysis history
     + Your R commands and analysis can be saved for reproducible and persistent analysis.
     + Create automated scripts to perform again and again on different datasets.
 * [RStudio](https://www.rstudio.com/) provides an interactive environment for working in R.
@@ -323,6 +327,7 @@ subset(mydata,mydata$C==3)
 ```
 
 However, we will see later on that the `tidyverse` packages have their own set of functions for filtering datasets.
+<br>
 
 ## Plotting with R
 

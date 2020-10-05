@@ -309,7 +309,9 @@ $(document).ready(function () {
 <head>
 <script src="https://kit.fontawesome.com/ece750edd7.js" crossorigin="anonymous"></script>
 </head>
-<p><br> <a href="http://www.r-project.org/">R</a> is an extremely powerful programming language for working with datasets, applying statistics and creating publication ready graphics. In this lesson you will learn how to program in R and use the RStudio environment. We will cover the basics of the R syntax using built in packages (base R), as well as importing data, creating simple graphics and running statistical tests. We will also introduce some of the extended libraries that make R the first choice for analysing genomic data.</p>
+<hr />
+<div id="section" class="section level2">
+<h2></h2>
 <div class="objectives">
 <h2>
 <i class="far fa-check-square"></i> Learning Objectives
@@ -323,8 +325,13 @@ $(document).ready(function () {
 </ul>
 </div>
 <p><br></p>
-<div id="advantages-of-r" class="section level2">
-<h2>Advantages of R</h2>
+</div>
+<div id="what-is-r" class="section level2">
+<h2>What is R?</h2>
+<p><a href="http://www.r-project.org/">R</a> is an extremely powerful programming language for working with datasets, applying statistics and creating publication ready graphics. In this lesson you will learn how to program in R and use the RStudio environment. We will cover the basics of the R syntax using built in packages (base R), as well as importing data, creating simple graphics and running statistical tests.</p>
+</div>
+<div id="why-should-you-use-r" class="section level2">
+<h2>Why should you use R?</h2>
 <ul>
 <li><strong>Free!</strong></li>
 <li><strong>Powerful</strong>, many libraries have been created to perform application specific tasks. e.g. Next-Gen sequencing (bioconductor).</li>
@@ -333,7 +340,7 @@ $(document).ready(function () {
 <ul>
 <li>Save as a png, pdf or svg</li>
 </ul></li>
-<li>History
+<li>Persistent data analysis history
 <ul>
 <li>Your R commands and analysis can be saved for reproducible and persistent analysis.</li>
 <li>Create automated scripts to perform again and again on different datasets.</li>
@@ -603,7 +610,7 @@ mydata[mydata$B&gt;7,]</code></pre>
 {"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["A"],"name":[1],"type":["int"],"align":["right"]},{"label":["B"],"name":[2],"type":["int"],"align":["right"]},{"label":["C"],"name":[3],"type":["int"],"align":["right"]},{"label":["D"],"name":[4],"type":["int"],"align":["right"]},{"label":["E"],"name":[5],"type":["int"],"align":["right"]}],"data":[{"1":"6","2":"9","3":"3","4":"5","5":"6","_rn_":"22"},{"1":"6","2":"9","3":"3","4":"5","5":"6","_rn_":"23"},{"1":"6","2":"9","3":"3","4":"6","5":"6","_rn_":"24"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
-<p>However, we will see later on that the <code>tidyverse</code> packages have their own set of functions for filtering datasets.</p>
+<p>However, we will see later on that the <code>tidyverse</code> packages have their own set of functions for filtering datasets. <br></p>
 </div>
 <div id="plotting-with-r" class="section level2">
 <h2>Plotting with R</h2>
@@ -977,7 +984,7 @@ rabbits &lt;- data.frame(
 <h2>
 <i class="fas fa-thumbtack"></i> Key points
 </h2>
-<h2 id="section"></h2>
+<h2 id="section-1"></h2>
 <ul>
 <li>R is a functional programming language</li>
 <li>RStudio is an interactive environment for programming in R</li>

@@ -23,7 +23,8 @@ output:
 knitr::opts_chunk$set(warning=FALSE, message=FALSE)
 ```
 
-<br>
+----
+
 We recommend using [RStudio](https://rstudio.com/) for this workshop. [RStudio](https://www.rstudio.com/) is an Integrated Development Environment (IDE) for R. It can be accessed in several ways. Download [RStudio](https://rstudio.com/) and install it on your own computer.
 
 ## Using RStudio
@@ -113,7 +114,7 @@ devtools::install_github("thomasp85/patchwork")
 
 To load a specific package within an R session, use the "library" function:
 
-```{r}
+```{r eval=F}
 library(tidyverse)
 ```
 
