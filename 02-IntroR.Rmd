@@ -1,37 +1,45 @@
 ---
 title: "R and RStudio"
-teaching: 20
-exercises: 60
 objectives:
   - Learn to use base R
   - Familiarise yourself with RStudio
-keypoints:
-  - R is a functional programming language
-  - RStudio is an interactive environment for programming in R
-  - Base R functions can be used to import, manipulate and plot data
-  - There are many functions for statistical analysis in R
 output:
   html_document:
     df_print: paged
     css: "style.css"
 ---
 
+<head>
+<script src="https://kit.fontawesome.com/ece750edd7.js" crossorigin="anonymous"></script>
+</head>
+
 ```{r global_options, include=FALSE}
 knitr::opts_chunk$set(warning=FALSE, message=FALSE)
 ```
 
 <br>
-[R](http://www.r-project.org/) is an extremely powerful programming language for working with datasets, applying statistics and creating publication ready graphics. In this lesson you will learn how to program in R and use the RStudio server environment. We will cover the basics of the R syntax using built in packages (base R), as well as importing data, creating simple graphics and running statistical tests. We will also introduce some of the extended libraries that make R the first choice for analysing genomic data.
+[R](http://www.r-project.org/) is an extremely powerful programming language for working with datasets, applying statistics and creating publication ready graphics. In this lesson you will learn how to program in R and use the RStudio environment. We will cover the basics of the R syntax using built in packages (base R), as well as importing data, creating simple graphics and running statistical tests. We will also introduce some of the extended libraries that make R the first choice for analysing genomic data.
 
-> ## Learning Objectives
-> By the end of this lesson, you will be able to:
->
-> * Understand how to use functions in *base R*
-> * Import datasets into R
-> * Inspect and format a dataset
-> * Create basic graphics
-> * Run statistical tests
-{: .checklist}
+<div class="key-points">
+<h2><i class="fas fa-thumbtack fa-2x"></i> How to follow this tutorial</h2>
+##
+ * R is a functional programming language
+ * RStudio is an interactive environment for programming in R
+ * Base R functions can be used to import, manipulate and plot data
+ * There are many functions for statistical analysis in R
+</div>
+<br>
+
+<div class="objectives">
+<h2><i class="far fa-check-square fa-2x"></i> Learning Objectives</h2>
+##
+ * Understand how to use functions in *base R*
+ * Import datasets into R
+ * Inspect and format a dataset
+ * Create basic graphics
+ * Run statistical tests
+</div>
+<br>
 
 ## Advantages of R
 
@@ -42,8 +50,8 @@ knitr::opts_chunk$set(warning=FALSE, message=FALSE)
     + Save as a png, pdf or svg
 * History
     + Your R commands and analysis can be saved for reproducible and persistent analysis.
-    + Create automated scripts to perform again and again on different data.
-* [RStudio](https://www.rstudio.com/) provides an interactive environment for workin in R.
+    + Create automated scripts to perform again and again on different datasets.
+* [RStudio](https://www.rstudio.com/) provides an interactive environment for working in R.
 * [R markdown](https://rmarkdown.rstudio.com/) can generate documents to present your code, annotation and results in useful reports.
 * [Shiny](https://shiny.rstudio.com/) can produce interactive applications for exploratory data analysis.
 
@@ -55,20 +63,21 @@ knitr::opts_chunk$set(warning=FALSE, message=FALSE)
 * **Vector**  
     + a list of values, (equivalent to a column in a table)
 * **Data Frame**
-    + a group of Vectors, a table where the rows are not necessarily related
+    + a group of Vectors, a table where the columns can be different types of data
 * **Matrix**
-    + a table where columns and rows are related
+    + a table where columns and rows are related and all the same type of data
 
 ## Preparation
 
 Download and save the tutorial data sets [data](http://bifx-core.bio.ed.ac.uk/data.tsv) and  [weight](http://bifx-core.bio.ed.ac.uk/weight.tsv) into your working directory. 
 
-## R  Syntax
+## R Syntax
 
 R is a **functional** based language:
 
 * Every command is the name of a function followed by parentheses.
 * The inputs to a function, including different options, are placed in the brackets.
+* You can use the <kbd>Tab</kbd> to see the options available or use the help documentation for each function.
 
 Typical command:
 ```{r, eval=F}
@@ -80,17 +89,17 @@ Example of plotting speed against stopping distance with the inbuilt `cars` data
 plot(cars, xlab="Car Speed (mph)", ylab="Stopping Distance (ft)")
 ```
 
-We can store the output of a function.
+We can store the output of a function as an object.
 ```{r, eval=F}
 result = Function(data, options, moreOptions)
 ```
 
-Example storing output of summary function ('sum_cars' could be named whatever you like)
+Exampl: Store the output of the summary function. You will see the object `sum_cars` appear in your Environment tab.
 ```{r}
 sum_cars = summary(cars)
 ```
 
-To see result we need to type:
+To see what an object holds, just type its name:
 ```{r}
 sum_cars
 ```
@@ -102,24 +111,18 @@ getwd()
 
 If you want to change the working directory: Use `setwd("/path/to/new_directory")` or use the *session* menu in RStudio.
 
-Even quit is a function (although, you can quit using the RStudio interface). Note I have commented this out using '#' so I do not accidently run this command!
- 
-```{r, eval=FALSE}
-#q()
-```
-
-So is help:
+Help is also a function:
 ```{r, eval=FALSE}
 help(read.table)
 ```
-This provides the help page for the *function* **read.table()**
+This provides the help page for the *function* `read.table`
 
 ```{r, eval=FALSE}
 help.search("t test")
 ```
 Searches for help pages that might relate to the phrase 't test'.
 
-**NOTE** quotes are needed for search strings, they are not needed when referring to data objects name or a function.
+**NOTE** quotes are needed for strings (character text), they are not needed when referring to data objects or the name of a function.
 
 There is a short cut for help, `?`, which shows the help page for a function: same as help(function) 
 
@@ -132,16 +135,16 @@ There is a short cut for help, `?`, which shows the help page for a function: sa
 ??'t test'
 ```
 
-Information is usually returned from a function, by default this is printed to screen
+Information is usually returned from a function, by default this is printed as output in the console screen:
 ```{r, eval=FALSE}
 read.table('http://bifx-core.bio.ed.ac.uk/data.tsv')
 ```
 
-This can always be stored, we call what it is stored in an 'object'
+The `read.table` function reads in files as an R dataframe. We can store this as an object: 
 ```{r, eval=FALSE}
 mydata  <- read.table('http://bifx-core.bio.ed.ac.uk/data.tsv')
 ```
-Here, **mydata** is an object of type *dataframe* and the syntax **<-** assigns to the left.
+Here, **mydata** is an object name and the syntax **<-** assigns the output of the function to it.
 
 You could also use the equals sign `=`.
 ```{r, eval=FALSE}
@@ -155,9 +158,9 @@ mydata = read.table('http://bifx-core.bio.ed.ac.uk/data.tsv')
 
 ## Getting data into R
 
-For a beginner, this can be the hardest part, it is also the most important to get right. 
+For a beginner, this can be the hardest part, it is also the most important part to get right. 
 
-It is possible to create a vector by typing data directly into R using the combine function `c` 
+It is possible to create a vector by typing data directly into R using the combine function `c`. Think of it as a concatenate or combine function.
 ```{r}
 x   <-  c(1,2,3,4,5)
 ```
@@ -174,19 +177,19 @@ Note that text needs to be quoted, otherwise R will look for a data object of th
 daysofweek <- c('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday')
 ```
 
-Usually however you want to input from a file. We have touched on the 'read.table' function already.
+Usually however you want to input from a file. You can read files on your computer or from a URL. We have touched on the `read.table` function already.
 ```{r}
 mydata <- read.table('http://bifx-core.bio.ed.ac.uk/data.tsv')
 ```
 
-Now `mydata` is a data frame with multiple vectors. 
+Now `mydata` is a dataframe with multiple vectors. 
 
-We can look at our table by typing it's name, but this prints a lot of rows, using `head()` only prints a few lines;
+We can look at our table by typing it's name, but this prints a lot of rows. Using `head()` only prints a few lines;
 ```{r}
 head(mydata, n=5)
 ```
 
-You can also use the `View()` command to open data frames in the files pane.
+You can also use the `View()` command to open data frames in the file pane.
 
 Hmmm, something isn't right with our rows here...
 
@@ -226,9 +229,9 @@ Use `sep=` to define how your columns are separated in the file:
 ```{r}
 mydata  <- read.table('http://bifx-core.bio.ed.ac.uk/data.tsv', header=T, sep='\t')
 ```
-Really useful if you have spaces in the contents of some columns, so R does not mess up reading the columns. However if the columns are of an uneven length it will tell you. 
+Tab separated files are really useful if you expect to have spaces in the contents of some columns. You need to tell R if your files are separated by the tab character to avoid messing up the reading of columns. 
 
-Use `fill=TRUE` if there is missing data
+If there is missing data in any of your columns, use `fill=TRUE`.
 ```{r}
 mydata  <- read.table('http://bifx-core.bio.ed.ac.uk/data.tsv', header=T, sep='\t', fill=TRUE)
 ```
@@ -240,7 +243,7 @@ As this is such a common task there are functions identical to read.table but wi
 
 ### Import Dataset 
 
-In the *Envirnoment* pane in RStudio there is a button called "Import Dataset". This can make importing data much easier and calls the `read.*` set of functions for you. The command used will be displayed on the console. Note that you need to have the file on the computer to use this button.
+In the *Environment* pane in RStudio there is a button called "Import Dataset". This can make importing data much easier and calls the `read.*` set of functions for you. The command used will be displayed on the console. Note that you need to have the file on the computer to use this button.
 
 ## Inspecting and subsetting a dataset
 

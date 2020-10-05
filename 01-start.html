@@ -307,7 +307,7 @@ $(document).ready(function () {
 
 
 <head>
-<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+<script src="https://kit.fontawesome.com/ece750edd7.js" crossorigin="anonymous"></script>
 </head>
 <p><br> We recommend using <a href="https://rstudio.com/">RStudio</a> for this workshop. <a href="https://www.rstudio.com/">RStudio</a> is an Integrated Development Environment (IDE) for R. It can be accessed in several ways. Download <a href="https://rstudio.com/">RStudio</a> and install it on your own computer.</p>
 <div id="using-rstudio" class="section level2">
@@ -330,12 +330,12 @@ $(document).ready(function () {
 <ul>
 <li>Objects you have stored</li>
 <li>Commands you have typed</li>
-<li>May also have connection to databases</li>
+<li>Additional tabs for version control, database and website building...</li>
 </ul></li>
 <li><strong>Files and output</strong> (bottom right)
 <ul>
-<li>System files</li>
-<li>Output from plots</li>
+<li>System files (on the computer/server you are working on)</li>
+<li>Output from plots or applications</li>
 <li>Packages available</li>
 <li>Help pages</li>
 </ul></li>
@@ -343,16 +343,17 @@ $(document).ready(function () {
 </div>
 <div class="col-md-6">
 <div class="figure">
-<img src="Pictures/tidy.png" />
+<img src="images/rstudio-windows.png" />
 
 </div>
 </div>
 </div>
+<p>You can cutomise the appearance of RStudion under the Tools -&gt; Global Options... menu.</p>
 <div id="setting-up-a-new-project" class="section level3">
 <h3>Setting up a new project</h3>
 <p>There is a drop-down <strong>project</strong> menu at the top right of RStudio. Click this, select &quot;New Project...&quot; and create one in a new directory. Make sure you have write permission for the directory you choose.</p>
-<p>Once you have done this, this will be your <strong>working directory</strong>. Files will be saved (or loaded from) here by default unless you specify a full path. You can change your working directory under the session menu at the top.</p>
-<p>Using Rstudio has the advantage that everything you do will be remembered between RStudio sessions. If changing to another project using the top right menu, be sure to select yes in the pop up menu to save any changes.</p>
+<p>Once you have done this, this will be your <strong>working directory</strong>. Files will be saved (or loaded from) here by default unless you specify a full path. You can change your working directory under the <strong>session</strong> menu at the top.</p>
+<p>Using Rstudio has the advantage that everything you do can be saved between RStudio sessions.</p>
 </div>
 </div>
 <div id="running-commands" class="section level2">
@@ -361,15 +362,16 @@ $(document).ready(function () {
 <ul>
 <li>Use the <strong>console</strong> to run commands.</li>
 <li>Create a new <strong>R script</strong> to save your commands as you go.</li>
-<li>Create an <strong>R markdown</strong> file to generate web pages or pdf documents.</li>
+<li>Create an <strong>R markdown</strong> file to generate web pages or pdf documents from your analyses.</li>
 </ul>
-<p>Commands can be typed directly into the console, but in order to keep track it's best to write them into a script as you go (File/New File/R Script). From here you can use a shortcut to run the command on the line where your cursor is:</p>
+<p>Commands can be typed directly into the console, but in order to keep track it's best to write them into a script as you go (File-&gt;New File-&gt;R Script). From here you can use a shortcut to run the command on the line where your cursor is:</p>
 <ul>
 <li><kbd>Ctrl</kbd> + <kbd>Enter</kbd> on PC</li>
 <li><kbd>Cmd</kbd> + <kbd>Enter</kbd> on Mac</li>
 </ul>
-<p><strong>Hint:</strong> When using the console, the Up/Down arrow keys can be use to cycle through previous commands. You can also use the <kbd>Tab</kbd> key to autocomplete names of functions and objects.</p>
-<p>In the console you should always see a '&gt;' prompt, if you can't see this R may still be working. There is a red Stop light at the top right of the console when a command is running. If you see a <code>+</code> instead, R is waiting for more input. Sometimes this means you have forgotten to close a bracket or quotation.</p>
+<p>Alternatively use <kbd>Alt</kbd> + <kbd>Enter</kbd> to keep the cursor on the same line. You can also use the <kbd>Tab</kbd> key to autocomplete names of functions and objects.</p>
+<p><strong>Hint:</strong> When using the console, the Up/Down arrow keys can be use to cycle through previous commands.</p>
+<p>In the console you should always see a <code>&gt;</code> prompt, if you can't see this R may still be working. There is a red Stop light at the top right of the console when a command is running. If you see a <code>+</code> instead of <code>&gt;</code>, R is waiting for more input. Sometimes this means you have forgotten to close a bracket or quotation.</p>
 <p>Using <strong>R Markdown</strong> is a great way to annotate your code and present it at the end. It's worth learning but will add a further level of complication for novice users.</p>
 </div>
 <div id="installing-libraries" class="section level2">
@@ -396,27 +398,27 @@ devtools::install_github(&quot;thomasp85/patchwork&quot;)</code></pre>
 <pre class="r"><code>library(tidyverse)</code></pre>
 <div class="key-points">
 <h2>
-<i class="icon-camera-retro icon-2x"></i> How to follow this tutorial
+<i class="fas fa-thumbtack"></i> How to follow this tutorial
 </h2>
 <h2 id="section"></h2>
 <ul>
 <li>Create a new project in RStudio</li>
+<li>Install the required libraries</li>
 <li>Open a new R script (or R markdown file for advanced users)</li>
-<li>It will be best to work with the tutorial and RStudio open together so you can easily switch between the two. Working on a wide split-screen should be the best setup.</li>
-<li>I recommend typing out commands rather than copy-and-pasting if you want to learn!</li>
+<li>It will be best to work with the tutorial and RStudio open together so you can easily switch between the two. Working on a wide split-screen or multiple desktops is the best setup.</li>
+<li>I recommend typing out commands rather than copy-and-pasting if you want to learn. Remember you can use the <kbd>Tab</kbd> to save on typing!</li>
 </ul>
 </div>
 <p><br></p>
 <div class="challenge">
 <h2>
-<i class="icon-pencil icon-2x"></i> Challenge:
+<i class="fas fa-pencil-alt"></i> Challenge:
 </h2>
-What is a fish?
+What is a fish? <details> <summary></summary>
 <div class="solution">
 <h2>
-<i class="fa-eye icon-2x"></i> Solution:
+<i class="far fa-eye"></i> Solution:
 </h2>
-<p><details> <summary></summary></p>
 <pre class="r"><code>mtcars$mpg[1]</code></pre>
 <pre><code>## [1] 21</code></pre>
 <p></details></p>
