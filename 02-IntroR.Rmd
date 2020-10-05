@@ -20,18 +20,8 @@ knitr::opts_chunk$set(warning=FALSE, message=FALSE)
 <br>
 [R](http://www.r-project.org/) is an extremely powerful programming language for working with datasets, applying statistics and creating publication ready graphics. In this lesson you will learn how to program in R and use the RStudio environment. We will cover the basics of the R syntax using built in packages (base R), as well as importing data, creating simple graphics and running statistical tests. We will also introduce some of the extended libraries that make R the first choice for analysing genomic data.
 
-<div class="key-points">
-<h2><i class="fas fa-thumbtack fa-2x"></i> How to follow this tutorial</h2>
-##
- * R is a functional programming language
- * RStudio is an interactive environment for programming in R
- * Base R functions can be used to import, manipulate and plot data
- * There are many functions for statistical analysis in R
-</div>
-<br>
-
 <div class="objectives">
-<h2><i class="far fa-check-square fa-2x"></i> Learning Objectives</h2>
+<h2><i class="far fa-check-square"></i> Learning Objectives</h2>
 ##
  * Understand how to use functions in *base R*
  * Import datasets into R
@@ -67,17 +57,13 @@ knitr::opts_chunk$set(warning=FALSE, message=FALSE)
 * **Matrix**
     + a table where columns and rows are related and all the same type of data
 
-## Preparation
-
-Download and save the tutorial data sets [data](http://bifx-core.bio.ed.ac.uk/data.tsv) and  [weight](http://bifx-core.bio.ed.ac.uk/weight.tsv) into your working directory. 
-
 ## R Syntax
 
 R is a **functional** based language:
 
 * Every command is the name of a function followed by parentheses.
 * The inputs to a function, including different options, are placed in the brackets.
-* You can use the <kbd>Tab</kbd> to see the options available or use the help documentation for each function.
+* You can use the <kbd>Tab</kbd> key to see the options available or use the help documentation for each function.
 
 Typical command:
 ```{r, eval=F}
@@ -94,7 +80,7 @@ We can store the output of a function as an object.
 result = Function(data, options, moreOptions)
 ```
 
-Exampl: Store the output of the summary function. You will see the object `sum_cars` appear in your Environment tab.
+Example: Store the output of the summary function. You will see the object `sum_cars` appear in your Environment tab.
 ```{r}
 sum_cars = summary(cars)
 ```
@@ -255,7 +241,7 @@ summary(mydata) # Summary of the whole data frame
 summary(mydata$A) # Summary information of column A 
 ```
 
-We can shortcut having to type the data frame each time by attaching it
+We can use a shortcut to avoid typing the name of the data frame each time by attaching it.
 ```{r}
 attach(mydata)
 ```
@@ -279,54 +265,57 @@ mydata[1,1]
 ##Use blanks to print an entire row or column
 mydata[2,]
 mydata[,3]
-##You can select multiple rows and columns
+##You can select multiple rows and columns with ranges (:) or the c() function
 mydata[1:5,c(3,5)]
 ##You can also use row or column names
 mydata[,"B"]
-##You can select rows or columns based on criteria (subsetting)
+##You can select rows or columns based on criteria (subsetting). 
 mydata[mydata$B>7,]
 ```
 
-> ## Challenge 1
->
-> See if you can do the following:
-> 
-> 1. Select the 11th value in the third column
-> 2. Select all rows where D equals 4 (hint; use '==')
-> 3. Select rows where B has it's maximum value (hint: use the max function)
-> 4. Select even numbered rows only (hint: take a look at the seq function '?seq()') 
-> 5. Select columns A, C and E
-> 6. Sort table by decreasing order of column B (hint: look at the parameters of the order function)
-> 
-> > ## Solution
-> >
-> > 1 Select row 11, column 3
-> > ```{r}
-> > mydata[11,3]
-> > ```
-> > 2 Select rows where D 3 equals 4
-> > ```{r}
-> > mydata[D==4,] # Or mydata[mydata$D==4,]
-> > ```
-> > 3 Select rows where B has it's maximum value
-> > ```{r}
-> > mydata[B==max(B), ]
-> > ```
-> > 4 Select even numbered rows only
-> > ```{r}
-> > mydata[seq(2,26, by = 2), ]
-> > ```
-> > 5 Select columns A, C and E
-> > ```{r}
-> > mydata[, c(1,3,5)] 
-> > # Or mydata[,c('A','C','E')] 
-> > ```
-> > 6 Sort table by decreasing order of column B
-> > ```{r}
-> > mydata[order(mydata$B, decreasing = TRUE), ]
-> > ```
-> {: .solution}
-{: .challenge}
+<div class="challenge">
+<h2><i class="fas fa-pencil-alt"></i> Challenge:</h2>
+## See if you can do the following:
+1. Select the 11th value in the third column
+2. Select all rows where D equals 4 (hint; use '==')
+3. Select rows where B has it's maximum value (hint: use the max function)
+4. Select even numbered rows only (hint: take a look at the seq function '?seq()') 
+5. Select columns A, C and E
+6. Sort table by decreasing order of column B (hint: look at the parameters of the order function)
+
+<details>
+<summary></summary>
+<div class="solution">
+<h2><i class="far fa-eye"></i> Solution:</h2>
+1. Select row 11, column 3
+```{r}
+mydata[11,3]
+```
+2. Select rows where D 3 equals 4
+```{r}
+mydata[D==4,] # Or mydata[mydata$D==4,]
+```
+3. Select rows where B has it's maximum value
+```{r}
+mydata[B==max(B), ]
+```
+4. Select even numbered rows only
+```{r}
+mydata[seq(2,26, by = 2), ]
+```
+5. Select columns A, C and E
+```{r}
+mydata[, c(1,3,5)] 
+# Or mydata[,c('A','C','E')] 
+```
+6. Sort table by decreasing order of column B
+```{r}
+mydata[order(mydata$B, decreasing = TRUE), ]
+```
+</div>
+</details>
+</div>
+<br>
 
 There is a `subset()` function in R specifically for subsetting tables. This generally works better than using square brackets as it copes with NA and NULL values:
 
@@ -334,21 +323,21 @@ There is a `subset()` function in R specifically for subsetting tables. This gen
 subset(mydata,mydata$C==3)
 ```
 
-However, we will see later on that the **`tidyverse`** packages have their own set of functions for filtering datasets.
+However, we will see later on that the `tidyverse` packages have their own set of functions for filtering datasets.
 
 ## Plotting with R
 
-We recommend learning **`ggplot2`** for graphics but it is useful to know the options available in "base" R.
+We recommend learning `ggplot2` for graphics but it is useful to know the options available in "base" R.
 
-Remember, to get more information about the options available to a function, type '?function'
+Remember, to get more information about the options available to a function, type `?function`
 
-### Histogram of A 
+### Histograms 
 
 ```{r}
 hist(mydata$A)
 ```
 
-If there was more data, like in this large collection of Chick weights, we can increase the number of vertical columns with the option, `breaks=50` (or another relevant number). 
+If there was more data, like in this large collection of Chick weights (another dataset built into R), we can increase the number of vertical columns with the option, `breaks=50` (or another relevant number). 
 
 ```{r}
 hist(ChickWeight$weight, breaks=5)
@@ -380,7 +369,7 @@ Note that the opposite function of attach is detach
 detach(mydata)
 ```
 
-### Scatter plot
+### Scatter plots
 
 ```{r, eval=FALSE}
 attach(mydata) # Re-attach if needed
@@ -415,29 +404,32 @@ boxplot(A, B, name=c("Value A", "Value B") , ylab="Count of Something")
 dev.off()
 ```
 
-Note that nothing will appear on screen, the output is going to the file, 'dev.off()' here stops device and saves the file.
+Note that nothing will appear on screen, the output is going to the file, `dev.off()` here stops the device and saves the file.
 
 ## Statistical testing
 
-R has many functions for statistical testing. Please see our [introduction to stats](https://drive.google.com/open?id=1qG_4Dzxc9x3yDnkhjInFKSUGdEHmn2shW2Sj6KwSc_A) slides for more information on distributions, hypothesis testing and statistical significance. 
+R has many functions for statistical testing. Please see our [introduction to stats](https://drive.google.com/open?id=1qG_4Dzxc9x3yDnkhjInFKSUGdEHmn2shW2Sj6KwSc_A) document for more information on distributions, hypothesis testing and statistical significance. 
 
 Let's say we want to determine whether the means of two groups of data differ statistically. First, we need to know if we are dealing with parametric or non-parametric data, i.e. are they normally distributed?
 
-> ## Challenge 2
->
-> Plot a histogram for each vector in mydata to visualise the distributions of each dataset.
->
-> > ## Solution
-> >
-> > ```{r}
-> > hist(A, breaks=5)
-> > hist(B, breaks=5)
-> > hist(C, breaks=5)
-> > hist(D, breaks=5)
-> > hist(E, breaks=5)
-> > ```
-> {: .solution}
-{: .challenge}
+<div class="challenge">
+<h2><i class="fas fa-pencil-alt"></i> Challenge:</h2>
+Plot a histogram for each vector in mydata to visualise the distributions of each dataset.
+<details>
+<summary></summary>
+<div class="solution">
+<h2><i class="far fa-eye"></i> Solution:</h2>
+```{r, answer=TRUE, eval=TRUE, purl=FALSE}
+hist(A, breaks=5)
+hist(B, breaks=5)
+hist(C, breaks=5)
+hist(D, breaks=5)
+hist(E, breaks=5)
+```
+</div>
+</details>
+</div>
+<br>
 
 How does the data look? Do any datasets appear to be normally distributed? We can test for normality with the Shapiro Wilk test. Let's do this for column A:
 
@@ -445,63 +437,68 @@ How does the data look? Do any datasets appear to be normally distributed? We ca
 shapiro.test(A)
 ```
 
-The Shapiro Wilk test is a non-parametric test. So, a significant p-value (p < 0.05) means that the data is NON-parametric. As p here = 0.3088 (> 0.05), A is parametric.
+The null hypothesis in the Shapiro Wilk test is that our data does not differ significantly from a normal distribution. So, a significant p-value (p < 0.05) means that the data is NOT normally distributed. As p here = 0.3088 (> 0.05), we conclude that A is normally distributed and we can use a parametric test.
 
-> ## Challenge 3
-> 
-> Which other columns are normally distributed?
-> 
-> > ## Solution
-> >
-> > ```{r}
-> > shapiro.test(A)
-> > shapiro.test(B)
-> > shapiro.test(C)
-> > shapiro.test(D)
-> > shapiro.test(E)
-> > ```
-> >
-> > A, B & E are parametric datasets 
-> {: .solution}
-{: .challenge}
+<div class="challenge">
+<h2><i class="fas fa-pencil-alt"></i> Challenge:</h2>
+Which other columns are normally distributed?
+<details>
+<summary></summary>
+<div class="solution">
+<h2><i class="far fa-eye"></i> Solution:</h2>
+```{r, answer=TRUE, eval=TRUE, purl=FALSE}
+shapiro.test(A)
+shapiro.test(B)
+shapiro.test(C)
+shapiro.test(D)
+shapiro.test(E)
+```
+A, B & E are parametric datasets.
+</div>
+</details>
+</div>
+<br>
 
-> ## Key Points
->
-> **IMPORTANT:** You should only use parametric tests for parametric data!
-{: .keypoints}
+<div class="key-points">
+<h2><i class="fas fa-thumbtack"></i> **IMPORTANT:**</h2>
+You should only use parametric tests for parametric data!
+</div>
+<br>
 
 ### T-Test
 
-The assumption for a t-test is that both groups are sampled from normal distributions with equal variances, i.e. we can only use a parametric test if the data is normally distributed. As columns A and E are both normally distributed we can use the Welch Two Sample t-test a *t-test* to test if the mean values are statistically different. Our null hypothesis is that the two means are equal, and the alternative is that they are not.
+The assumption for a t-test is that both groups are sampled from normal distributions with approximately equal variance. We can only use this test if the data is normally distributed. As columns A and E are both normally distributed we can use a Two Sample t-test to test if the mean values are statistically different. Our null hypothesis is that the two means are equal, and the alternative is that they are not.
 
 If our p-value is less than the significance level 0.05, we can reject the null hypothesis and accept the alternative hypothesis. In other words, we can conclude that the mean values of group A and E are significantly different.
 
-> ## Challenge 4
->
-> Use a t-test to decide if the mean values of A and E differ more than is expected by random chance.
-> **Hint**: Use the help search to find the t-test function.
->
-> > ## Solution
-> >
-> > ```{r}
-> > t.test(A,E)
-> > ```
-> >
-> > The p-value of the test is 0.8032, which is greater than the significance level 0.05. We can conclude that A and E are NOT significantly different.
-> >
-> > You can also save the result as an object and print the p-value:
-> >
-> > ```{r}
-> > a_e_result <- t.test(A,E)
-> > a_e_result$p.value
-> > ```
-> {: .solution}
-{: .challenge}
+<div class="challenge">
+<h2><i class="fas fa-pencil-alt"></i> Challenge:</h2>
+Use a t-test to decide if the mean values of A and E differ more than is expected by random chance.
+**Hint**: Use the help search to find the t-test function.
+<details>
+<summary></summary>
+<div class="solution">
+<h2><i class="far fa-eye"></i> Solution:</h2>
+```{r}
+t.test(A,E)
+```
 
-> ## Discussion
-> 
-> Are any other (parametric) columns significantly different from each other?
-{: .discussion}
+The p-value of the test is 0.8032, which is greater than the significance level 0.05. We can conclude that A and E are NOT significantly different.
+You can also save the result as an object and print the p-value:
+```{r}
+a_e_result <- t.test(A,E)
+a_e_result$p.value
+```
+</div>
+</details>
+</div>
+<br>
+
+<div class="discussion">
+<h2><i class="far fa-bell"></i> Discussion</h2>
+Are any other (parametric) columns significantly different from each other?
+</div>
+<br>
 
 ### Non-Parametric Testing
 
@@ -519,22 +516,17 @@ The p-value of the test is `0.01496`, which is less than the significance level 
 
 Paired data are sets of data in the same row that came from the same sample (e.g. time series data). 
 
-Load the paired dataset, 'weight.tsv', which contains weights of mice before and after treatment X.
+Load the paired dataset, 'weight.tsv', which contains weights of mice before and after a treatment.
 
-> ## Challenge 5
->
-> See if you can load the mice weight data. The file is here: **http://bifx-core.bio.ed.ac.uk/weight.tsv** .
-> Save this as an object called `weight`, check you have read it correctly and try plotting it.
->
-> > ## Solution
-> >
-> >```{r}
-> > weight <- read.table('http://bifx-core.bio.ed.ac.uk/weight.tsv', header=TRUE)
-> > weight
-> > boxplot(weight)
-> > ```
-> {: .solution}
-{: .challenge}
+```{r}
+weight <- read.table('http://bifx-core.bio.ed.ac.uk/weight.tsv', header=TRUE)
+weight
+```
+
+Plot out the data.
+```{r}
+boxplot(weight)
+```
 
 Again, before testing we first check for normality. Here we are comparing the *differences* between groups (Weight after MINUS Weight before).
 
@@ -549,11 +541,10 @@ weight
 ```
 
 ```{r}
-shapiro.test(weight$diff) # Or shapiro.test(weight$diff)
+shapiro.test(weight$diff)
 ```
 
-Looks good, the p-value is greater than 0.05 implying that the distribution of the differences (d) are not significantly different from normal distribution. In other words, we can assume normality.
-
+Looks good, the p-value is greater than 0.05 implying that the distribution of the differences (d) are not significantly different from  the normal distribution. In other words, we can assume normality.
 
 We want to know if the weights before treatment are significantly different to the weights after. Let's run the t-test. If the data is paired we use the option `paired=true`.
 
@@ -577,7 +568,7 @@ p.adjust(x)
 
 ## Matrix Data and Tests
 
-A matrix is a data frame where the values in rows are related across columns. You can turn a data frame into a matrix using the `as.matrix()` function.
+A matrix is a data frame where the values in rows and columns represent the same data type. You can turn a data frame into a matrix using the `as.matrix()` function.
 
 ```{r}
 mymatrix <- as.matrix(mydata)
@@ -591,7 +582,6 @@ twoBytwo <- matrix(lst, nrow=2)
 ```
 
 Which gives:
-
 ```{r}
 twoBytwo
 ```
@@ -642,4 +632,78 @@ fisher.test(twoBytwo)
 
 This is recommended over the Chi-square in general as the test is more robust, although Fishers exact test only works on two-by-two matrices. If we have more groups we have to use a Chi-square.
 
+<div class="challenge">
+<h2><i class="fas fa-pencil-alt"></i> Final Challenge:</h2>
+In this challenge we are going to perform statistical analysis to see if the weights of 10 rabbits *increase* after a hypothetical experimental treatment. First prepare the data:
 
+```{r}
+# The data set 
+# Weight of the rabbit before treatment 
+before <-c(190.1, 190.9, 172.7, 213, 231.4,  
+           196.9, 172.2, 285.5, 225.2, 113.7) 
+  
+# Weight of the rabbit after treatment 
+after <-c(392.9, 313.2, 345.1, 393, 434,  
+          227.9, 422, 383.9, 392.3, 801.2) 
+  
+# Create a data frame 
+rabbits <- data.frame(  
+  sample=c(1:10), ##Assign sampleIDs
+  before=before,
+  after=after
+)
+```
+
+<div class="discussion">
+<h2><i class="far fa-bell"></i> Consider the following:</h2>
+##
+* Plot the data first. What is the best way to visualise this?
+* Are the values independent or paired?
+* Should you use a parametric or non-parametric test?
+* Which test will you use?
+* What is the alternative hypothesis?
+* Are the groups significantly different?
+* What is the confidence interval?
+</div>
+<br>
+
+<details>
+<summary></summary>
+<div class="solution">
+<h2><i class="far fa-eye"></i> Solution:</h2>
+Visualise:
+```{r, answer=TRUE, eval=TRUE, purl=FALSE}
+boxplot(rabbits$before,rabbits$after)
+```
+
+Test for normality:
+```{r}
+shapiro.test(rabbits$after-rabbits$before)
+```
+
+We reject the Null hypothesis that the difference in weights is normally distributed, so we muct use a non parametric test.
+
+The data is paired and our null hypothesis is that the weight after treatment is not *greater* than the weight before. We therefore have a one-sided test and use "greater" as our alternative hypothesis. We include the option to produce confidence intervals:
+```{r}
+wilcox.test(rabbits$after, rabbits$before, paired = TRUE,alternative = "greater",conf.int = T) 
+```
+</div>
+</details>
+</div>
+<br>
+
+<div class="resources">
+<h2><i class="fas fa-book"></i> Further Learning</h2>
+Further examples are available on the [sthda](http://www.sthda.com/english/wiki/comparing-means-in-r) website.
+</div>
+<br>
+
+<div class="key-points">
+<h2><i class="fas fa-thumbtack"></i> Key points</h2>
+##
+ * R is a functional programming language
+ * RStudio is an interactive environment for programming in R
+ * Base R functions can be used to import, manipulate and plot data
+ * There are many functions for statistical analysis in R
+</div>
+<br>

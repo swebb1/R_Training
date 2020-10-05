@@ -15,6 +15,22 @@
   border-radius: 10px;
 }
 
+.discussion {
+  padding: 1em;
+  background: #c1502e;
+  color: white;
+  border: 2px;
+  border-radius: 10px;
+}
+
+.resources {
+  padding: 1em;
+  background: #c1502e;
+  color: white;
+  border: 2px;
+  border-radius: 10px;
+}
+
 .challenge {
   padding: 1em;
   background: #87bdd8;

@@ -70,6 +70,7 @@ h6 {
 }
 </style>
 
+<link rel="stylesheet" href="style.css" type="text/css" />
 
 
 
@@ -305,18 +306,24 @@ $(document).ready(function () {
 </div>
 
 
-<p><br> <a href="http://www.r-project.org/">R</a> is an extremely powerful programming language for working with datasets, applying statistics and creating publication ready graphics. In this lesson you will learn how to program in R and use the RStudio server environment. We will cover the basics of the R syntax using built in packages (base R), as well as importing data, creating simple graphics and running statistical tests. We will also introduce some of the extended libraries that make R the first choice for analysing genomic data.</p>
-<blockquote>
-<h2 id="learning-objectives">Learning Objectives</h2>
-<p>By the end of this lesson, you will be able to:</p>
+<head>
+<script src="https://kit.fontawesome.com/ece750edd7.js" crossorigin="anonymous"></script>
+</head>
+<p><br> <a href="http://www.r-project.org/">R</a> is an extremely powerful programming language for working with datasets, applying statistics and creating publication ready graphics. In this lesson you will learn how to program in R and use the RStudio environment. We will cover the basics of the R syntax using built in packages (base R), as well as importing data, creating simple graphics and running statistical tests. We will also introduce some of the extended libraries that make R the first choice for analysing genomic data.</p>
+<div class="objectives">
+<h2>
+<i class="far fa-check-square"></i> Learning Objectives
+</h2>
+<h2 id="section"></h2>
 <ul>
 <li>Understand how to use functions in <em>base R</em></li>
 <li>Import datasets into R</li>
 <li>Inspect and format a dataset</li>
 <li>Create basic graphics</li>
-<li>Run statistical tests {: .checklist}</li>
+<li>Run statistical tests</li>
 </ul>
-</blockquote>
+</div>
+<p><br></p>
 <div id="advantages-of-r" class="section level2">
 <h2>Advantages of R</h2>
 <ul>
@@ -330,9 +337,9 @@ $(document).ready(function () {
 <li>History
 <ul>
 <li>Your R commands and analysis can be saved for reproducible and persistent analysis.</li>
-<li>Create automated scripts to perform again and again on different data.</li>
+<li>Create automated scripts to perform again and again on different datasets.</li>
 </ul></li>
-<li><a href="https://www.rstudio.com/">RStudio</a> provides an interactive environment for workin in R.</li>
+<li><a href="https://www.rstudio.com/">RStudio</a> provides an interactive environment for working in R.</li>
 <li><a href="https://rmarkdown.rstudio.com/">R markdown</a> can generate documents to present your code, annotation and results in useful reports.</li>
 <li><a href="https://shiny.rstudio.com/">Shiny</a> can produce interactive applications for exploratory data analysis.</li>
 </ul>
@@ -351,17 +358,13 @@ $(document).ready(function () {
 </ul></li>
 <li><strong>Data Frame</strong>
 <ul>
-<li>a group of Vectors, a table where the rows are not necessarily related</li>
+<li>a group of Vectors, a table where the columns can be different types of data</li>
 </ul></li>
 <li><strong>Matrix</strong>
 <ul>
-<li>a table where columns and rows are related</li>
+<li>a table where columns and rows are related and all the same type of data</li>
 </ul></li>
 </ul>
-</div>
-<div id="preparation" class="section level2">
-<h2>Preparation</h2>
-<p>Download and save the tutorial data sets <a href="http://bifx-core.bio.ed.ac.uk/data.tsv">data</a> and <a href="http://bifx-core.bio.ed.ac.uk/weight.tsv">weight</a> into your working directory.</p>
 </div>
 <div id="r-syntax" class="section level2">
 <h2>R Syntax</h2>
@@ -369,17 +372,18 @@ $(document).ready(function () {
 <ul>
 <li>Every command is the name of a function followed by parentheses.</li>
 <li>The inputs to a function, including different options, are placed in the brackets.</li>
+<li>You can use the <kbd>Tab</kbd> key to see the options available or use the help documentation for each function.</li>
 </ul>
 <p>Typical command:</p>
 <pre class="r"><code>Function(data, options, moreOptions)</code></pre>
 <p>Example of plotting speed against stopping distance with the inbuilt <code>cars</code> dataset:</p>
 <pre class="r"><code>plot(cars, xlab=&quot;Car Speed (mph)&quot;, ylab=&quot;Stopping Distance (ft)&quot;)</code></pre>
 <p><img src="02-IntroR_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
-<p>We can store the output of a function.</p>
+<p>We can store the output of a function as an object.</p>
 <pre class="r"><code>result = Function(data, options, moreOptions)</code></pre>
-<p>Example storing output of summary function ('sum_cars' could be named whatever you like)</p>
+<p>Example: Store the output of the summary function. You will see the object <code>sum_cars</code> appear in your Environment tab.</p>
 <pre class="r"><code>sum_cars = summary(cars)</code></pre>
-<p>To see result we need to type:</p>
+<p>To see what an object holds, just type its name:</p>
 <pre class="r"><code>sum_cars</code></pre>
 <pre><code>##      speed           dist       
 ##  Min.   : 4.0   Min.   :  2.00  
@@ -391,23 +395,21 @@ $(document).ready(function () {
 <p>Not all functions need arguments, e.g. get working directory function</p>
 <pre class="r"><code>getwd()</code></pre>
 <p>If you want to change the working directory: Use <code>setwd(&quot;/path/to/new_directory&quot;)</code> or use the <em>session</em> menu in RStudio.</p>
-<p>Even quit is a function (although, you can quit using the RStudio interface). Note I have commented this out using '#' so I do not accidently run this command!</p>
-<pre class="r"><code>#q()</code></pre>
-<p>So is help:</p>
+<p>Help is also a function:</p>
 <pre class="r"><code>help(read.table)</code></pre>
-<p>This provides the help page for the <em>function</em> <strong>read.table()</strong></p>
+<p>This provides the help page for the <em>function</em> <code>read.table</code></p>
 <pre class="r"><code>help.search(&quot;t test&quot;)</code></pre>
 <p>Searches for help pages that might relate to the phrase 't test'.</p>
-<p><strong>NOTE</strong> quotes are needed for search strings, they are not needed when referring to data objects name or a function.</p>
+<p><strong>NOTE</strong> quotes are needed for strings (character text), they are not needed when referring to data objects or the name of a function.</p>
 <p>There is a short cut for help, <code>?</code>, which shows the help page for a function: same as help(function)</p>
 <pre class="r"><code>?read.table</code></pre>
 <p><code>??</code> searches for help pages on functions, same as help.search('phrase')</p>
 <pre class="r"><code>??&#39;t test&#39;</code></pre>
-<p>Information is usually returned from a function, by default this is printed to screen</p>
+<p>Information is usually returned from a function, by default this is printed as output in the console screen:</p>
 <pre class="r"><code>read.table(&#39;http://bifx-core.bio.ed.ac.uk/data.tsv&#39;)</code></pre>
-<p>This can always be stored, we call what it is stored in an 'object'</p>
+<p>The <code>read.table</code> function reads in files as an R dataframe. We can store this as an object:</p>
 <pre class="r"><code>mydata  &lt;- read.table(&#39;http://bifx-core.bio.ed.ac.uk/data.tsv&#39;)</code></pre>
-<p>Here, <strong>mydata</strong> is an object of type <em>dataframe</em> and the syntax <strong>&lt;-</strong> assigns to the left.</p>
+<p>Here, <strong>mydata</strong> is an object name and the syntax <strong>&lt;-</strong> assigns the output of the function to it.</p>
 <p>You could also use the equals sign <code>=</code>.</p>
 <pre class="r"><code>mydata = read.table(&#39;http://bifx-core.bio.ed.ac.uk/data.tsv&#39;)</code></pre>
 <div id="reminder" class="section level3">
@@ -420,8 +422,8 @@ $(document).ready(function () {
 </div>
 <div id="getting-data-into-r" class="section level2">
 <h2>Getting data into R</h2>
-<p>For a beginner, this can be the hardest part, it is also the most important to get right.</p>
-<p>It is possible to create a vector by typing data directly into R using the combine function <code>c</code></p>
+<p>For a beginner, this can be the hardest part, it is also the most important part to get right.</p>
+<p>It is possible to create a vector by typing data directly into R using the combine function <code>c</code>. Think of it as a concatenate or combine function.</p>
 <pre class="r"><code>x   &lt;-  c(1,2,3,4,5)</code></pre>
 <p>This creates the vector x with the numbers between 1 and 5.</p>
 <p>You can see what is in an object at any time by typing its name;</p>
@@ -429,17 +431,17 @@ $(document).ready(function () {
 <pre><code>## [1] 1 2 3 4 5</code></pre>
 <p>Note that text needs to be quoted, otherwise R will look for a data object of that name.</p>
 <pre class="r"><code>daysofweek &lt;- c(&#39;Monday&#39;, &#39;Tuesday&#39;, &#39;Wednesday&#39;, &#39;Thursday&#39;, &#39;Friday&#39;)</code></pre>
-<p>Usually however you want to input from a file. We have touched on the 'read.table' function already.</p>
+<p>Usually however you want to input from a file. You can read files on your computer or from a URL. We have touched on the <code>read.table</code> function already.</p>
 <pre class="r"><code>mydata &lt;- read.table(&#39;http://bifx-core.bio.ed.ac.uk/data.tsv&#39;)</code></pre>
-<p>Now <code>mydata</code> is a data frame with multiple vectors.</p>
-<p>We can look at our table by typing it's name, but this prints a lot of rows, using <code>head()</code> only prints a few lines;</p>
+<p>Now <code>mydata</code> is a dataframe with multiple vectors.</p>
+<p>We can look at our table by typing it's name, but this prints a lot of rows. Using <code>head()</code> only prints a few lines;</p>
 <pre class="r"><code>head(mydata, n=5)</code></pre>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
 {"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["V1"],"name":[1],"type":["fctr"],"align":["left"]},{"label":["V2"],"name":[2],"type":["fctr"],"align":["left"]},{"label":["V3"],"name":[3],"type":["fctr"],"align":["left"]},{"label":["V4"],"name":[4],"type":["fctr"],"align":["left"]},{"label":["V5"],"name":[5],"type":["fctr"],"align":["left"]}],"data":[{"1":"A","2":"B","3":"C","4":"D","5":"E","_rn_":"1"},{"1":"1","2":"4","3":"1","4":"1","5":"1","_rn_":"2"},{"1":"2","2":"5","3":"1","4":"1","5":"2","_rn_":"3"},{"1":"2","2":"5","3":"1","4":"1","5":"2","_rn_":"4"},{"1":"3","2":"6","3":"1","4":"2","5":"3","_rn_":"5"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
-<p>You can also use the <code>View()</code> command to open data frames in the files pane.</p>
+<p>You can also use the <code>View()</code> command to open data frames in the file pane.</p>
 <p>Hmmm, something isn't right with our rows here...</p>
 <p>By default the function assumes certain things from the file</p>
 <ul>
@@ -468,8 +470,8 @@ $(document).ready(function () {
 <h3>Other options for read.table</h3>
 <p>Use <code>sep=</code> to define how your columns are separated in the file:</p>
 <pre class="r"><code>mydata  &lt;- read.table(&#39;http://bifx-core.bio.ed.ac.uk/data.tsv&#39;, header=T, sep=&#39;\t&#39;)</code></pre>
-<p>Really useful if you have spaces in the contents of some columns, so R does not mess up reading the columns. However if the columns are of an uneven length it will tell you.</p>
-<p>Use <code>fill=TRUE</code> if there is missing data</p>
+<p>Tab separated files are really useful if you expect to have spaces in the contents of some columns. You need to tell R if your files are separated by the tab character to avoid messing up the reading of columns.</p>
+<p>If there is missing data in any of your columns, use <code>fill=TRUE</code>.</p>
 <pre class="r"><code>mydata  &lt;- read.table(&#39;http://bifx-core.bio.ed.ac.uk/data.tsv&#39;, header=T, sep=&#39;\t&#39;, fill=TRUE)</code></pre>
 <p>This causes R to fill empty spaces in columns with 'NA'.</p>
 <p>The last two examples will still work with our file and give the same result.</p>
@@ -477,7 +479,7 @@ $(document).ready(function () {
 </div>
 <div id="import-dataset" class="section level3">
 <h3>Import Dataset</h3>
-<p>In the <em>Envirnoment</em> pane in RStudio there is a button called &quot;Import Dataset&quot;. This can make importing data much easier and calls the <code>read.*</code> set of functions for you. The command used will be displayed on the console. Note that you need to have the file on the computer to use this button.</p>
+<p>In the <em>Environment</em> pane in RStudio there is a button called &quot;Import Dataset&quot;. This can make importing data much easier and calls the <code>read.*</code> set of functions for you. The command used will be displayed on the console. Note that you need to have the file on the computer to use this button.</p>
 </div>
 </div>
 <div id="inspecting-and-subsetting-a-dataset" class="section level2">
@@ -500,7 +502,7 @@ $(document).ready(function () {
 <pre class="r"><code>summary(mydata$A) # Summary information of column A </code></pre>
 <pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
 ##   1.000   3.000   4.000   4.296   5.000   8.000</code></pre>
-<p>We can shortcut having to type the data frame each time by attaching it</p>
+<p>We can use a shortcut to avoid typing the name of the data frame each time by attaching it.</p>
 <pre class="r"><code>attach(mydata)</code></pre>
 <pre class="r"><code>summary(A) #  same as above as &#39;mydata&#39; is attached</code></pre>
 <pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
@@ -516,15 +518,17 @@ mydata[1,1]
 ##Use blanks to print an entire row or column
 mydata[2,]
 mydata[,3]
-##You can select multiple rows and columns
+##You can select multiple rows and columns with ranges (:) or the c() function
 mydata[1:5,c(3,5)]
 ##You can also use row or column names
 mydata[,&quot;B&quot;]
-##You can select rows or columns based on criteria (subsetting)
+##You can select rows or columns based on criteria (subsetting). 
 mydata[mydata$B&gt;7,]</code></pre>
-<blockquote>
-<h2 id="challenge-1">Challenge 1</h2>
-<p>See if you can do the following:</p>
+<div class="challenge">
+<h2>
+<i class="fas fa-pencil-alt"></i> Challenge:
+</h2>
+<h2 id="see-if-you-can-do-the-following">See if you can do the following:</h2>
 <ol style="list-style-type: decimal">
 <li>Select the 11th value in the third column</li>
 <li>Select all rows where D equals 4 (hint; use '==')</li>
@@ -533,33 +537,46 @@ mydata[mydata$B&gt;7,]</code></pre>
 <li>Select columns A, C and E</li>
 <li>Sort table by decreasing order of column B (hint: look at the parameters of the order function)</li>
 </ol>
-<blockquote>
-<h2 id="solution">Solution</h2>
-<p>1 Select row 11, column 3</p>
+<details> <summary></summary>
+<div class="solution">
+<h2>
+<i class="far fa-eye"></i> Solution:
+</h2>
+<ol style="list-style-type: decimal">
+<li>Select row 11, column 3</li>
+</ol>
 <pre class="r"><code>mydata[11,3]</code></pre>
 <pre><code>## [1] 1</code></pre>
-<p>2 Select rows where D 3 equals 4</p>
+<ol start="2" style="list-style-type: decimal">
+<li>Select rows where D 3 equals 4</li>
+</ol>
 <pre class="r"><code>mydata[D==4,] # Or mydata[mydata$D==4,]</code></pre>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
 {"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["A"],"name":[1],"type":["int"],"align":["right"]},{"label":["B"],"name":[2],"type":["int"],"align":["right"]},{"label":["C"],"name":[3],"type":["int"],"align":["right"]},{"label":["D"],"name":[4],"type":["int"],"align":["right"]},{"label":["E"],"name":[5],"type":["int"],"align":["right"]}],"data":[{"1":"5","2":"8","3":"2","4":"4","5":"5","_rn_":"19"},{"1":"5","2":"8","3":"2","4":"4","5":"5","_rn_":"20"},{"1":"5","2":"8","3":"2","4":"4","5":"5","_rn_":"21"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
-<p>3 Select rows where B has it's maximum value</p>
+<ol start="3" style="list-style-type: decimal">
+<li>Select rows where B has it's maximum value</li>
+</ol>
 <pre class="r"><code>mydata[B==max(B), ]</code></pre>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
 {"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["A"],"name":[1],"type":["int"],"align":["right"]},{"label":["B"],"name":[2],"type":["int"],"align":["right"]},{"label":["C"],"name":[3],"type":["int"],"align":["right"]},{"label":["D"],"name":[4],"type":["int"],"align":["right"]},{"label":["E"],"name":[5],"type":["int"],"align":["right"]}],"data":[{"1":"8","2":"11","3":"5","4":"9","5":"8","_rn_":"27"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
-<p>4 Select even numbered rows only</p>
+<ol start="4" style="list-style-type: decimal">
+<li>Select even numbered rows only</li>
+</ol>
 <pre class="r"><code>mydata[seq(2,26, by = 2), ]</code></pre>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
 {"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["A"],"name":[1],"type":["int"],"align":["right"]},{"label":["B"],"name":[2],"type":["int"],"align":["right"]},{"label":["C"],"name":[3],"type":["int"],"align":["right"]},{"label":["D"],"name":[4],"type":["int"],"align":["right"]},{"label":["E"],"name":[5],"type":["int"],"align":["right"]}],"data":[{"1":"2","2":"5","3":"1","4":"1","5":"2","_rn_":"2"},{"1":"3","2":"6","3":"1","4":"2","5":"3","_rn_":"4"},{"1":"3","2":"6","3":"1","4":"2","5":"4","_rn_":"6"},{"1":"3","2":"6","3":"1","4":"2","5":"3","_rn_":"8"},{"1":"4","2":"7","3":"1","4":"2","5":"4","_rn_":"10"},{"1":"4","2":"7","3":"1","4":"2","5":"5","_rn_":"12"},{"1":"4","2":"7","3":"1","4":"3","5":"4","_rn_":"14"},{"1":"4","2":"7","3":"1","4":"3","5":"4","_rn_":"16"},{"1":"5","2":"8","3":"2","4":"3","5":"5","_rn_":"18"},{"1":"5","2":"8","3":"2","4":"4","5":"5","_rn_":"20"},{"1":"6","2":"9","3":"3","4":"5","5":"6","_rn_":"22"},{"1":"6","2":"9","3":"3","4":"6","5":"6","_rn_":"24"},{"1":"7","2":"10","3":"4","4":"8","5":"7","_rn_":"26"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
-<p>5 Select columns A, C and E</p>
+<ol start="5" style="list-style-type: decimal">
+<li>Select columns A, C and E</li>
+</ol>
 <pre class="r"><code>mydata[, c(1,3,5)] </code></pre>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
@@ -567,16 +584,19 @@ mydata[mydata$B&gt;7,]</code></pre>
   </script>
 </div>
 <pre class="r"><code># Or mydata[,c(&#39;A&#39;,&#39;C&#39;,&#39;E&#39;)] </code></pre>
-<p>6 Sort table by decreasing order of column B</p>
+<ol start="6" style="list-style-type: decimal">
+<li>Sort table by decreasing order of column B</li>
+</ol>
 <pre class="r"><code>mydata[order(mydata$B, decreasing = TRUE), ]</code></pre>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
 {"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["A"],"name":[1],"type":["int"],"align":["right"]},{"label":["B"],"name":[2],"type":["int"],"align":["right"]},{"label":["C"],"name":[3],"type":["int"],"align":["right"]},{"label":["D"],"name":[4],"type":["int"],"align":["right"]},{"label":["E"],"name":[5],"type":["int"],"align":["right"]}],"data":[{"1":"8","2":"11","3":"5","4":"9","5":"8","_rn_":"27"},{"1":"7","2":"10","3":"4","4":"7","5":"7","_rn_":"25"},{"1":"7","2":"10","3":"4","4":"8","5":"7","_rn_":"26"},{"1":"6","2":"9","3":"3","4":"5","5":"6","_rn_":"22"},{"1":"6","2":"9","3":"3","4":"5","5":"6","_rn_":"23"},{"1":"6","2":"9","3":"3","4":"6","5":"6","_rn_":"24"},{"1":"5","2":"8","3":"2","4":"3","5":"5","_rn_":"18"},{"1":"5","2":"8","3":"2","4":"4","5":"5","_rn_":"19"},{"1":"5","2":"8","3":"2","4":"4","5":"5","_rn_":"20"},{"1":"5","2":"8","3":"2","4":"4","5":"5","_rn_":"21"},{"1":"4","2":"7","3":"1","4":"2","5":"4","_rn_":"9"},{"1":"4","2":"7","3":"1","4":"2","5":"4","_rn_":"10"},{"1":"4","2":"7","3":"1","4":"2","5":"4","_rn_":"11"},{"1":"4","2":"7","3":"1","4":"2","5":"5","_rn_":"12"},{"1":"4","2":"7","3":"1","4":"2","5":"5","_rn_":"13"},{"1":"4","2":"7","3":"1","4":"3","5":"4","_rn_":"14"},{"1":"4","2":"7","3":"1","4":"3","5":"4","_rn_":"15"},{"1":"4","2":"7","3":"1","4":"3","5":"4","_rn_":"16"},{"1":"4","2":"7","3":"2","4":"3","5":"4","_rn_":"17"},{"1":"3","2":"6","3":"1","4":"2","5":"3","_rn_":"4"},{"1":"3","2":"6","3":"1","4":"2","5":"3","_rn_":"5"},{"1":"3","2":"6","3":"1","4":"2","5":"4","_rn_":"6"},{"1":"3","2":"6","3":"1","4":"2","5":"3","_rn_":"7"},{"1":"3","2":"6","3":"1","4":"2","5":"3","_rn_":"8"},{"1":"2","2":"5","3":"1","4":"1","5":"2","_rn_":"2"},{"1":"2","2":"5","3":"1","4":"1","5":"2","_rn_":"3"},{"1":"1","2":"4","3":"1","4":"1","5":"1","_rn_":"1"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
-<p>{: .solution} {: .challenge}</p>
-</blockquote>
-</blockquote>
+</div>
+<p></details></p>
+</div>
+<p><br></p>
 <p>There is a <code>subset()</code> function in R specifically for subsetting tables. This generally works better than using square brackets as it copes with NA and NULL values:</p>
 <pre class="r"><code>subset(mydata,mydata$C==3)</code></pre>
 <div data-pagedtable="false">
@@ -584,39 +604,39 @@ mydata[mydata$B&gt;7,]</code></pre>
 {"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["A"],"name":[1],"type":["int"],"align":["right"]},{"label":["B"],"name":[2],"type":["int"],"align":["right"]},{"label":["C"],"name":[3],"type":["int"],"align":["right"]},{"label":["D"],"name":[4],"type":["int"],"align":["right"]},{"label":["E"],"name":[5],"type":["int"],"align":["right"]}],"data":[{"1":"6","2":"9","3":"3","4":"5","5":"6","_rn_":"22"},{"1":"6","2":"9","3":"3","4":"5","5":"6","_rn_":"23"},{"1":"6","2":"9","3":"3","4":"6","5":"6","_rn_":"24"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
-<p>However, we will see later on that the <strong><code>tidyverse</code></strong> packages have their own set of functions for filtering datasets.</p>
+<p>However, we will see later on that the <code>tidyverse</code> packages have their own set of functions for filtering datasets.</p>
 </div>
 <div id="plotting-with-r" class="section level2">
 <h2>Plotting with R</h2>
-<p>We recommend learning <strong><code>ggplot2</code></strong> for graphics but it is useful to know the options available in &quot;base&quot; R.</p>
-<p>Remember, to get more information about the options available to a function, type '?function'</p>
-<div id="histogram-of-a" class="section level3">
-<h3>Histogram of A</h3>
+<p>We recommend learning <code>ggplot2</code> for graphics but it is useful to know the options available in &quot;base&quot; R.</p>
+<p>Remember, to get more information about the options available to a function, type <code>?function</code></p>
+<div id="histograms" class="section level3">
+<h3>Histograms</h3>
 <pre class="r"><code>hist(mydata$A)</code></pre>
-<p><img src="02-IntroR_files/figure-html/unnamed-chunk-39-1.png" width="672" /></p>
-<p>If there was more data, like in this large collection of Chick weights, we can increase the number of vertical columns with the option, <code>breaks=50</code> (or another relevant number).</p>
+<p><img src="02-IntroR_files/figure-html/unnamed-chunk-38-1.png" width="672" /></p>
+<p>If there was more data, like in this large collection of Chick weights (another dataset built into R), we can increase the number of vertical columns with the option, <code>breaks=50</code> (or another relevant number).</p>
 <pre class="r"><code>hist(ChickWeight$weight, breaks=5)</code></pre>
-<p><img src="02-IntroR_files/figure-html/unnamed-chunk-40-1.png" width="672" /></p>
+<p><img src="02-IntroR_files/figure-html/unnamed-chunk-39-1.png" width="672" /></p>
 <pre class="r"><code>hist(ChickWeight$weight, breaks=50)</code></pre>
-<p><img src="02-IntroR_files/figure-html/unnamed-chunk-41-1.png" width="672" /></p>
+<p><img src="02-IntroR_files/figure-html/unnamed-chunk-40-1.png" width="672" /></p>
 </div>
 <div id="boxplots" class="section level3">
 <h3>Boxplots</h3>
 <pre class="r"><code>boxplot(mydata)</code></pre>
-<p><img src="02-IntroR_files/figure-html/unnamed-chunk-42-1.png" width="672" /></p>
+<p><img src="02-IntroR_files/figure-html/unnamed-chunk-41-1.png" width="672" /></p>
 <pre class="r"><code>boxplot(mydata$A, mydata$B, names=c(&quot;Value A&quot;, &quot;Value B&quot;) , ylab=&quot;Count of Something&quot;)</code></pre>
-<p><img src="02-IntroR_files/figure-html/unnamed-chunk-43-1.png" width="672" /></p>
+<p><img src="02-IntroR_files/figure-html/unnamed-chunk-42-1.png" width="672" /></p>
 <p>We can get rid of the need to type the data frame each time by using the attach function</p>
 <pre class="r"><code>attach(mydata) # if not already done so
 boxplot(A, B, names=c(&quot;Value A&quot;, &quot;Value B&quot;) , ylab=&quot;Count of Something&quot;)</code></pre>
 <p>Note that the opposite function of attach is detach</p>
 <pre class="r"><code>detach(mydata)</code></pre>
 </div>
-<div id="scatter-plot" class="section level3">
-<h3>Scatter plot</h3>
+<div id="scatter-plots" class="section level3">
+<h3>Scatter plots</h3>
 <pre class="r"><code>attach(mydata) # Re-attach if needed</code></pre>
 <pre class="r"><code>plot(A,B)  # i.e. plot(mydata$A, mydata$B)</code></pre>
-<p><img src="02-IntroR_files/figure-html/unnamed-chunk-47-1.png" width="672" /></p>
+<p><img src="02-IntroR_files/figure-html/unnamed-chunk-46-1.png" width="672" /></p>
 </div>
 </div>
 <div id="saving-images" class="section level2">
@@ -635,29 +655,35 @@ dev.off()</code></pre>
 <pre class="r"><code>pdf(&#39;filename.pdf&#39;) 
 boxplot(A, B, name=c(&quot;Value A&quot;, &quot;Value B&quot;) , ylab=&quot;Count of Something&quot;)
 dev.off()</code></pre>
-<p>Note that nothing will appear on screen, the output is going to the file, 'dev.off()' here stops device and saves the file.</p>
+<p>Note that nothing will appear on screen, the output is going to the file, <code>dev.off()</code> here stops the device and saves the file.</p>
 </div>
 <div id="statistical-testing" class="section level2">
 <h2>Statistical testing</h2>
-<p>R has many functions for statistical testing. Please see our <a href="https://drive.google.com/open?id=1qG_4Dzxc9x3yDnkhjInFKSUGdEHmn2shW2Sj6KwSc_A">introduction to stats</a> slides for more information on distributions, hypothesis testing and statistical significance.</p>
+<p>R has many functions for statistical testing. Please see our <a href="https://drive.google.com/open?id=1qG_4Dzxc9x3yDnkhjInFKSUGdEHmn2shW2Sj6KwSc_A">introduction to stats</a> document for more information on distributions, hypothesis testing and statistical significance.</p>
 <p>Let's say we want to determine whether the means of two groups of data differ statistically. First, we need to know if we are dealing with parametric or non-parametric data, i.e. are they normally distributed?</p>
-<blockquote>
-<h2 id="challenge-2">Challenge 2</h2>
-<p>Plot a histogram for each vector in mydata to visualise the distributions of each dataset.</p>
-<blockquote>
-<h2 id="solution-1">Solution</h2>
+<div class="challenge">
+<h2>
+<i class="fas fa-pencil-alt"></i> Challenge:
+</h2>
+Plot a histogram for each vector in mydata to visualise the distributions of each dataset. <details> <summary></summary>
+<div class="solution">
+<h2>
+<i class="far fa-eye"></i> Solution:
+</h2>
 <pre class="r"><code>hist(A, breaks=5)</code></pre>
-<p><img src="02-IntroR_files/figure-html/unnamed-chunk-50-1.png" width="672" /></p>
+<p><img src="02-IntroR_files/figure-html/unnamed-chunk-49-1.png" width="672" /></p>
 <pre class="r"><code>hist(B, breaks=5)</code></pre>
-<p><img src="02-IntroR_files/figure-html/unnamed-chunk-50-2.png" width="672" /></p>
+<p><img src="02-IntroR_files/figure-html/unnamed-chunk-49-2.png" width="672" /></p>
 <pre class="r"><code>hist(C, breaks=5)</code></pre>
-<p><img src="02-IntroR_files/figure-html/unnamed-chunk-50-3.png" width="672" /></p>
+<p><img src="02-IntroR_files/figure-html/unnamed-chunk-49-3.png" width="672" /></p>
 <pre class="r"><code>hist(D, breaks=5)</code></pre>
-<p><img src="02-IntroR_files/figure-html/unnamed-chunk-50-4.png" width="672" /></p>
+<p><img src="02-IntroR_files/figure-html/unnamed-chunk-49-4.png" width="672" /></p>
 <pre class="r"><code>hist(E, breaks=5)</code></pre>
-<p><img src="02-IntroR_files/figure-html/unnamed-chunk-50-5.png" width="672" /> {: .solution} {: .challenge}</p>
-</blockquote>
-</blockquote>
+<p><img src="02-IntroR_files/figure-html/unnamed-chunk-49-5.png" width="672" /></p>
+</div>
+<p></details></p>
+</div>
+<p><br></p>
 <p>How does the data look? Do any datasets appear to be normally distributed? We can test for normality with the Shapiro Wilk test. Let's do this for column A:</p>
 <pre class="r"><code>shapiro.test(A)</code></pre>
 <pre><code>## 
@@ -665,12 +691,16 @@ dev.off()</code></pre>
 ## 
 ## data:  A
 ## W = 0.95663, p-value = 0.3088</code></pre>
-<p>The Shapiro Wilk test is a non-parametric test. So, a significant p-value (p &lt; 0.05) means that the data is NON-parametric. As p here = 0.3088 (&gt; 0.05), A is parametric.</p>
-<blockquote>
-<h2 id="challenge-3">Challenge 3</h2>
-<p>Which other columns are normally distributed?</p>
-<blockquote>
-<h2 id="solution-2">Solution</h2>
+<p>The null hypothesis in the Shapiro Wilk test is that our data does not differ significantly from a normal distribution. So, a significant p-value (p &lt; 0.05) means that the data is NOT normally distributed. As p here = 0.3088 (&gt; 0.05), we conclude that A is normally distributed and we can use a parametric test.</p>
+<div class="challenge">
+<h2>
+<i class="fas fa-pencil-alt"></i> Challenge:
+</h2>
+Which other columns are normally distributed? <details> <summary></summary>
+<div class="solution">
+<h2>
+<i class="far fa-eye"></i> Solution:
+</h2>
 <pre class="r"><code>shapiro.test(A)</code></pre>
 <pre><code>## 
 ##  Shapiro-Wilk normality test
@@ -701,22 +731,31 @@ dev.off()</code></pre>
 ## 
 ## data:  E
 ## W = 0.96665, p-value = 0.5162</code></pre>
-<p>A, B &amp; E are parametric datasets {: .solution} {: .challenge}</p>
-</blockquote>
-</blockquote>
-<blockquote>
-<h2 id="key-points">Key Points</h2>
-<p><strong>IMPORTANT:</strong> You should only use parametric tests for parametric data! {: .keypoints}</p>
-</blockquote>
+<p>A, B &amp; E are parametric datasets.</p>
+</div>
+<p></details></p>
+</div>
+<p><br></p>
+<div class="key-points">
+<h2>
+<i class="fas fa-thumbtack"></i> <strong>IMPORTANT:</strong>
+</h2>
+<p>You should only use parametric tests for parametric data!</p>
+</div>
+<p><br></p>
 <div id="t-test" class="section level3">
 <h3>T-Test</h3>
-<p>The assumption for a t-test is that both groups are sampled from normal distributions with equal variances, i.e. we can only use a parametric test if the data is normally distributed. As columns A and E are both normally distributed we can use the Welch Two Sample t-test a <em>t-test</em> to test if the mean values are statistically different. Our null hypothesis is that the two means are equal, and the alternative is that they are not.</p>
+<p>The assumption for a t-test is that both groups are sampled from normal distributions with approximately equal variance. We can only use this test if the data is normally distributed. As columns A and E are both normally distributed we can use a Two Sample t-test to test if the mean values are statistically different. Our null hypothesis is that the two means are equal, and the alternative is that they are not.</p>
 <p>If our p-value is less than the significance level 0.05, we can reject the null hypothesis and accept the alternative hypothesis. In other words, we can conclude that the mean values of group A and E are significantly different.</p>
-<blockquote>
-<h2 id="challenge-4">Challenge 4</h2>
-<p>Use a t-test to decide if the mean values of A and E differ more than is expected by random chance. <strong>Hint</strong>: Use the help search to find the t-test function.</p>
-<blockquote>
-<h2 id="solution-3">Solution</h2>
+<div class="challenge">
+<h2>
+<i class="fas fa-pencil-alt"></i> Challenge:
+</h2>
+Use a t-test to decide if the mean values of A and E differ more than is expected by random chance. <strong>Hint</strong>: Use the help search to find the t-test function. <details> <summary></summary>
+<div class="solution">
+<h2>
+<i class="far fa-eye"></i> Solution:
+</h2>
 <pre class="r"><code>t.test(A,E)</code></pre>
 <pre><code>## 
 ##  Welch Two Sample t-test
@@ -729,18 +768,21 @@ dev.off()</code></pre>
 ## sample estimates:
 ## mean of x mean of y 
 ##  4.296296  4.407407</code></pre>
-<p>The p-value of the test is 0.8032, which is greater than the significance level 0.05. We can conclude that A and E are NOT significantly different.</p>
-<p>You can also save the result as an object and print the p-value:</p>
+<p>The p-value of the test is 0.8032, which is greater than the significance level 0.05. We can conclude that A and E are NOT significantly different. You can also save the result as an object and print the p-value:</p>
 <pre class="r"><code>a_e_result &lt;- t.test(A,E)
 a_e_result$p.value</code></pre>
 <pre><code>## [1] 0.8032119</code></pre>
-<p>{: .solution} {: .challenge}</p>
-</blockquote>
-</blockquote>
-<blockquote>
-<h2 id="discussion">Discussion</h2>
-<p>Are any other (parametric) columns significantly different from each other? {: .discussion}</p>
-</blockquote>
+</div>
+<p></details></p>
+</div>
+<p><br></p>
+<div class="discussion">
+<h2>
+<i class="far fa-bell"></i> Discussion
+</h2>
+<p>Are any other (parametric) columns significantly different from each other?</p>
+</div>
+<p><br></p>
 </div>
 <div id="non-parametric-testing" class="section level3">
 <h3>Non-Parametric Testing</h3>
@@ -758,23 +800,17 @@ a_e_result$p.value</code></pre>
 <div id="paired-samples" class="section level3">
 <h3>Paired samples</h3>
 <p>Paired data are sets of data in the same row that came from the same sample (e.g. time series data).</p>
-<p>Load the paired dataset, 'weight.tsv', which contains weights of mice before and after treatment X.</p>
-<blockquote>
-<h2 id="challenge-5">Challenge 5</h2>
-<p>See if you can load the mice weight data. The file is here: **<a href="http://bifx-core.bio.ed.ac.uk/weight.tsv**" class="uri">http://bifx-core.bio.ed.ac.uk/weight.tsv**</a> . Save this as an object called <code>weight</code>, check you have read it correctly and try plotting it.</p>
-<blockquote>
-<h2 id="solution-4">Solution</h2>
+<p>Load the paired dataset, 'weight.tsv', which contains weights of mice before and after a treatment.</p>
 <pre class="r"><code>weight &lt;- read.table(&#39;http://bifx-core.bio.ed.ac.uk/weight.tsv&#39;, header=TRUE)
 weight</code></pre>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
 {"columns":[{"label":["before"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["after"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"200.1","2":"392.9"},{"1":"190.9","2":"393.2"},{"1":"192.7","2":"345.1"},{"1":"213.0","2":"393.0"},{"1":"241.4","2":"434.0"},{"1":"196.9","2":"427.9"},{"1":"172.2","2":"422.0"},{"1":"185.5","2":"383.9"},{"1":"205.2","2":"392.3"},{"1":"193.7","2":"352.2"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
- </script>
+  </script>
 </div>
+<p>Plot out the data.</p>
 <pre class="r"><code>boxplot(weight)</code></pre>
-<p><img src="02-IntroR_files/figure-html/unnamed-chunk-56-1.png" width="672" /> {: .solution} {: .challenge}</p>
-</blockquote>
-</blockquote>
+<p><img src="02-IntroR_files/figure-html/unnamed-chunk-56-1.png" width="672" /></p>
 <p>Again, before testing we first check for normality. Here we are comparing the <em>differences</em> between groups (Weight after MINUS Weight before).</p>
 <pre class="r"><code>weight$after - weight$before</code></pre>
 <pre><code>##  [1] 192.8 202.3 152.4 180.0 192.6 231.0 249.8 198.4 187.1 158.5</code></pre>
@@ -786,13 +822,13 @@ weight</code></pre>
 {"columns":[{"label":["before"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["after"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["diff"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"200.1","2":"392.9","3":"192.8"},{"1":"190.9","2":"393.2","3":"202.3"},{"1":"192.7","2":"345.1","3":"152.4"},{"1":"213.0","2":"393.0","3":"180.0"},{"1":"241.4","2":"434.0","3":"192.6"},{"1":"196.9","2":"427.9","3":"231.0"},{"1":"172.2","2":"422.0","3":"249.8"},{"1":"185.5","2":"383.9","3":"198.4"},{"1":"205.2","2":"392.3","3":"187.1"},{"1":"193.7","2":"352.2","3":"158.5"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
-<pre class="r"><code>shapiro.test(weight$diff) # Or shapiro.test(weight$diff)</code></pre>
+<pre class="r"><code>shapiro.test(weight$diff)</code></pre>
 <pre><code>## 
 ##  Shapiro-Wilk normality test
 ## 
 ## data:  weight$diff
 ## W = 0.94536, p-value = 0.6141</code></pre>
-<p>Looks good, the p-value is greater than 0.05 implying that the distribution of the differences (d) are not significantly different from normal distribution. In other words, we can assume normality.</p>
+<p>Looks good, the p-value is greater than 0.05 implying that the distribution of the differences (d) are not significantly different from the normal distribution. In other words, we can assume normality.</p>
 <p>We want to know if the weights before treatment are significantly different to the weights after. Let's run the t-test. If the data is paired we use the option <code>paired=true</code>.</p>
 <pre class="r"><code>t.test(weight$before, weight$after, paired = TRUE)</code></pre>
 <pre><code>## 
@@ -819,7 +855,7 @@ p.adjust(x)</code></pre>
 </div>
 <div id="matrix-data-and-tests" class="section level2">
 <h2>Matrix Data and Tests</h2>
-<p>A matrix is a data frame where the values in rows are related across columns. You can turn a data frame into a matrix using the <code>as.matrix()</code> function.</p>
+<p>A matrix is a data frame where the values in rows and columns represent the same data type. You can turn a data frame into a matrix using the <code>as.matrix()</code> function.</p>
 <pre class="r"><code>mymatrix &lt;- as.matrix(mydata)</code></pre>
 <p>Or create one from a vector using the <code>matrix()</code> function (See <code>?matrix</code>).</p>
 <pre class="r"><code>lst &lt;- c(54,66,80,20)
@@ -868,6 +904,95 @@ Mutant cells with marker absent: 20</code></pre>
 ## odds ratio 
 ##  0.2061251</code></pre>
 <p>This is recommended over the Chi-square in general as the test is more robust, although Fishers exact test only works on two-by-two matrices. If we have more groups we have to use a Chi-square.</p>
+<div class="challenge">
+<h2>
+<i class="fas fa-pencil-alt"></i> Final Challenge:
+</h2>
+<p>In this challenge we are going to perform statistical analysis to see if the weights of 10 rabbits <em>increase</em> after a hypothetical experimental treatment. First prepare the data:</p>
+<pre class="r"><code># The data set 
+# Weight of the rabbit before treatment 
+before &lt;-c(190.1, 190.9, 172.7, 213, 231.4,  
+           196.9, 172.2, 285.5, 225.2, 113.7) 
+  
+# Weight of the rabbit after treatment 
+after &lt;-c(392.9, 313.2, 345.1, 393, 434,  
+          227.9, 422, 383.9, 392.3, 801.2) 
+  
+# Create a data frame 
+rabbits &lt;- data.frame(  
+  sample=c(1:10), ##Assign sampleIDs
+  before=before,
+  after=after
+)</code></pre>
+<div class="discussion">
+<h2>
+<i class="far fa-bell"></i> Consider the following:
+</h2>
+<h2 id="section-1"></h2>
+<ul>
+<li>Plot the data first. What is the best way to visualise this?</li>
+<li>Are the values independent or paired?</li>
+<li>Should you use a parametric or non-parametric test?</li>
+<li>Which test will you use?</li>
+<li>What is the alternative hypothesis?</li>
+<li>Are the groups significantly different?</li>
+<li>What is the confidence interval?</li>
+</ul>
+</div>
+<p><br></p>
+<details> <summary></summary>
+<div class="solution">
+<h2>
+<i class="far fa-eye"></i> Solution:
+</h2>
+<p>Visualise:</p>
+<pre class="r"><code>boxplot(rabbits$before,rabbits$after)</code></pre>
+<p><img src="02-IntroR_files/figure-html/unnamed-chunk-71-1.png" width="672" /></p>
+<p>Test for normality:</p>
+<pre class="r"><code>shapiro.test(rabbits$after-rabbits$before)</code></pre>
+<pre><code>## 
+##  Shapiro-Wilk normality test
+## 
+## data:  rabbits$after - rabbits$before
+## W = 0.70287, p-value = 0.0009544</code></pre>
+<p>We reject the Null hypothesis that the difference in weights is normally distributed, so we muct use a non parametric test.</p>
+<p>The data is paired and our null hypothesis is that the weight after treatment is not <em>greater</em> than the weight before. We therefore have a one-sided test and use &quot;greater&quot; as our alternative hypothesis. We include the option to produce confidence intervals:</p>
+<pre class="r"><code>wilcox.test(rabbits$after, rabbits$before, paired = TRUE,alternative = &quot;greater&quot;,conf.int = T) </code></pre>
+<pre><code>## 
+##  Wilcoxon signed rank test
+## 
+## data:  rabbits$after and rabbits$before
+## V = 55, p-value = 0.0009766
+## alternative hypothesis: true location shift is greater than 0
+## 95 percent confidence interval:
+##  122.3   Inf
+## sample estimates:
+## (pseudo)median 
+##          176.2</code></pre>
+</div>
+<p></details></p>
+</div>
+<p><br></p>
+<div class="resources">
+<h2>
+<i class="fas fa-book"></i> Further Learning
+</h2>
+<p>Further examples are available on the <a href="http://www.sthda.com/english/wiki/comparing-means-in-r">sthda</a> website.</p>
+</div>
+<p><br></p>
+<div class="key-points">
+<h2>
+<i class="fas fa-thumbtack"></i> Key points
+</h2>
+<h2 id="section-2"></h2>
+<ul>
+<li>R is a functional programming language</li>
+<li>RStudio is an interactive environment for programming in R</li>
+<li>Base R functions can be used to import, manipulate and plot data</li>
+<li>There are many functions for statistical analysis in R</li>
+</ul>
+</div>
+<p><br></p>
 </div>
 </div>
 
