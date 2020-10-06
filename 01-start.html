@@ -309,9 +309,10 @@ $(document).ready(function () {
 <head>
 <script src="https://kit.fontawesome.com/ece750edd7.js" crossorigin="anonymous"></script>
 </head>
-<p><br> We recommend using <a href="https://rstudio.com/">RStudio</a> for this workshop. <a href="https://www.rstudio.com/">RStudio</a> is an Integrated Development Environment (IDE) for R. It can be accessed in several ways. Download <a href="https://rstudio.com/">RStudio</a> and install it on your own computer.</p>
+<hr />
+<p>We recommend using <a href="https://rstudio.com/">RStudio</a> for this workshop. <a href="https://www.rstudio.com/">RStudio</a> is an Integrated Development Environment (IDE) for R. It can be accessed in several ways. Download <a href="https://rstudio.com/">RStudio</a> and install it on your own computer.</p>
 <div id="using-rstudio" class="section level2">
-<h2>Using RStudio</h2>
+<h2><strong>Using RStudio</strong></h2>
 <div class="row">
 <div class="col-md-6">
 <p>The are 4 main panes, each with several tabs:</p>
@@ -357,7 +358,7 @@ $(document).ready(function () {
 </div>
 </div>
 <div id="running-commands" class="section level2">
-<h2>Running commands</h2>
+<h2><strong>Running commands</strong></h2>
 <p>You can work in 3 different ways in RStudio.</p>
 <ul>
 <li>Use the <strong>console</strong> to run commands.</li>
@@ -366,16 +367,16 @@ $(document).ready(function () {
 </ul>
 <p>Commands can be typed directly into the console, but in order to keep track it's best to write them into a script as you go (File-&gt;New File-&gt;R Script). From here you can use a shortcut to run the command on the line where your cursor is:</p>
 <ul>
-<li><kbd>Ctrl</kbd> + <kbd>Enter</kbd> on PC</li>
-<li><kbd>Cmd</kbd> + <kbd>Enter</kbd> on Mac</li>
+<li><kbd>Alt</kbd> + <kbd>Enter</kbd> to keep the cursor on the same line</li>
+<li><kbd>Ctrl</kbd> + <kbd>Enter</kbd> to move to the next line</li>
 </ul>
-<p>Alternatively use <kbd>Alt</kbd> + <kbd>Enter</kbd> to keep the cursor on the same line. You can also use the <kbd>Tab</kbd> key to autocomplete names of functions and objects.</p>
+<p>You can also use the <kbd>Tab</kbd> key to autocomplete names of functions and objects as you type them into your script.</p>
 <p><strong>Hint:</strong> When using the console, the Up/Down arrow keys can be use to cycle through previous commands.</p>
 <p>In the console you should always see a <code>&gt;</code> prompt, if you can't see this R may still be working. There is a red Stop light at the top right of the console when a command is running. If you see a <code>+</code> instead of <code>&gt;</code>, R is waiting for more input. Sometimes this means you have forgotten to close a bracket or quotation.</p>
 <p>Using <strong>R Markdown</strong> is a great way to annotate your code and present it at the end. It's worth learning but will add a further level of complication for novice users.</p>
 </div>
 <div id="installing-libraries" class="section level2">
-<h2>Installing libraries</h2>
+<h2><strong>Installing libraries</strong></h2>
 <p>Libraries provide additional functions in R and can be downloaded from several sources:</p>
 <ul>
 <li><a href="https://cran.r-project.org/">CRAN</a> is the Comprehensive R Archive Network and hosts the majority of generic R packages.</li>
@@ -408,21 +409,6 @@ devtools::install_github(&quot;thomasp85/patchwork&quot;)</code></pre>
 <li>It will be best to work with the tutorial and RStudio open together so you can easily switch between the two. Working on a wide split-screen or multiple desktops is the best setup.</li>
 <li>I recommend typing out commands rather than copy-and-pasting if you want to learn. Remember you can use the <kbd>Tab</kbd> to save on typing!</li>
 </ul>
-</div>
-<p><br></p>
-<div class="challenge">
-<h2>
-<i class="fas fa-pencil-alt"></i> Challenge:
-</h2>
-What is a fish? <details> <summary></summary>
-<div class="solution">
-<h2>
-<i class="far fa-eye"></i> Solution:
-</h2>
-<pre class="r"><code>mtcars$mpg[1]</code></pre>
-<pre><code>## [1] 21</code></pre>
-<p></details></p>
-</div>
 </div>
 <p><br></p>
 </div>

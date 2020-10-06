@@ -327,14 +327,14 @@ $(document).ready(function () {
 <p><br></p>
 </div>
 <div id="what-is-r" class="section level2">
-<h2>What is R?</h2>
+<h2><strong>What is R?</strong></h2>
 <p><a href="http://www.r-project.org/">R</a> is an extremely powerful programming language for working with datasets, applying statistics and creating publication ready graphics. In this lesson you will learn how to program in R and use the RStudio environment. We will cover the basics of the R syntax using built in packages (base R), as well as importing data, creating simple graphics and running statistical tests.</p>
 </div>
 <div id="why-should-you-use-r" class="section level2">
-<h2>Why should you use R?</h2>
+<h2><strong>Why should you use R?</strong></h2>
 <ul>
-<li><strong>Free!</strong></li>
-<li><strong>Powerful</strong>, many libraries have been created to perform application specific tasks. e.g. Next-Gen sequencing (bioconductor).</li>
+<li>It's <strong>free!</strong></li>
+<li>It's <strong>Powerful</strong>. Many libraries have been created to perform application specific tasks. e.g. Next-Gen sequencing (bioconductor).</li>
 <li>Packages available for storing, manipulating and visualising data in a sensible fashion (Tidyverse)</li>
 <li>Presentation quality graphics
 <ul>
@@ -351,7 +351,7 @@ $(document).ready(function () {
 </ul>
 </div>
 <div id="r-terms-used-in-this-workshop" class="section level2">
-<h2>R terms used in this workshop</h2>
+<h2><strong>R terms used in this workshop</strong></h2>
 <ul>
 <li><strong>Working directory</strong>
 <ul>
@@ -373,7 +373,7 @@ $(document).ready(function () {
 </ul>
 </div>
 <div id="r-syntax" class="section level2">
-<h2>R Syntax</h2>
+<h2><strong>R Syntax</strong></h2>
 <p>R is a <strong>functional</strong> based language:</p>
 <ul>
 <li>Every command is the name of a function followed by parentheses.</li>
@@ -427,7 +427,7 @@ $(document).ready(function () {
 </div>
 </div>
 <div id="getting-data-into-r" class="section level2">
-<h2>Getting data into R</h2>
+<h2><strong>Getting data into R</strong></h2>
 <p>For a beginner, this can be the hardest part, it is also the most important part to get right.</p>
 <p>It is possible to create a vector by typing data directly into R using the combine function <code>c</code>. Think of it as a concatenate or combine function.</p>
 <pre class="r"><code>x   &lt;-  c(1,2,3,4,5)</code></pre>
@@ -489,7 +489,7 @@ $(document).ready(function () {
 </div>
 </div>
 <div id="inspecting-and-subsetting-a-dataset" class="section level2">
-<h2>Inspecting and subsetting a dataset</h2>
+<h2><strong>Inspecting and subsetting a dataset</strong></h2>
 <pre class="r"><code>summary(mydata) # Summary of the whole data frame </code></pre>
 <pre><code>##        A               B                C               D        
 ##  Min.   :1.000   Min.   : 4.000   Min.   :1.000   Min.   :1.000  
@@ -613,7 +613,7 @@ mydata[mydata$B&gt;7,]</code></pre>
 <p>However, we will see later on that the <code>tidyverse</code> packages have their own set of functions for filtering datasets. <br></p>
 </div>
 <div id="plotting-with-r" class="section level2">
-<h2>Plotting with R</h2>
+<h2><strong>Plotting with R</strong></h2>
 <p>We recommend learning <code>ggplot2</code> for graphics but it is useful to know the options available in &quot;base&quot; R.</p>
 <p>Remember, to get more information about the options available to a function, type <code>?function</code></p>
 <div id="histograms" class="section level3">
@@ -646,7 +646,7 @@ boxplot(A, B, names=c(&quot;Value A&quot;, &quot;Value B&quot;) , ylab=&quot;Cou
 </div>
 </div>
 <div id="saving-images" class="section level2">
-<h2>Saving images</h2>
+<h2><strong>Saving images</strong></h2>
 <p>There are a few ways to save images:</p>
 <ul>
 <li>Use the <strong>export</strong> button in the Plots pane in Rstudio.</li>
@@ -664,8 +664,15 @@ dev.off()</code></pre>
 <p>Note that nothing will appear on screen, the output is going to the file, <code>dev.off()</code> here stops the device and saves the file.</p>
 </div>
 <div id="statistical-testing" class="section level2">
-<h2>Statistical testing</h2>
-<p>R has many functions for statistical testing. Please see our <a href="https://drive.google.com/open?id=1qG_4Dzxc9x3yDnkhjInFKSUGdEHmn2shW2Sj6KwSc_A">introduction to stats</a> document for more information on distributions, hypothesis testing and statistical significance.</p>
+<h2><strong>Statistical testing</strong></h2>
+<p>R has many functions for statistical testing.</p>
+<div class="resources">
+<h2>
+<i class="fas fa-book"></i> Further Resources
+</h2>
+<p>Please see our <a href="https://drive.google.com/open?id=1qG_4Dzxc9x3yDnkhjInFKSUGdEHmn2shW2Sj6KwSc_A">introduction to statistics</a> document for more information on distributions, hypothesis testing and statistical significance.</p>
+</div>
+<p><br></p>
 <p>Let's say we want to determine whether the means of two groups of data differ statistically. First, we need to know if we are dealing with parametric or non-parametric data, i.e. are they normally distributed?</p>
 <div class="challenge">
 <h2>
@@ -860,7 +867,7 @@ p.adjust(x)</code></pre>
 </div>
 </div>
 <div id="matrix-data-and-tests" class="section level2">
-<h2>Matrix Data and Tests</h2>
+<h2><strong>Matrix Data and Tests</strong></h2>
 <p>A matrix is a data frame where the values in rows and columns represent the same data type. You can turn a data frame into a matrix using the <code>as.matrix()</code> function.</p>
 <pre class="r"><code>mymatrix &lt;- as.matrix(mydata)</code></pre>
 <p>Or create one from a vector using the <code>matrix()</code> function (See <code>?matrix</code>).</p>
