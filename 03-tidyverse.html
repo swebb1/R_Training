@@ -344,6 +344,16 @@ $(document).ready(function () {
 surveys &lt;- read_csv(&quot;data/surveys_complete.csv&quot;)</code></pre>
 <pre class="r"><code>#Otherwise you can read from a URL
 surveys &lt;- read_csv(&quot;http://bifx-core.bio.ed.ac.uk/training/R_dplyr_and_ggplot2/data/surveys_complete.csv&quot;)</code></pre>
+<div class="discussion">
+<h2>
+<i class="far fa-bell"></i> Discussion
+</h2>
+<ul>
+<li>Look at the options available in the <code>read_csv</code> and compare this with the <code>read.table</code> function we saw earlier.</li>
+<li>What other <code>readr</code> functions can you find?</li>
+</ul>
+</div>
+<p><br></p>
 <p>This dataset contains observations from a field survey of different organisms at different sites (plots). Let's inspect the data.</p>
 <pre class="r"><code>#Type an R objects name to print the contents
 surveys</code></pre>
@@ -404,7 +414,8 @@ str(surveys)</code></pre>
 <ul>
 <li>The tidyverse is a suite of R packages</li>
 <li>Stick to the principles and philosophy of tidy data</li>
-<li>Use these packages to manipulate and plot data</li>
+<li>Use the <code>readr</code> package to import data as tibbles</li>
+<li>Use further tidyverse packages to tidy, re-format and visualise data</li>
 </ul>
 </div>
 <p><br></p>

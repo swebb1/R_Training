@@ -30,14 +30,14 @@ knitr::opts_chunk$set(warning=FALSE, message=FALSE)
 </div>
 <br>
 
-## What is R?
+## **What is R?**
 
 [R](http://www.r-project.org/) is an extremely powerful programming language for working with datasets, applying statistics and creating publication ready graphics. In this lesson you will learn how to program in R and use the RStudio environment. We will cover the basics of the R syntax using built in packages (base R), as well as importing data, creating simple graphics and running statistical tests.
 
-## Why should you use R?
+## **Why should you use R?**
 
-* **Free!**
-* **Powerful**, many libraries have been created to perform application specific tasks. e.g. Next-Gen sequencing (bioconductor).
+* It's **free!**
+* It's **Powerful**. Many libraries have been created to perform application specific tasks. e.g. Next-Gen sequencing (bioconductor).
 * Packages available for storing, manipulating and visualising data in a sensible fashion (Tidyverse)
 * Presentation quality graphics
     + Save as a png, pdf or svg
@@ -48,7 +48,7 @@ knitr::opts_chunk$set(warning=FALSE, message=FALSE)
 * [R markdown](https://rmarkdown.rstudio.com/) can generate documents to present your code, annotation and results in useful reports.
 * [Shiny](https://shiny.rstudio.com/) can produce interactive applications for exploratory data analysis.
 
-## R terms used in this workshop
+## **R terms used in this workshop**
 
 * **Working directory**
     + This is the directory used to store your data and results. 
@@ -60,7 +60,7 @@ knitr::opts_chunk$set(warning=FALSE, message=FALSE)
 * **Matrix**
     + a table where columns and rows are related and all the same type of data
 
-## R Syntax
+## **R Syntax**
 
 R is a **functional** based language:
 
@@ -145,7 +145,7 @@ mydata = read.table('http://bifx-core.bio.ed.ac.uk/data.tsv')
 * **Vector**: a list of numbers. Equivalent to a column in a table
 * **Data Frame**: a collection of vectors. Equivalent to a table.
 
-## Getting data into R
+## **Getting data into R**
 
 For a beginner, this can be the hardest part, it is also the most important part to get right. 
 
@@ -234,7 +234,7 @@ As this is such a common task there are functions identical to read.table but wi
 
 In the *Environment* pane in RStudio there is a button called "Import Dataset". This can make importing data much easier and calls the `read.*` set of functions for you. The command used will be displayed on the console. Note that you need to have the file on the computer to use this button.
 
-## Inspecting and subsetting a dataset
+## **Inspecting and subsetting a dataset**
 
 ```{r}
 summary(mydata) # Summary of the whole data frame 
@@ -262,6 +262,7 @@ order(A) #  The order function sorts a vector.
 ```
 
 We can access specific rows, columns and cells within a table using square brackets: TABLE[ROW,COLUMN]. Try out the following commands.
+
 ```{r eval=FALSE}
 ##Print the value in the first column of the first row
 mydata[1,1]
@@ -329,7 +330,7 @@ subset(mydata,mydata$C==3)
 However, we will see later on that the `tidyverse` packages have their own set of functions for filtering datasets.
 <br>
 
-## Plotting with R
+## **Plotting with R**
 
 We recommend learning `ggplot2` for graphics but it is useful to know the options available in "base" R.
 
@@ -383,7 +384,7 @@ attach(mydata) # Re-attach if needed
 plot(A,B)  # i.e. plot(mydata$A, mydata$B)
 ```
 
-## Saving images
+## **Saving images**
 
 There are a few ways to save images:
 
@@ -410,7 +411,7 @@ dev.off()
 
 Note that nothing will appear on screen, the output is going to the file, `dev.off()` here stops the device and saves the file.
 
-## Statistical testing
+## **Statistical testing**
 
 R has many functions for statistical testing. 
 
@@ -576,7 +577,7 @@ x = c(0.0001, 0.05, 0.001, 0.1, 0.1, 0.1, 0.1,0.5,0.5,0.5)
 p.adjust(x)
 ```
 
-## Matrix Data and Tests
+## **Matrix Data and Tests**
 
 A matrix is a data frame where the values in rows and columns represent the same data type. You can turn a data frame into a matrix using the `as.matrix()` function.
 

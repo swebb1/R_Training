@@ -1,13 +1,5 @@
 ---
 title: "Getting Started"
-teaching: 5
-exercises: 5
-objectives:
-  - Getting started with R
-keypoints:
-  - Access RStudio
-  - Create a new project
-  - Install the relevant packages
 output: 
   html_document:
     df_print: paged
@@ -27,7 +19,7 @@ knitr::opts_chunk$set(warning=FALSE, message=FALSE)
 
 We recommend using [RStudio](https://rstudio.com/) for this workshop. [RStudio](https://www.rstudio.com/) is an Integrated Development Environment (IDE) for R. It can be accessed in several ways. Download [RStudio](https://rstudio.com/) and install it on your own computer.
 
-## Using RStudio
+## **Using RStudio**
 
 <div class = "row">
 <div class = "col-md-6">
@@ -64,7 +56,7 @@ Once you have done this, this will be your **working directory**. Files will be 
 
 Using Rstudio has the advantage that everything you do can be saved between RStudio sessions.
 
-## Running commands
+## **Running commands**
 
 You can work in 3 different ways in RStudio. 
 
@@ -86,7 +78,7 @@ In the console you should always see a `>` prompt, if you can't see this R may s
 
 Using **R Markdown** is a great way to annotate your code and present it at the end. It's worth learning but will add a further level of complication for novice users.
 
-## Installing libraries
+## **Installing libraries**
 
 Libraries provide additional functions in R and can be downloaded from several sources:
 
