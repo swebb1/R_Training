@@ -429,9 +429,8 @@ Using pipes, subset the <code>surveys</code> data to include animals collected b
 <div id="split-apply-combine" class="section level2">
 <h2><strong>Split-apply-combine</strong></h2>
 <p>Many data analysis tasks can be approached using the <em>split-apply-combine</em> paradigm: split the data into groups, apply some analysis to each group, and then combine the results. <strong>dplyr</strong> makes this very easy through the use of the <code>group_by()</code> function.</p>
-</div>
-<div id="summarise-and-group_by" class="section level2">
-<h2>Summarise and group_by</h2>
+<div id="summarise-and-group_by" class="section level3">
+<h3>Summarise and group_by</h3>
 <p><code>group_by()</code> is often used together with <code>summarise()</code>, which collapses each group into a single-row summary of that group. The <code>group_by()</code> function takes as arguments the column names that contain the <strong>categorical</strong> variables for which you want to calculate the summary statistics. The <code>summarise()</code> function computes a summary statistic for each group using a specified function and variable. So to compute the mean <code>weight</code> by sex:</p>
 <pre class="r"><code>surveys %&gt;%
   group_by(sex) %&gt;%
@@ -458,8 +457,8 @@ Using pipes, subset the <code>surveys</code> data to include animals collected b
             mean_hindfoot_length = mean(hindfoot_length)) %&gt;%
   arrange(desc(mean_weight))</code></pre>
 </div>
-<div id="count" class="section level2">
-<h2>Count</h2>
+<div id="count" class="section level3">
+<h3>Count</h3>
 <p>When working with data, we often want to know the number of observations found for each factor or combination of factors. For this task, <strong>dplyr</strong> provides <code>count()</code>. For example, if we wanted to count the number of rows of data for each sex, we would do:</p>
 <pre class="r"><code>surveys %&gt;%
     count(sex) </code></pre>
@@ -514,6 +513,7 @@ How many animals were caught in each <code>plot_type</code> surveyed? <details> 
 <p></details></p>
 </div>
 <p><br></p>
+</div>
 </div>
 <div id="pivoting-functions-in-tidyr" class="section level2">
 <h2><strong>Pivoting functions in tidyr</strong></h2>
