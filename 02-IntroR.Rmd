@@ -412,7 +412,13 @@ Note that nothing will appear on screen, the output is going to the file, `dev.o
 
 ## Statistical testing
 
-R has many functions for statistical testing. Please see our [introduction to stats](https://drive.google.com/open?id=1qG_4Dzxc9x3yDnkhjInFKSUGdEHmn2shW2Sj6KwSc_A) document for more information on distributions, hypothesis testing and statistical significance. 
+R has many functions for statistical testing. 
+
+<div class="resources">
+<h2><i class="fas fa-book"></i> Further Resources</h2>
+Please see our [introduction to statistics](https://drive.google.com/open?id=1qG_4Dzxc9x3yDnkhjInFKSUGdEHmn2shW2Sj6KwSc_A) document for more information on distributions, hypothesis testing and statistical significance.
+</div>
+<br> 
 
 Let's say we want to determine whether the means of two groups of data differ statistically. First, we need to know if we are dealing with parametric or non-parametric data, i.e. are they normally distributed?
 
