@@ -327,11 +327,14 @@ $(document).ready(function () {
 <p><br></p>
 </div>
 <div id="what-is-r" class="section level2">
-<h2><strong>What is R?</strong></h2>
+<h2>What is R?</h2>
+<hr />
 <p><a href="http://www.r-project.org/">R</a> is an extremely powerful programming language for working with datasets, applying statistics and creating publication ready graphics. In this lesson you will learn how to program in R and use the RStudio environment. We will cover the basics of the R syntax using built in packages (base R), as well as importing data, creating simple graphics and running statistical tests.</p>
+<p><br></p>
 </div>
-<div id="why-should-you-use-r" class="section level2">
-<h2><strong>Why should you use R?</strong></h2>
+<div id="why-use-r" class="section level2">
+<h2>Why use R?</h2>
+<hr />
 <ul>
 <li>It's <strong>free!</strong></li>
 <li>It's <strong>Powerful</strong>. Many libraries have been created to perform application specific tasks. e.g. Next-Gen sequencing (bioconductor).</li>
@@ -349,9 +352,11 @@ $(document).ready(function () {
 <li><a href="https://rmarkdown.rstudio.com/">R markdown</a> can generate documents to present your code, annotation and results in useful reports.</li>
 <li><a href="https://shiny.rstudio.com/">Shiny</a> can produce interactive applications for exploratory data analysis.</li>
 </ul>
+<p><br></p>
 </div>
 <div id="r-terms-used-in-this-workshop" class="section level2">
-<h2><strong>R terms used in this workshop</strong></h2>
+<h2>R terms used in this workshop</h2>
+<hr />
 <ul>
 <li><strong>Working directory</strong>
 <ul>
@@ -371,9 +376,11 @@ $(document).ready(function () {
 <li>a table where columns and rows are related and all the same type of data</li>
 </ul></li>
 </ul>
+<p><br></p>
 </div>
 <div id="r-syntax" class="section level2">
-<h2><strong>R Syntax</strong></h2>
+<h2>R Syntax</h2>
+<hr />
 <p>R is a <strong>functional</strong> based language:</p>
 <ul>
 <li>Every command is the name of a function followed by parentheses.</li>
@@ -418,16 +425,21 @@ $(document).ready(function () {
 <p>Here, <strong>mydata</strong> is an object name and the syntax <strong>&lt;-</strong> assigns the output of the function to it.</p>
 <p>You could also use the equals sign <code>=</code>.</p>
 <pre class="r"><code>mydata = read.table(&#39;http://bifx-core.bio.ed.ac.uk/data.tsv&#39;)</code></pre>
-<div id="reminder" class="section level3">
-<h3>Reminder:</h3>
+<br>
+<div class="key-points">
+<h2>
+<i class="fas fa-thumbtack"></i> Key points
+</h2>
 <ul>
 <li><strong>Vector</strong>: a list of numbers. Equivalent to a column in a table</li>
 <li><strong>Data Frame</strong>: a collection of vectors. Equivalent to a table.</li>
 </ul>
 </div>
+<p><br></p>
 </div>
 <div id="getting-data-into-r" class="section level2">
-<h2><strong>Getting data into R</strong></h2>
+<h2>Getting data into R</h2>
+<hr />
 <p>For a beginner, this can be the hardest part, it is also the most important part to get right.</p>
 <p>It is possible to create a vector by typing data directly into R using the combine function <code>c</code>. Think of it as a concatenate or combine function.</p>
 <pre class="r"><code>x   &lt;-  c(1,2,3,4,5)</code></pre>
@@ -472,8 +484,9 @@ $(document).ready(function () {
 <p>If any of these are typed it will print to screen:</p>
 <pre class="r"><code>mydata$A</code></pre>
 <pre><code>##  [1] 1 2 2 3 3 3 3 3 4 4 4 4 4 4 4 4 4 5 5 5 5 6 6 6 7 7 8</code></pre>
+<p><br></p>
 <div id="other-options-for-read.table" class="section level3">
-<h3>Other options for read.table</h3>
+<h3><strong>Other options for read.table</strong></h3>
 <p>Use <code>sep=</code> to define how your columns are separated in the file:</p>
 <pre class="r"><code>mydata  &lt;- read.table(&#39;http://bifx-core.bio.ed.ac.uk/data.tsv&#39;, header=T, sep=&#39;\t&#39;)</code></pre>
 <p>Tab separated files are really useful if you expect to have spaces in the contents of some columns. You need to tell R if your files are separated by the tab character to avoid messing up the reading of columns.</p>
@@ -482,14 +495,17 @@ $(document).ready(function () {
 <p>This causes R to fill empty spaces in columns with 'NA'.</p>
 <p>The last two examples will still work with our file and give the same result.</p>
 <p>As this is such a common task there are functions identical to read.table but with different default settings. e.g. <strong>read.delim</strong> and <strong>read.csv</strong>. Check out the help pages for each.</p>
+<p><br></p>
 </div>
-<div id="import-dataset" class="section level3">
-<h3>Import Dataset</h3>
+<div id="importing-datasets" class="section level3">
+<h3><strong>Importing Datasets</strong></h3>
 <p>In the <em>Environment</em> pane in RStudio there is a button called &quot;Import Dataset&quot;. This can make importing data much easier and calls the <code>read.*</code> set of functions for you. The command used will be displayed on the console. Note that you need to have the file on the computer to use this button.</p>
+<p><br></p>
 </div>
 </div>
 <div id="inspecting-and-subsetting-a-dataset" class="section level2">
-<h2><strong>Inspecting and subsetting a dataset</strong></h2>
+<h2>Inspecting and subsetting a dataset</h2>
+<hr />
 <pre class="r"><code>summary(mydata) # Summary of the whole data frame </code></pre>
 <pre><code>##        A               B                C               D        
 ##  Min.   :1.000   Min.   : 4.000   Min.   :1.000   Min.   :1.000  
@@ -530,6 +546,7 @@ mydata[1:5,c(3,5)]
 mydata[,&quot;B&quot;]
 ##You can select rows or columns based on criteria (subsetting). 
 mydata[mydata$B&gt;7,]</code></pre>
+<br>
 <div class="challenge">
 <h2>
 <i class="fas fa-pencil-alt"></i> Challenge:
@@ -610,14 +627,16 @@ mydata[mydata$B&gt;7,]</code></pre>
 {"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["A"],"name":[1],"type":["int"],"align":["right"]},{"label":["B"],"name":[2],"type":["int"],"align":["right"]},{"label":["C"],"name":[3],"type":["int"],"align":["right"]},{"label":["D"],"name":[4],"type":["int"],"align":["right"]},{"label":["E"],"name":[5],"type":["int"],"align":["right"]}],"data":[{"1":"6","2":"9","3":"3","4":"5","5":"6","_rn_":"22"},{"1":"6","2":"9","3":"3","4":"5","5":"6","_rn_":"23"},{"1":"6","2":"9","3":"3","4":"6","5":"6","_rn_":"24"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
-<p>However, we will see later on that the <code>tidyverse</code> packages have their own set of functions for filtering datasets. <br></p>
+<p>However, we will see later on that the <code>tidyverse</code> packages have their own set of functions for filtering datasets.</p>
+<p><br></p>
 </div>
 <div id="plotting-with-r" class="section level2">
-<h2><strong>Plotting with R</strong></h2>
-<p>We recommend learning <code>ggplot2</code> for graphics but it is useful to know the options available in &quot;base&quot; R.</p>
-<p>Remember, to get more information about the options available to a function, type <code>?function</code></p>
+<h2>Plotting with R</h2>
+<hr />
+<p>We recommend learning <code>ggplot2</code> for graphics but it is useful to know the options available in &quot;base&quot; R. Remember, to get more information about the options available to a function, type <code>?function</code>.</p>
+<p><br></p>
 <div id="histograms" class="section level3">
-<h3>Histograms</h3>
+<h3><strong>Histograms</strong></h3>
 <pre class="r"><code>hist(mydata$A)</code></pre>
 <p><img src="02-IntroR_files/figure-html/unnamed-chunk-38-1.png" width="672" /></p>
 <p>If there was more data, like in this large collection of Chick weights (another dataset built into R), we can increase the number of vertical columns with the option, <code>breaks=50</code> (or another relevant number).</p>
@@ -625,9 +644,10 @@ mydata[mydata$B&gt;7,]</code></pre>
 <p><img src="02-IntroR_files/figure-html/unnamed-chunk-39-1.png" width="672" /></p>
 <pre class="r"><code>hist(ChickWeight$weight, breaks=50)</code></pre>
 <p><img src="02-IntroR_files/figure-html/unnamed-chunk-40-1.png" width="672" /></p>
+<p><br></p>
 </div>
 <div id="boxplots" class="section level3">
-<h3>Boxplots</h3>
+<h3><strong>Boxplots</strong></h3>
 <pre class="r"><code>boxplot(mydata)</code></pre>
 <p><img src="02-IntroR_files/figure-html/unnamed-chunk-41-1.png" width="672" /></p>
 <pre class="r"><code>boxplot(mydata$A, mydata$B, names=c(&quot;Value A&quot;, &quot;Value B&quot;) , ylab=&quot;Count of Something&quot;)</code></pre>
@@ -637,16 +657,19 @@ mydata[mydata$B&gt;7,]</code></pre>
 boxplot(A, B, names=c(&quot;Value A&quot;, &quot;Value B&quot;) , ylab=&quot;Count of Something&quot;)</code></pre>
 <p>Note that the opposite function of attach is detach</p>
 <pre class="r"><code>detach(mydata)</code></pre>
+<p><br></p>
 </div>
 <div id="scatter-plots" class="section level3">
-<h3>Scatter plots</h3>
+<h3><strong>Scatter plots</strong></h3>
 <pre class="r"><code>attach(mydata) # Re-attach if needed</code></pre>
 <pre class="r"><code>plot(A,B)  # i.e. plot(mydata$A, mydata$B)</code></pre>
 <p><img src="02-IntroR_files/figure-html/unnamed-chunk-46-1.png" width="672" /></p>
+<p><br></p>
 </div>
 </div>
 <div id="saving-images" class="section level2">
-<h2><strong>Saving images</strong></h2>
+<h2>Saving images</h2>
+<hr />
 <p>There are a few ways to save images:</p>
 <ul>
 <li>Use the <strong>export</strong> button in the Plots pane in Rstudio.</li>
@@ -662,10 +685,13 @@ dev.off()</code></pre>
 boxplot(A, B, name=c(&quot;Value A&quot;, &quot;Value B&quot;) , ylab=&quot;Count of Something&quot;)
 dev.off()</code></pre>
 <p>Note that nothing will appear on screen, the output is going to the file, <code>dev.off()</code> here stops the device and saves the file.</p>
+<p><br></p>
 </div>
 <div id="statistical-testing" class="section level2">
-<h2><strong>Statistical testing</strong></h2>
+<h2>Statistical testing</h2>
+<hr />
 <p>R has many functions for statistical testing.</p>
+<br>
 <div class="resources">
 <h2>
 <i class="fas fa-book"></i> Further Resources
@@ -674,6 +700,7 @@ dev.off()</code></pre>
 </div>
 <p><br></p>
 <p>Let's say we want to determine whether the means of two groups of data differ statistically. First, we need to know if we are dealing with parametric or non-parametric data, i.e. are they normally distributed?</p>
+<br>
 <div class="challenge">
 <h2>
 <i class="fas fa-pencil-alt"></i> Challenge:
@@ -705,6 +732,7 @@ Plot a histogram for each vector in mydata to visualise the distributions of eac
 ## data:  A
 ## W = 0.95663, p-value = 0.3088</code></pre>
 <p>The null hypothesis in the Shapiro Wilk test is that our data does not differ significantly from a normal distribution. So, a significant p-value (p &lt; 0.05) means that the data is NOT normally distributed. As p here = 0.3088 (&gt; 0.05), we conclude that A is normally distributed and we can use a parametric test.</p>
+<br>
 <div class="challenge">
 <h2>
 <i class="fas fa-pencil-alt"></i> Challenge:
@@ -751,15 +779,16 @@ Which other columns are normally distributed? <details> <summary></summary>
 <p><br></p>
 <div class="key-points">
 <h2>
-<i class="fas fa-thumbtack"></i> Important
+<i class="fas fa-thumbtack"></i> Key points
 </h2>
 <p>You should only use parametric tests for parametric data!</p>
 </div>
 <p><br></p>
 <div id="t-test" class="section level3">
-<h3>T-Test</h3>
+<h3><strong>T-Test</strong></h3>
 <p>The assumption for a t-test is that both groups are sampled from normal distributions with approximately equal variance. We can only use this test if the data is normally distributed. As columns A and E are both normally distributed we can use a Two Sample t-test to test if the mean values are statistically different. Our null hypothesis is that the two means are equal, and the alternative is that they are not.</p>
 <p>If our p-value is less than the significance level 0.05, we can reject the null hypothesis and accept the alternative hypothesis. In other words, we can conclude that the mean values of group A and E are significantly different.</p>
+<br>
 <div class="challenge">
 <h2>
 <i class="fas fa-pencil-alt"></i> Challenge:
@@ -798,7 +827,7 @@ a_e_result$p.value</code></pre>
 <p><br></p>
 </div>
 <div id="non-parametric-testing" class="section level3">
-<h3>Non-Parametric Testing</h3>
+<h3><strong>Non-Parametric Testing</strong></h3>
 <p>What if we want to test non-parametric data? As D is NOT normally distributed we need to use a non-parametric test. Here we use the Mann-Whitney U test aka wilcox.test:</p>
 <pre class="r"><code>wilcox.test(A,D) </code></pre>
 <pre><code>## 
@@ -809,9 +838,10 @@ a_e_result$p.value</code></pre>
 ## alternative hypothesis: true location shift is not equal to 0</code></pre>
 <p>Non parametric tests look at the ranks of values. If the same value appears multiple times the ranks will be tied and R will output a warning. We can ignore it in this case but should be wary if there are many ties in our data.</p>
 <p>The p-value of the test is <code>0.01496</code>, which is less than the significance level alpha = 0.05. We can conclude that A is significantly different from D.</p>
+<p><br></p>
 </div>
 <div id="paired-samples" class="section level3">
-<h3>Paired samples</h3>
+<h3><strong>Paired samples</strong></h3>
 <p>Paired data are sets of data in the same row that came from the same sample (e.g. time series data).</p>
 <p>Load the paired dataset, 'weight.tsv', which contains weights of mice before and after a treatment.</p>
 <pre class="r"><code>weight &lt;- read.table(&#39;http://bifx-core.bio.ed.ac.uk/weight.tsv&#39;, header=TRUE)
@@ -857,17 +887,20 @@ weight</code></pre>
 ##                 -194.49</code></pre>
 <p>The p-value is <code>6.2e-09</code> (&lt; = 0.05) so we can then reject null hypothesis and conclude that the average weight of the mice after treatment is significantly different from the average weight before treatment.</p>
 <p>In the case of a non parametric paired data set, use a paired Mann-Whitney Wilcoxon test aka Wilcoxon Signed Rank Test e.g <code>wilcox.test(x, y, paired = TRUE)</code>.</p>
+<p><br></p>
 </div>
 <div id="multiple-testing" class="section level3">
-<h3>Multiple Testing</h3>
+<h3><strong>Multiple Testing</strong></h3>
 <p>If you run multiple tests on the same data you need to adjust the p-values for <strong>multiple testing correction</strong>. The easiest method is to use the function <code>p.adjust(x)</code>, where x is a list of p-values. e.g.</p>
 <pre class="r"><code>x = c(0.0001, 0.05, 0.001, 0.1, 0.1, 0.1, 0.1,0.5,0.5,0.5)
 p.adjust(x)</code></pre>
 <pre><code>##  [1] 0.001 0.400 0.009 0.700 0.700 0.700 0.700 1.000 1.000 1.000</code></pre>
+<p><br></p>
 </div>
 </div>
 <div id="matrix-data-and-tests" class="section level2">
-<h2><strong>Matrix Data and Tests</strong></h2>
+<h2>Matrix Data and Tests</h2>
+<hr />
 <p>A matrix is a data frame where the values in rows and columns represent the same data type. You can turn a data frame into a matrix using the <code>as.matrix()</code> function.</p>
 <pre class="r"><code>mymatrix &lt;- as.matrix(mydata)</code></pre>
 <p>Or create one from a vector using the <code>matrix()</code> function (See <code>?matrix</code>).</p>
@@ -880,8 +913,9 @@ twoBytwo &lt;- matrix(lst, nrow=2)</code></pre>
 ## [2,]   66   20</code></pre>
 <p>Now the matrix is saved and is called twoBytwo.</p>
 <p><strong>Note:</strong> <code>nrow</code> specifies the number of rows (alternatively you can specify the number of columns by <code>ncol</code>). The default parameters assume numbers in the list fill the first column, then fill the second column and so on. This can be changed by the <code>byrow</code> argument.</p>
+<p><br></p>
 <div id="chi-squared-and-fishers-exact-tests-count-based-data" class="section level3">
-<h3>Chi-squared and Fisher's Exact Tests (Count based data)</h3>
+<h3><strong>Chi-squared and Fisher's Exact Tests (Count based data)</strong></h3>
 <p>We can place count based data in a matrix to perform statistical tests. For instance, when observing the presence of a fluorescent marker in wild-type and mutant cells we want to know if there is a significant difference between the 2 cell types?</p>
 <pre><code>Wild type cells with marker present: 54
 Wild type cells with marker absent: 66
@@ -917,6 +951,7 @@ Mutant cells with marker absent: 20</code></pre>
 ## odds ratio 
 ##  0.2061251</code></pre>
 <p>This is recommended over the Chi-square in general as the test is more robust, although Fishers exact test only works on two-by-two matrices. If we have more groups we have to use a Chi-square.</p>
+<br>
 <div class="challenge">
 <h2>
 <i class="fas fa-pencil-alt"></i> Final Challenge:

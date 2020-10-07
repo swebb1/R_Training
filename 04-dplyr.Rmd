@@ -28,7 +28,10 @@ knitr::opts_chunk$set(warning=FALSE, message=FALSE)
 
 The **dplyr** package is specifically designed for data formatting and manipulation and allows you to merge datasets and create new columns as well as filtering and summarising your data. We are going to learn some of the most common functions.
 
-## **Selecting columns and filtering rows**
+<br>
+
+## Selecting columns and filtering rows
+***
 
 First, make sure the tidyverse package is loaded and you have read in the `surveys` dataset.
 
@@ -57,7 +60,10 @@ To choose rows based on specific criteria, use `filter()`:
 filter(surveys, year == 1995)
 ```
 
-## **Pipes**
+<br>
+
+## Pipes
+***
 
 What if you want to select and filter at the same time? There are three ways to do this:
 
@@ -105,6 +111,7 @@ surveys_sml
 
 Note that the final data frame is the leftmost part of this expression.
 
+<br>
 <div class="challenge">
 <h2><i class="fas fa-pencil-alt"></i> Challenge:</h2>
 Using pipes, subset the `surveys` data to include animals collected before 1995 and retain only the columns `year`, `sex`, and `weight`.
@@ -122,7 +129,8 @@ surveys %>%
 </div>
 <br>
 
-## **Exporting data**
+## Exporting data
+***
 
 Similar to the `read_csv()` function there is also a `write_csv()` function. If you want to export any of your newly created datasets you can do this as follows:
 
@@ -131,7 +139,10 @@ write_csv(surveys_sml, path = "data/surveys_small.csv")
 #Or use write_tsv for tab separated files
 ```
 
-## **Mutate**
+<br>
+
+## Mutate
+***
 
 Frequently you'll want to create new columns based on the values in existing columns, for example to do unit conversions, or to find the ratio of values in two columns. For this we use `mutate()`.
 
@@ -158,6 +169,7 @@ surveys %>%
   head()
 ```
 
+<br>
 <div class="challenge">
 <h2><i class="fas fa-pencil-alt"></i> Challenge:</h2>
 Create a new data frame from the `surveys` data that meets the following criteria: Contains only the `species_id` column and a new column called `hindfoot_cm` containing the `hindfoot_length` values converted to centimeters. In this `hindfoot_cm` column all values are less than 3.
@@ -178,11 +190,10 @@ surveys_hindfoot_cm <- surveys %>%
 </div>
 <br>
 
-## **Split-apply-combine**
+## Group_by and summarise 
+***
 
 Many data analysis tasks can be approached using the *split-apply-combine* paradigm: split the data into groups, apply some analysis to each group, and then combine the results. **dplyr** makes this very easy through the use of the `group_by()` function.
-
-### Summarise and group_by
 
 `group_by()` is often used together with `summarise()`, which collapses each group into a single-row summary of that group. The `group_by()` function takes as arguments the column names that contain the **categorical** variables for which you want to calculate the summary statistics. The `summarise()` function computes a summary statistic for each group using a specified function and variable. So to compute the mean `weight` by sex:
 
@@ -229,7 +240,10 @@ surveys %>%
   arrange(desc(mean_weight))
 ```
 
-### Count
+<br>
+
+## Count
+***
 
 When working with data, we often want to know the number of observations found for each factor or combination of factors. For this task, **dplyr** provides `count()`. For example, if we wanted to count the number of rows of data for each sex, we would do:
 
@@ -243,7 +257,7 @@ The `count()` function is shorthand for something we've already seen: grouping b
 ```{r, eval = F, purl = FALSE}
 surveys %>%
     group_by(sex) %>%
-    summarise(count = n()) ##n() counts the size of each group
+    summarise(count = n()) #n() counts the size of each group
 ```
 
 If we wanted to count a *combination of factors*, such as `sex` and `species`, we would specify the first and the second factor as the arguments of `count()`:
@@ -263,6 +277,7 @@ surveys %>%
 
 From the table above, we may learn that, for instance, there are 75 observations of the *albigula* species that are not specified for its sex (i.e. `NA`).
 
+<br>
 <div class="challenge">
 <h2><i class="fas fa-pencil-alt"></i> Challenge:</h2>
 How many animals were caught in each `plot_type` surveyed?
@@ -309,7 +324,8 @@ surveys %>%
 </div>
 <br>
 
-## **Pivoting functions in tidyr**
+## Pivoting functions in tidyr
+***
 
 The **tidyr** package contains the functions `pivot_longer()` and `pivot_wider()` which allow you to transform a dataset between *long* and *wide* formats. For instance, what if we wanted to compare the mean weights of each species at each plot (using plot_id). 
 
@@ -336,6 +352,7 @@ surveys_wide <- surveys_gw %>%
 
 The opposing situation could occur if we had been provided with data in the form of `surveys_wide`, where the genus names are column names, but we wish to treat them as values of a variable instead. To do this we can use the `pivot_longer()` function.
 
+<br>
 <div class="resources">
 <h2><i class="fas fa-book"></i> Further Learning</h2>
 Examples of more dplyr functions are available on the  [dplyr](https://dplyr.tidyverse.org/) website.
@@ -344,7 +361,6 @@ Examples of more dplyr functions are available on the  [dplyr](https://dplyr.tid
 
 <div class="key-points">
 <h2><i class="fas fa-thumbtack"></i> Key points</h2>
-##
  * Import and format data with `readr` and `tidyr`.
  * Use dplyr `select`, `filter` and `mutate` to manipulate datasets
  * Use `group_by`, `summarise` and `count` to create summary datasets by groups.

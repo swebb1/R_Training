@@ -323,9 +323,11 @@ $(document).ready(function () {
 </div>
 <p><br></p>
 <p>The <strong><code>tidyverse</code></strong> is a suite of packages that includes libraries such as <strong><code>dplyr</code></strong> and <strong><code>ggplot2</code></strong>. These packages are designed for data science and share underlying principles, grammar and data structures. There are many ways to do the same thing in R, but following the philosophy of <em>tidy data</em> and using the <strong><code>tidyverse</code></strong> packages will keep your datasets organised and make analysis easier in the long run.</p>
+<p><br></p>
 </div>
 <div id="tidy-data" class="section level2">
-<h2><strong>Tidy data</strong></h2>
+<h2>Tidy data</h2>
+<hr />
 <p>Data can be represented in many different ways across multiple tables but the tidyverse packages are specifically designed to work with <strong>tidy</strong> datasets. Tidy data conforms to the following criteria:</p>
 <ul>
 <li>Each variable has it's own column</li>
@@ -344,6 +346,7 @@ $(document).ready(function () {
 surveys &lt;- read_csv(&quot;data/surveys_complete.csv&quot;)</code></pre>
 <pre class="r"><code>#Otherwise you can read from a URL
 surveys &lt;- read_csv(&quot;http://bifx-core.bio.ed.ac.uk/training/R_dplyr_and_ggplot2/data/surveys_complete.csv&quot;)</code></pre>
+<br>
 <div class="discussion">
 <h2>
 <i class="far fa-bell"></i> Discussion
@@ -396,6 +399,7 @@ str(surveys)</code></pre>
 ##   ..   taxa = col_character(),
 ##   ..   plot_type = col_character()
 ##   .. )</code></pre>
+<br>
 <div class="resources">
 <h2>
 <i class="fas fa-book"></i> Further Resources

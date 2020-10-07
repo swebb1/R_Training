@@ -50,20 +50,20 @@ library(ggsci)
 library(DT)
 library(patchwork)
 
-##This dataset is built in to R
+#This dataset is built in to R
 data(iris)
-##Import from the web
+#Import from the web
 surveys <- read_csv("http://bifx-core.bio.ed.ac.uk/training/R_dplyr_and_ggplot2/data/surveys_complete.csv") 
 ```
 
-```{r echo=F,results='hide'}
-theme_set(theme_gray(base_size = 18))
-```
+<br>
 
-## **Fisher's Iris dataset (pre-installed in R)**
+## Fisher's Iris dataset (pre-installed in R)
+***
 
 ![](images/iris.png)
 
+<br>
 
 Fisher examined the length and width of the petals and sepals in irises to determine a classification algorithm. Here we will explore the relationship between species and the dimension of the flowers via the ggplot2 plotting package. Fisher's data is stored as a built in data set in R. To see the data type:
 
@@ -83,7 +83,10 @@ The continuous data is of type number and the discrete data is of type factor, w
 levels(iris$Species)
 ```
 
-## **Building a ggplot**
+<br>
+
+## Building a ggplot
+***
 
 ggplot graphics are built step by step by adding new elements. Adding *layers* in this fashion allows for extensive flexibility and customization of plots. To build a ggplot, we use the following basic template:
 
@@ -111,7 +114,10 @@ To plot our data we need to add a geometry. Geoms are the graphical representati
 * `geom_boxplot()` for, well, boxplots!
 * `geom_line()` for trend lines, time series, etc.
 
-## **Scatterplots**
+<br>
+
+## Scatterplots
+***
 
 To add a geom to the plot use the + operator. Let’s use geom_point() to plot two continuous variables first. The *data* and *mapping* are always the first two arguments to ggplot so we can leave these out if arguments are provided in this order:
 
@@ -153,7 +159,10 @@ Each function within the ggplot package has its own help file associated with it
 
 Note that all the geometries also define a statistical transformation. In the help file of geom_point you'll see that `stat = "identity"` which is just the value that is presented. Other geometries have different defaults, for instance `geom_histogram` bins values together.
 
-## **Histograms**
+<br>
+
+## Histograms
+***
 
 Here is an example of the histogram geometry:
 
@@ -166,6 +175,7 @@ h<- ggplot(iris2, aes(Sepal.Ratio, fill=Species )) +
 h
 ```
 
+<br>
 <div class="discussion">
 <h2><i class="far fa-bell"></i> Discussion</h2>
 Try altering the `binwidth` parameter to see how this affects the plot.
@@ -187,7 +197,8 @@ ggplot(iris, aes(x=Species, y=Sepal.Width )) + geom_point()
 </div>
 <br>
 
-## **Boxplots**
+## Boxplots
+***
 
 Boxplots are an effective way to visualise distributions of data within groups. The boxplot geometry needs the x value to be a categorical variable. 
 
@@ -243,8 +254,10 @@ Now it is easy to create the boxplot we wanted.
 ggplot(iris.long, aes(Species, Value, fill=Flower.Part)) + geom_boxplot()
 ```
 
+<br>
 
-## **Adding layers**
+## Adding layers
+***
 
 By adding points to a boxplot, we can have a better idea of the number of measurements and of their distribution.  
  
@@ -264,7 +277,10 @@ This is slightly better, we can see that darker points have more overlap, but it
 b + geom_jitter(aes(colour=Species))
 ```
 
-## **Violin plots**
+<br>
+
+## Violin plots
+***
 
 <div class="challenge">
 <h2><i class="fas fa-pencil-alt"></i> Challenge:</h2>
@@ -286,7 +302,8 @@ ggplot(iris, aes(x=fct_reorder(Species,Sepal.Width), y=Sepal.Width, fill=Species
 </div>
 <br>
 
-## **Themes**
+## Themes
+***
 
 Recap: 
 ```{r}
@@ -308,9 +325,9 @@ All the characteristics of the plot, such as text size and the background are ma
 You can use a theme with predefined defaults e.g:
 
 ```{r}
-p + theme_dark() ##Dark theme
+p + theme_dark() #Dark theme
 #OR
-p + theme_bw() ##Black and white theme
+p + theme_bw() #Black and white theme
 ```
 
 You can also try `theme_light`, `theme_minimal`, `theme_void`, or create you own from scratch:
@@ -354,11 +371,12 @@ theme_set(theme_bw())
 theme_set(theme_bw(base_size=18))
 ```
 
-## **Adding colours to plots**
+<br>
 
-As we have seen, points, lines and shapes can be coloured by a value in your dataframe using the `aes()` function. Earlier we coloured by a factor but we can also colour by a continuous value which will create a gradient of colour. 
+## Adding colours to plots
+***
 
-Lets look at the Petals this time and colour by the ratio of Sepal.Length to Sepal.Width:
+As we have seen, points, lines and shapes can be coloured by a value in your dataframe using the `aes()` function. Earlier we coloured by a factor but we can also colour by a continuous value which will create a gradient of colour. Lets look at the Petals this time and colour by the ratio of Sepal.Length to Sepal.Width:
 
 ```{r}
 q <- ggplot(iris2, aes(x=Petal.Length, y=Petal.Width, colour=Sepal.Ratio)) +
@@ -366,11 +384,11 @@ q <- ggplot(iris2, aes(x=Petal.Length, y=Petal.Width, colour=Sepal.Ratio)) +
 q
 ```
 
-To change the colours we need to use the `scale_color_*` functions of which there are many. Some are built into **ggplot2** and others exist in external packages such as **viridis** or **ggthemes**. 
+To change the colours we need to use the `scale_color_*` functions of which there are many. Some are built into **ggplot2** and others exist in external packages such as **viridis** or **ggthemes**. The [viridis](https://cran.r-project.org/web/packages/viridis/vignettes/intro-to-viridis.html) and [ColorBrewer](https://www.datanovia.com/en/blog/the-a-z-of-rcolorbrewer-palette/) palettes are particularly useful and worth investigating. The [ggsci](https://cran.r-project.org/web/packages/ggsci/vignettes/ggsci.html) package contains palletes based on key scientific journals.
 
-The [viridis](https://cran.r-project.org/web/packages/viridis/vignettes/intro-to-viridis.html) and [ColorBrewer](https://www.datanovia.com/en/blog/the-a-z-of-rcolorbrewer-palette/) palettes are particularly useful and worth investigating. The [ggsci](https://cran.r-project.org/web/packages/ggsci/vignettes/ggsci.html) package contains palletes based on key scientific journals.
+<br>
 
-### Continuous scales
+### **Continuous scales**
 
 Try the different scale options in the code below:
 
@@ -391,7 +409,9 @@ An alternative method is to use the `scale_colour_gradient*` functions to define
 q + scale_color_gradient2(high="darkred", low="white",  mid="red", midpoint=2, space="Lab")
 ```
 
-### Discrete scales
+<br>
+
+### **Discrete scales**
 
 There are also colour scales for discrete variables. Note that we must use `fill` for colouring boxes.
 
@@ -415,13 +435,18 @@ Alternatively you can manually choose your own colours:
 h + scale_fill_manual(values = c("forest green","dodger blue", "firebrick"))
 ```
 
+<br>
 <div class="resources">
 <h2><i class="fas fa-book"></i> Further Learning</h2>
-The options for colouring graphs are huge. The help pages for many of the functions will refer to the general help page for that package. [Color brewer 2](http://colorbrewer2.org) is a great site for getting the hex values of colours to suit needs such as printer or colour blind friendliness.
+The options for colouring graphs are huge.
+
+* [Color brewer 2](http://colorbrewer2.org) is a great site for getting the hex values of colours to suit needs such as printer or colour blind friendliness.
+* [Coolors](http://coolors.co) and [Colormind](colormind.io) are colour palette generators.
 </div>
 <br>
 
-## **Adding more variables**
+## Adding more variables
+***
 
 Take a look at this example:
 ```{r, eval=F}
@@ -429,6 +454,7 @@ ggplot(iris2, aes(x=Petal.Length, y=Petal.Width, colour=Sepal.Ratio)) +
   geom_point()
 ```
 
+<br>
 <div class="challenge">
 <h2><i class="fas fa-pencil-alt"></i> Challenge:</h2>
 See if you can represent some of the other variables in this plot as well. **Hint:** There are several other aesthetic mappings such as `size` and `shape`.
@@ -445,7 +471,8 @@ ggplot(iris2, aes(x=Petal.Length, y=Petal.Width, colour=Sepal.Ratio, shape=Speci
 </div>
 <br>
 
-## **Faceting** 
+## Faceting
+***
 
 When we have defined groups within a dataset of many values, we can split our data into separate plots by using `facets`. 
 
@@ -474,7 +501,7 @@ q2 <- ggplot(iris2, aes(x = Petal.Length, y = Petal.Width, colour = Sepal.Ratio)
 q2 + facet_grid(Country ~ Species)
 ```
 
-###Challenge
+<br>
 <div class="challenge">
 <h2><i class="fas fa-pencil-alt"></i> Challenge:</h2>
 Use dplyr and ggplot to display the mean petal length for each species found in every country except France. Use colouring and faceting to enhance the plot.
@@ -494,20 +521,24 @@ ggplot(aes(x=Country, y=Mean, colour=Species)) + geom_point(size=4) + facet_wrap
 </div>
 <br>
 
-## **Saving plots** 
+## Saving plots
+***
 
 In RStudio there are many options to save the image. However, if you are are wanting to use ggplot2 in a script, or via web interfaces, you can export a graph using the function `ggsave()`. 
 
 ```{r, eval=FALSE}
 #save a png file 
 ggsave("IrisScatterplot.png", p)
-##save a pdf file
+#save a pdf file
 ggsave("IrisScatterplot.pdf", p1)
 ```
 
 The image format is automatically assigned from the file extension you use in the filename. Within `ggsave()` you can also set the resolution for the image as well as the length and width for the image. See the help page for ggsave for more options.
 
-## **Arranging multiple plots**
+<br>
+
+## Arranging multiple plots
+***
 
 Placing ggplots side by side can be performed with packages like **gridExtra** and **patchwork**. [Patchwork](https://github.com/thomasp85/patchwork) uses simple formulas to arrange ggplots:
 
@@ -527,7 +558,12 @@ To save:
 ggsave("DoublePlot.png",q/bp)
 ```
 
-## **More useful functions to try**
+<br>
+
+## More useful functions to try
+***
+
+### **Cut functions**
 
 The `cut_*` functions in ggplot2 can turn continous data into discrete levels. In this example we create a new column that puts the data into 5 groups of equal size based on `Sepal.Length`:
 
@@ -541,7 +577,9 @@ ggplot(iris2,aes(Sepal.Length,Sepal.Width,fill = Sepal.Length.Group)) +
 
 Note the use of the `labs()` function to change multiple labels at once.
 
-## Scaling data
+<br>
+
+### **Scaling data**
 
 Let's look at a larger dataset like the `surveys_complete` data we used earlier:
 
@@ -552,22 +590,23 @@ ggplot(surveys,aes(weight,hindfoot_length))+geom_point()
 For axes with large values or very dispersed values it can be useful to rescale using a log axis. This can be done in two ways:
 
 ```{r}
-##We can transform the values in our ggplot call:
+#We can transform the values in our ggplot call:
 ggplot(surveys,aes(log10(weight),hindfoot_length))+geom_point()
 ```
 
 ```{r}
-##OR we can change the axis to a log scale
+#OR we can change the axis to a log scale
 ggplot(surveys,aes(weight,hindfoot_length))+geom_point() +
   scale_x_log10()
 ```
 
+<br>
 <div class="discussion">
 <h2><i class="far fa-bell"></i> Discussion</h2>
 What is the difference between these two plots?</div>
 <br>
 
-## Adding labels
+### **Adding labels**
 
 You can add labels to points in your graphs. One of the best ways to do this is to use the package **ggrepel**.
 
@@ -580,7 +619,9 @@ ggplot(iris2,aes(Petal.Width,Petal.Length,colour=Sepal.Ratio)) +
   geom_label_repel(aes(label=ifelse(Petal.Length > 6.4 ,as.character(Species),'')))
 ```
 
-## Interactive graphs with Plotly 
+<br>
+
+### **Interactive graphs with Plotly**
 
 [Plotly](https://plot.ly/ggplot2) for ggplot2 is a browser-based charting library that converts ggplots into interactive visualisations:
 
@@ -609,7 +650,9 @@ You can save plotly objects as html web pages:
 htmlwidgets::saveWidget(as_widget(gp2), "plotly_image.html")
 ```
 
-## Creating detailed graphics with ggpubr
+<br>
+
+### **Creating detailed graphics with ggpubr**
 
 The **ggpubr** package provides wrapper functions for ggplot that make it easier to generate complex, publication ready graphics. It includes functions for running statistical tests and displaying the results in the plot. After using ggpubr, you will need to reset your theme with `theme_set()`.
 
@@ -650,6 +693,7 @@ p2<- insert_yaxis_grob(p1, ydens, grid::unit(.2, "null"), position = "right")
 ggdraw(p2)
 ```
 
+<br>
 <div class="challenge">
 <h2><i class="fas fa-pencil-alt"></i> Challenge:</h2>
 Spend the remaining time playing around with the different ggplot options and see if you can create an interesting and appealing visualisation with a dataset of your choice. Use the ggplot cheatsheet or the [R graph gallery](https://www.r-graph-gallery.com/index.html) for inspiration!
@@ -658,7 +702,6 @@ Spend the remaining time playing around with the different ggplot options and se
 
 <div class="key-points">
 <h2><i class="fas fa-thumbtack"></i> Key points</h2>
-##
  * ggplot2 builds graphics layer upon layer
  * Bind a dataset to your ggplot function and map values to visual aesthetics
  * Apply different geometries to create different graphics

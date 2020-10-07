@@ -26,7 +26,10 @@ knitr::opts_chunk$set(warning=FALSE, message=FALSE)
 
 The **`tidyverse`** is a suite of packages that includes libraries such as **`dplyr`** and **`ggplot2`**. These packages are designed for data science and share underlying principles, grammar and data structures. There are many ways to do the same thing in R, but following the philosophy of *tidy data* and using the **`tidyverse`** packages will keep your datasets organised and make analysis easier in the long run. 
 
-## **Tidy data**
+<br>
+
+## Tidy data
+***
 
 Data can be represented in many different ways across multiple tables but the tidyverse packages are specifically designed to work with **tidy** datasets. Tidy data conforms to the following criteria:
 
@@ -52,6 +55,7 @@ surveys <- read_csv("data/surveys_complete.csv")
 surveys <- read_csv("http://bifx-core.bio.ed.ac.uk/training/R_dplyr_and_ggplot2/data/surveys_complete.csv")
 ```
 
+<br>
 <div class="discussion">
 <h2><i class="far fa-bell"></i> Discussion</h2>
 * Look at the options available in the `read_csv` and compare this with the `read.table` function we saw earlier.
@@ -76,6 +80,7 @@ View(surveys)
 str(surveys)
 ```
 
+<br>
 <div class="resources">
 <h2><i class="fas fa-book"></i> Further Resources</h2>
 * There are [cheatsheets](https://rstudio.com/resources/cheatsheets/) available for many tidyverse and rstudio packages that will help you to choose the correct functions.

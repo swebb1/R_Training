@@ -324,9 +324,11 @@ $(document).ready(function () {
 </div>
 <p><br></p>
 <p>The <strong>dplyr</strong> package is specifically designed for data formatting and manipulation and allows you to merge datasets and create new columns as well as filtering and summarising your data. We are going to learn some of the most common functions.</p>
+<p><br></p>
 </div>
 <div id="selecting-columns-and-filtering-rows" class="section level2">
-<h2><strong>Selecting columns and filtering rows</strong></h2>
+<h2>Selecting columns and filtering rows</h2>
+<hr />
 <p>First, make sure the tidyverse package is loaded and you have read in the <code>surveys</code> dataset.</p>
 <pre class="r"><code>library(tidyverse)
 surveys &lt;- read_csv(&quot;http://bifx-core.bio.ed.ac.uk/training/R_dplyr_and_ggplot2/data/surveys_complete.csv&quot;)</code></pre>
@@ -337,9 +339,11 @@ surveys &lt;- read_csv(&quot;http://bifx-core.bio.ed.ac.uk/training/R_dplyr_and_
 <p>This will select all the variables in <code>surveys</code> except <code>record_id</code> and <code>species_id</code>.</p>
 <p>To choose rows based on specific criteria, use <code>filter()</code>:</p>
 <pre class="r"><code>filter(surveys, year == 1995)</code></pre>
+<p><br></p>
 </div>
 <div id="pipes" class="section level2">
-<h2><strong>Pipes</strong></h2>
+<h2>Pipes</h2>
+<hr />
 <p>What if you want to select and filter at the same time? There are three ways to do this:</p>
 <ul>
 <li>Intermediate objects</li>
@@ -365,6 +369,7 @@ surveys_sml &lt;- select(surveys2, species_id, sex, weight)</code></pre>
   select(species_id, sex, weight)
 surveys_sml</code></pre>
 <p>Note that the final data frame is the leftmost part of this expression.</p>
+<br>
 <div class="challenge">
 <h2>
 <i class="fas fa-pencil-alt"></i> Challenge:
@@ -388,13 +393,16 @@ Using pipes, subset the <code>surveys</code> data to include animals collected b
 <p><br></p>
 </div>
 <div id="exporting-data" class="section level2">
-<h2><strong>Exporting data</strong></h2>
+<h2>Exporting data</h2>
+<hr />
 <p>Similar to the <code>read_csv()</code> function there is also a <code>write_csv()</code> function. If you want to export any of your newly created datasets you can do this as follows:</p>
 <pre class="r"><code>write_csv(surveys_sml, path = &quot;data/surveys_small.csv&quot;)
 #Or use write_tsv for tab separated files</code></pre>
+<p><br></p>
 </div>
 <div id="mutate" class="section level2">
-<h2><strong>Mutate</strong></h2>
+<h2>Mutate</h2>
+<hr />
 <p>Frequently you'll want to create new columns based on the values in existing columns, for example to do unit conversions, or to find the ratio of values in two columns. For this we use <code>mutate()</code>.</p>
 <p>To create a new column of weight in kg:</p>
 <pre class="r"><code>surveys %&gt;%
@@ -407,6 +415,7 @@ Using pipes, subset the <code>surveys</code> data to include animals collected b
 <pre class="r"><code>surveys %&gt;%
   mutate(weight_kg = weight / 1000) %&gt;%
   head()</code></pre>
+<br>
 <div class="challenge">
 <h2>
 <i class="fas fa-pencil-alt"></i> Challenge:
@@ -426,11 +435,10 @@ Using pipes, subset the <code>surveys</code> data to include animals collected b
 </div>
 <p><br></p>
 </div>
-<div id="split-apply-combine" class="section level2">
-<h2><strong>Split-apply-combine</strong></h2>
+<div id="group_by-and-summarise" class="section level2">
+<h2>Group_by and summarise</h2>
+<hr />
 <p>Many data analysis tasks can be approached using the <em>split-apply-combine</em> paradigm: split the data into groups, apply some analysis to each group, and then combine the results. <strong>dplyr</strong> makes this very easy through the use of the <code>group_by()</code> function.</p>
-<div id="summarise-and-group_by" class="section level3">
-<h3>Summarise and group_by</h3>
 <p><code>group_by()</code> is often used together with <code>summarise()</code>, which collapses each group into a single-row summary of that group. The <code>group_by()</code> function takes as arguments the column names that contain the <strong>categorical</strong> variables for which you want to calculate the summary statistics. The <code>summarise()</code> function computes a summary statistic for each group using a specified function and variable. So to compute the mean <code>weight</code> by sex:</p>
 <pre class="r"><code>surveys %&gt;%
   group_by(sex) %&gt;%
@@ -456,16 +464,18 @@ Using pipes, subset the <code>surveys</code> data to include animals collected b
   summarise(min_weight = min(weight),
             mean_hindfoot_length = mean(hindfoot_length)) %&gt;%
   arrange(desc(mean_weight))</code></pre>
+<p><br></p>
 </div>
-<div id="count" class="section level3">
-<h3>Count</h3>
+<div id="count" class="section level2">
+<h2>Count</h2>
+<hr />
 <p>When working with data, we often want to know the number of observations found for each factor or combination of factors. For this task, <strong>dplyr</strong> provides <code>count()</code>. For example, if we wanted to count the number of rows of data for each sex, we would do:</p>
 <pre class="r"><code>surveys %&gt;%
     count(sex) </code></pre>
 <p>The <code>count()</code> function is shorthand for something we've already seen: grouping by a variable, and summarising it by counting the number of observations in that group. In other words, <code>surveys %&gt;% count(sex)</code> is equivalent to:</p>
 <pre class="r"><code>surveys %&gt;%
     group_by(sex) %&gt;%
-    summarise(count = n()) ##n() counts the size of each group</code></pre>
+    summarise(count = n()) #n() counts the size of each group</code></pre>
 <p>If we wanted to count a <em>combination of factors</em>, such as <code>sex</code> and <code>species</code>, we would specify the first and the second factor as the arguments of <code>count()</code>:</p>
 <pre class="r"><code>surveys %&gt;%
   count(sex, species) </code></pre>
@@ -474,6 +484,7 @@ Using pipes, subset the <code>surveys</code> data to include animals collected b
   count(sex, species) %&gt;%
   arrange(species, desc(n))</code></pre>
 <p>From the table above, we may learn that, for instance, there are 75 observations of the <em>albigula</em> species that are not specified for its sex (i.e. <code>NA</code>).</p>
+<br>
 <div class="challenge">
 <h2>
 <i class="fas fa-pencil-alt"></i> Challenge:
@@ -514,9 +525,9 @@ How many animals were caught in each <code>plot_type</code> surveyed? <details> 
 </div>
 <p><br></p>
 </div>
-</div>
 <div id="pivoting-functions-in-tidyr" class="section level2">
-<h2><strong>Pivoting functions in tidyr</strong></h2>
+<h2>Pivoting functions in tidyr</h2>
+<hr />
 <p>The <strong>tidyr</strong> package contains the functions <code>pivot_longer()</code> and <code>pivot_wider()</code> which allow you to transform a dataset between <em>long</em> and <em>wide</em> formats. For instance, what if we wanted to compare the mean weights of each species at each plot (using plot_id).</p>
 <p>We'd need to create a new table where each row is comprised of values of variables associated with each plot. In practical terms this means the values in <code>genus</code> would become the names of column variables and the cells would contain the values of the mean weight observed on each plot.</p>
 <div class="figure">
@@ -532,6 +543,7 @@ How many animals were caught in each <code>plot_type</code> surveyed? <details> 
 <pre class="r"><code>surveys_wide &lt;- surveys_gw %&gt;%
   pivot_wider(names_from = genus,values_from = mean_weight)</code></pre>
 <p>The opposing situation could occur if we had been provided with data in the form of <code>surveys_wide</code>, where the genus names are column names, but we wish to treat them as values of a variable instead. To do this we can use the <code>pivot_longer()</code> function.</p>
+<br>
 <div class="resources">
 <h2>
 <i class="fas fa-book"></i> Further Learning
@@ -543,7 +555,6 @@ How many animals were caught in each <code>plot_type</code> surveyed? <details> 
 <h2>
 <i class="fas fa-thumbtack"></i> Key points
 </h2>
-<h2 id="section-1"></h2>
 <ul>
 <li>Import and format data with <code>readr</code> and <code>tidyr</code>.</li>
 <li>Use dplyr <code>select</code>, <code>filter</code> and <code>mutate</code> to manipulate datasets</li>
