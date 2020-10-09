@@ -670,6 +670,8 @@ ggviolin(df, x = "dose", y = "len", fill = "dose",
   stat_compare_means(label.y = 50)                                      # Add global the p-value 
 ```
 
+The next example additionally uses the library **cowplot** to add density plots within the margins of the main figure. Don't worry if you get lost here, this is just a demonstration of what's possible in R and beyond the scope of this course.
+
 ```{r}
 library(cowplot) 
 # Main plot

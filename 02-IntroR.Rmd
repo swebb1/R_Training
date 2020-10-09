@@ -60,12 +60,17 @@ knitr::opts_chunk$set(warning=FALSE, message=FALSE)
 * **Working directory**
     + This is the directory used to store your data and results. 
     + It is useful if it is also the directory where your input data is stored.
+* **Data types**
+    + Values in R are assigned a data type to help functions to interpret them. Some common data types are:
+    + **numeric**: Numbers
+    + **character**: Strings of text
+    + **factor**: Labels for categorical data (e.g. species, sex)
 * **Vector**  
-    + a list of values, (equivalent to a column in a table)
+    + A collection of values of one data type (equivalent to a column in a table)
 * **Data Frame**
-    + a group of Vectors, a table where the columns can be different types of data
+    + A collection of vectors, a table where the columns can be different data types
 * **Matrix**
-    + a table where columns and rows are related and all the same type of data
+    + A table where columns and rows are related and all of the same data type
 
 <br>
 
