@@ -107,7 +107,7 @@ install.packages(c("ggplot2", "ggthemes", "plotly","ggpubr", "ggrepel","viridis"
 #install from bioconductor with BiocManager
 if (!requireNamespace("BiocManager", quietly = TRUE))
     install.packages("BiocManager")
-BiocManager::install("DESeq2","genomation")
+BiocManager::install(c("DESeq2","genomation"))
 
 #install from github with the devtools package
 install.packages("devtools")
