@@ -618,7 +618,7 @@ In the case of a non parametric paired data set, use a paired Mann-Whitney Wilco
 
 ### **Multiple Testing**
 
-If you run multiple tests on the same data you need to adjust the p-values for **multiple testing correction**. The easiest method is to use the function `p.adjust(x)`, where x is a list of p-values. 
+If you run multiple tests on the same data you need to adjust the p-values for **multiple testing correction**. The easiest method is to use the function `p.adjust(x)`, where x is a list of p-values. There is a `method` parameter to choose between different correction parameters.
 e.g.
 
 ```{r}
