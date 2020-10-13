@@ -135,7 +135,10 @@ surveys %>%
 Similar to the `read_csv()` function there is also a `write_csv()` function. If you want to export any of your newly created datasets you can do this as follows:
 
 ```{r, eval=F}
-write_csv(surveys_sml, path = "data/surveys_small.csv")
+##Create a data folder
+dir.create("data")
+
+write_csv(surveys_sml, file = "data/surveys_small.csv")
 #Or use write_tsv for tab separated files
 ```
 
