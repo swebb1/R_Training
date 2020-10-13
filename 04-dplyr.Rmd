@@ -278,8 +278,6 @@ surveys %>%
   arrange(species, desc(n))
 ```
 
-From the table above, we may learn that, for instance, there are 75 observations of the *albigula* species that are not specified for its sex (i.e. `NA`).
-
 <br>
 <div class="challenge">
 <h2><i class="fas fa-pencil-alt"></i> Challenge:</h2>
