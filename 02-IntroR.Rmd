@@ -435,7 +435,7 @@ To save as a png file (easy to load into the likes of powerpoint, also great for
 
 ```{r, eval=FALSE}
 png('filename.png') 
-boxplot(A, B, name=c("Value A", "Value B") , ylab="Count of Something")
+boxplot(A, B, names=c("Value A", "Value B") , ylab="Count of Something")
 dev.off()
 ```
 
@@ -443,7 +443,7 @@ dev.off()
 
 ```{r, eval=FALSE}
 pdf('filename.pdf') 
-boxplot(A, B, name=c("Value A", "Value B") , ylab="Count of Something")
+boxplot(A, B, names=c("Value A", "Value B") , ylab="Count of Something")
 dev.off()
 ```
 
