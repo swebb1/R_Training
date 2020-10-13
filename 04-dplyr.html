@@ -396,7 +396,10 @@ Using pipes, subset the <code>surveys</code> data to include animals collected b
 <h2>Exporting data</h2>
 <hr />
 <p>Similar to the <code>read_csv()</code> function there is also a <code>write_csv()</code> function. If you want to export any of your newly created datasets you can do this as follows:</p>
-<pre class="r"><code>write_csv(surveys_sml, path = &quot;data/surveys_small.csv&quot;)
+<pre class="r"><code>##Create a data folder
+dir.create(&quot;data&quot;)
+
+write_csv(surveys_sml, file = &quot;data/surveys_small.csv&quot;)
 #Or use write_tsv for tab separated files</code></pre>
 <p><br></p>
 </div>
@@ -483,7 +486,6 @@ Using pipes, subset the <code>surveys</code> data to include animals collected b
 <pre class="r"><code>surveys %&gt;%
   count(sex, species) %&gt;%
   arrange(species, desc(n))</code></pre>
-<p>From the table above, we may learn that, for instance, there are 75 observations of the <em>albigula</em> species that are not specified for its sex (i.e. <code>NA</code>).</p>
 <br>
 <div class="challenge">
 <h2>

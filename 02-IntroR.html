@@ -687,11 +687,11 @@ boxplot(A, B, names=c(&quot;Value A&quot;, &quot;Value B&quot;) , ylab=&quot;Cou
 <p>You need to create a new device of the type of file you need, then send the data to that device.</p>
 <p>To save as a png file (easy to load into the likes of powerpoint, also great for web applications).</p>
 <pre class="r"><code>png(&#39;filename.png&#39;) 
-boxplot(A, B, name=c(&quot;Value A&quot;, &quot;Value B&quot;) , ylab=&quot;Count of Something&quot;)
+boxplot(A, B, names=c(&quot;Value A&quot;, &quot;Value B&quot;) , ylab=&quot;Count of Something&quot;)
 dev.off()</code></pre>
 <p><strong>OR</strong> to save as a pdf</p>
 <pre class="r"><code>pdf(&#39;filename.pdf&#39;) 
-boxplot(A, B, name=c(&quot;Value A&quot;, &quot;Value B&quot;) , ylab=&quot;Count of Something&quot;)
+boxplot(A, B, names=c(&quot;Value A&quot;, &quot;Value B&quot;) , ylab=&quot;Count of Something&quot;)
 dev.off()</code></pre>
 <p>Note that nothing will appear on screen, the output is going to the file, <code>dev.off()</code> here stops the device and saves the file.</p>
 <p><br></p>
@@ -900,7 +900,7 @@ weight</code></pre>
 </div>
 <div id="multiple-testing" class="section level3">
 <h3><strong>Multiple Testing</strong></h3>
-<p>If you run multiple tests on the same data you need to adjust the p-values for <strong>multiple testing correction</strong>. The easiest method is to use the function <code>p.adjust(x)</code>, where x is a list of p-values. e.g.</p>
+<p>If you run multiple tests on the same data you need to adjust the p-values for <strong>multiple testing correction</strong>. The easiest method is to use the function <code>p.adjust(x)</code>, where x is a list of p-values. There is a <code>method</code> parameter to choose between different correction parameters. e.g.</p>
 <pre class="r"><code>x = c(0.0001, 0.05, 0.001, 0.1, 0.1, 0.1, 0.1,0.5,0.5,0.5)
 p.adjust(x)</code></pre>
 <pre><code>##  [1] 0.001 0.400 0.009 0.700 0.700 0.700 0.700 1.000 1.000 1.000</code></pre>
