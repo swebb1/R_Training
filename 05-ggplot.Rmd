@@ -41,13 +41,11 @@ First, make sure you load all of the required libraries and datasets. There are 
 library(tidyverse)
 library(ggthemes)
 library(plotly)
-library(htmlwidgets)
 library(ggrepel)
 library(ggpubr)
 library(viridis)
 library(RColorBrewer)
 library(ggsci)
-library(DT)
 library(patchwork)
 
 #This dataset is built in to R
