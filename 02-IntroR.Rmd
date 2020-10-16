@@ -459,7 +459,7 @@ R has many functions for statistical testing.
 <br>
 <div class="resources">
 <h2><i class="fas fa-book"></i> Further Resources</h2>
-Please see our [introduction to statistics](https://drive.google.com/open?id=1qG_4Dzxc9x3yDnkhjInFKSUGdEHmn2shW2Sj6KwSc_A) document for more information on distributions, hypothesis testing and statistical significance.
+Please see our [introduction to statistics](https://docs.google.com/presentation/d/1qmtT3W6oylWs9xxeJ0WsNHyHbK6TiUJQsEQtFFVpMtU/edit?usp=sharing) document for more information on distributions, hypothesis testing and statistical significance.
 </div>
 <br>
 
